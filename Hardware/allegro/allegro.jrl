@@ -1,0 +1,244 @@
+\t (00:00:19) allegro 16.6 S049 (v16-6-112DV) Windows 32
+\t (00:00:19)     Journal start - Fri Nov 15 14:36:20 2019
+\t (00:00:19)         Host=NTT-ASUSROG User=NguyenThanhTam Pid=22916 CPUs=4
+\t (00:00:19) CmdLine= C:\Cadence\SPB_16.6\tools\pcb\bin\allegro.exe
+\t (00:00:19) 
+\d (00:00:19) Design opened: E:/TTTN/ValveController/Hardware/allegro/VALVECONTROLLER.brd
+\i (00:00:20) generaledit 
+\i (00:00:21) zoom out 1 
+\i (00:00:21) setwindow pcb
+\i (00:00:21) zoom out 12298.394 13163.595
+\i (00:00:21) trapsize 9050
+\i (00:00:22) roam y 96 
+\i (00:00:22) roam y 96
+\i (00:00:22) roam y 96 
+\i (00:00:22) roam y 96
+\i (00:00:22) roam x -96 
+\i (00:00:22) roam x -96
+\i (00:00:22) roam x -96 
+\i (00:00:22) roam x -96
+\i (00:00:22) roam y 96 
+\i (00:00:22) roam y 96
+\i (00:00:22) roam x -96 
+\i (00:00:22) roam x -96
+\i (00:00:22) roam y 96 
+\i (00:00:22) roam y 96
+\i (00:00:23) roam y 96 
+\i (00:00:23) roam y 96
+\i (00:00:23) roam x -96 
+\i (00:00:23) roam x -96
+\i (00:00:23) zoom out 1 
+\i (00:00:23) setwindow pcb
+\i (00:00:23) zoom out 11339.969 12130.961
+\i (00:00:23) trapsize 18101
+\i (00:00:23) roam x -96 
+\i (00:00:24) roam x -96
+\i (00:00:24) roam x -96 
+\i (00:00:24) roam x -96
+\i (00:00:24) roam y 96 
+\i (00:00:24) roam y 96
+\i (00:00:24) zoom in 1 
+\i (00:00:24) setwindow pcb
+\i (00:00:24) zoom in 10813.244 11609.666
+\i (00:00:24) trapsize 9050
+\i (00:00:24) zoom in 1 
+\i (00:00:24) setwindow pcb
+\i (00:00:24) zoom in 10847.636 11602.426
+\i (00:00:24) trapsize 4525
+\i (00:00:25) roam y 96 
+\i (00:00:25) roam y 96
+\i (00:00:25) roam x -96 
+\i (00:00:25) roam x -96
+\i (00:00:25) roam y 96 
+\i (00:00:25) roam y 96
+\i (00:00:26) zoom in 1 
+\i (00:00:26) setwindow pcb
+\i (00:00:26) zoom in 11026.830 11519.164
+\i (00:00:26) trapsize 2263
+\i (00:00:26) zoom in 1 
+\i (00:00:26) setwindow pcb
+\i (00:00:26) zoom in 11014.160 11520.522
+\i (00:00:26) trapsize 1131
+\i (00:00:26) roam x 96 
+\i (00:00:26) roam x 96
+\i (00:00:28) pick grid 11060.769 11519.391
+\t (00:00:28) last pick:  11060.000 11520.000
+\i (00:02:16) xhilite 
+\i (00:02:17) xNet Gsm_Rx 
+\i (00:02:17) xname_flush 
+\i (00:02:17) trapsize 6386
+\t (00:02:17) Net "Gsm_Rx" highlighted.
+\i (00:02:17) done 
+\i (00:02:17) generaledit 
+\i (00:02:18) xdehilite 
+\i (00:02:18) xNet Gsm_Rx 
+\i (00:02:18) xname_flush 
+\t (00:02:18) Net "Gsm_Rx" dehighlighted.
+\i (00:02:18) done 
+\i (00:02:18) generaledit 
+\w (00:10:04) Save Pending
+\i (00:23:03) zoom out 1 
+\i (00:23:03) setwindow pcb
+\i (00:23:03) zoom out 10953.212 11559.764
+\i (00:23:03) trapsize 12772
+\i (00:23:04) zoom in 1 
+\i (00:23:04) setwindow pcb
+\i (00:23:04) zoom in 11004.299 11618.513
+\i (00:23:04) trapsize 6386
+\i (00:23:04) zoom in 1 
+\i (00:23:04) setwindow pcb
+\i (00:23:04) zoom in 11093.701 11576.367
+\i (00:23:04) trapsize 3193
+\i (00:23:04) zoom in 1 
+\i (00:23:04) setwindow pcb
+\i (00:23:04) zoom in 11093.701 11576.368
+\i (00:23:04) trapsize 1596
+\i (00:23:04) zoom in 1 
+\i (00:23:05) setwindow pcb
+\i (00:23:05) zoom in 11093.063 11575.410
+\i (00:23:05) trapsize 798
+\i (00:23:05) zoom out 1 
+\i (00:23:05) setwindow pcb
+\i (00:23:05) zoom out 11065.444 11545.876
+\i (00:23:05) trapsize 1596
+\i (00:23:06) zoom out 1 
+\i (00:23:06) setwindow pcb
+\i (00:23:06) zoom out 11065.444 11544.917
+\i (00:23:06) trapsize 3193
+\i (00:23:06) zoom out 1 
+\i (00:23:06) setwindow pcb
+\i (00:23:06) zoom out 11064.806 11541.725
+\i (00:23:06) trapsize 6386
+\i (00:23:06) zoom in 1 
+\i (00:23:06) setwindow pcb
+\i (00:23:06) zoom in 11110.783 11468.926
+\i (00:23:06) trapsize 3193
+\i (00:23:06) zoom in 1 
+\i (00:23:06) setwindow pcb
+\i (00:23:06) zoom in 11119.084 11461.902
+\i (00:23:06) trapsize 1596
+\i (00:24:43) zoom out 1 
+\i (00:24:43) setwindow pcb
+\i (00:24:43) zoom out 11058.419 11527.357
+\i (00:24:43) trapsize 3193
+\i (00:24:43) zoom out 1 
+\i (00:24:43) setwindow pcb
+\i (00:24:43) zoom out 11058.418 11527.356
+\i (00:24:43) trapsize 6386
+\i (00:24:43) zoom out 1 
+\i (00:24:43) setwindow pcb
+\i (00:24:43) zoom out 11058.419 11527.357
+\i (00:24:43) trapsize 12772
+\i (00:24:43) zoom out 1 
+\i (00:24:43) setwindow pcb
+\i (00:24:43) zoom out 11058.418 11527.357
+\i (00:24:43) trapsize 25543
+\i (00:24:43) zoom out 1 
+\i (00:24:43) setwindow pcb
+\i (00:24:43) zoom out 11058.418 11527.358
+\i (00:24:43) trapsize 51087
+\i (00:24:43) zoom in 1 
+\i (00:24:43) setwindow pcb
+\i (00:24:43) zoom in 9638.209 11976.920
+\i (00:24:43) trapsize 25543
+\i (00:24:44) zoom in 1 
+\i (00:24:44) setwindow pcb
+\i (00:24:44) zoom in 9643.318 11976.920
+\i (00:24:44) trapsize 12772
+\i (00:24:44) zoom in 1 
+\i (00:24:44) setwindow pcb
+\i (00:24:44) zoom in 9901.306 11739.367
+\i (00:24:44) trapsize 6386
+\i (00:24:45) zoom in 1 
+\i (00:24:45) setwindow pcb
+\i (00:24:45) zoom in 10013.697 11712.546
+\i (00:24:45) trapsize 3193
+\i (00:24:48) zoom out 1 
+\i (00:24:48) setwindow pcb
+\i (00:24:48) zoom out 10066.061 11711.908
+\i (00:24:48) trapsize 6386
+\i (00:24:48) zoom out 1 
+\i (00:24:48) setwindow pcb
+\i (00:24:48) zoom out 10066.061 11711.908
+\i (00:24:48) trapsize 12772
+\i (00:24:49) zoom out 1 
+\i (00:24:49) setwindow pcb
+\i (00:24:49) zoom out 10060.952 11671.039
+\i (00:24:49) trapsize 25543
+\i (00:24:49) zoom in 1 
+\i (00:24:49) setwindow pcb
+\i (00:24:49) zoom in 10219.321 11323.650
+\i (00:24:49) trapsize 12772
+\i (00:24:50) zoom in 1 
+\i (00:24:50) setwindow pcb
+\i (00:24:50) zoom in 10219.321 11323.651
+\i (00:24:50) trapsize 6386
+\i (00:24:50) zoom in 1 
+\i (00:24:50) setwindow pcb
+\i (00:24:50) zoom in 10215.490 11284.059
+\i (00:24:50) trapsize 3193
+\i (00:24:53) zoom out 1 
+\i (00:24:53) setwindow pcb
+\i (00:24:53) zoom out 10105.015 11458.392
+\i (00:24:53) trapsize 6386
+\i (00:24:56) zoom out 1 
+\i (00:24:56) setwindow pcb
+\i (00:24:56) zoom out 10009.228 11239.997
+\i (00:24:56) trapsize 12772
+\i (00:24:59) zoom out 1 
+\i (00:24:59) setwindow pcb
+\i (00:24:59) zoom out 10290.204 11311.519
+\i (00:24:59) trapsize 25543
+\i (00:25:00) roam start
+\i (00:25:00) roam x 80
+\i (00:25:00) roam y 32
+\i (00:25:00) roam x 128
+\i (00:25:00) roam y 32
+\i (00:25:01) roam end
+\i (00:25:02) hilight 
+\i (00:25:03) zoom in 1 
+\i (00:25:03) setwindow pcb
+\i (00:25:03) zoom in 10452.338 11555.810
+\i (00:25:03) trapsize 12772
+\i (00:25:03) zoom in 1 
+\i (00:25:03) setwindow pcb
+\i (00:25:03) zoom in 10452.338 11555.810
+\i (00:25:03) trapsize 6386
+\i (00:25:03) zoom out 1 
+\i (00:25:03) setwindow pcb
+\i (00:25:03) zoom out 10453.616 11551.979
+\i (00:25:03) trapsize 12772
+\i (00:25:08) pick grid 10067.911 11720.565
+\t (00:25:08) last pick:  10070.000 11720.000
+\t (00:25:08) Net "Gsm_Tx" highlighted.
+\i (00:25:37) zoom in 1 
+\i (00:25:37) setwindow pcb
+\i (00:25:37) zoom in 9832.912 11769.098
+\i (00:25:37) trapsize 6386
+\i (00:25:38) zoom in 1 
+\i (00:25:38) setwindow pcb
+\i (00:25:38) zoom in 9853.347 11778.038
+\i (00:25:38) trapsize 3193
+\i (00:25:38) zoom in 1 
+\i (00:25:38) setwindow pcb
+\i (00:25:38) zoom in 9853.347 11778.038
+\i (00:25:38) trapsize 1596
+\i (00:25:39) zoom out 1 
+\i (00:25:39) setwindow pcb
+\i (00:25:39) zoom out 9853.348 11778.038
+\i (00:25:39) trapsize 3193
+\i (00:25:39) zoom out 1 
+\i (00:25:39) setwindow pcb
+\i (00:25:39) zoom out 9853.347 11778.038
+\i (00:25:39) trapsize 6386
+\i (00:25:39) zoom out 1 
+\i (00:25:39) setwindow pcb
+\i (00:25:39) zoom out 9853.347 11775.484
+\i (00:25:39) trapsize 12772
+\i (00:25:47) pick grid 10065.356 11348.910
+\t (00:25:47) last pick:  10070.000 11350.000
+\t (00:25:47) Net "Gsm_Rx" highlighted.
+\i (28:39:50) exit 
+\e (28:39:52) Do you want to save the changes you made to VALVECONTROLLER.brd?
+\i (28:39:55) fillin no 
+\t (28:39:56)     Journal end - Sat Nov 16 19:15:56 2019
