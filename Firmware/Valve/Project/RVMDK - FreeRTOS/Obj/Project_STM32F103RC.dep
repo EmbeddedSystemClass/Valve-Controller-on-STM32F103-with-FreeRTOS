@@ -1,7 +1,7 @@
 Dependencies for Project 'Project', Target 'STM32F103RC': (DO NOT MODIFY !)
 F (..\src\buttons.c)(0x5DD5F8AB)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc -I ..\..\Libraries\CMSIS\Core\CM3 -I ..\..\Utilities\FreeRTOSv10.0.1\include -I ..\..\Utilities\FreeRTOSv10.0.1\portable\RVDS\ARM_CM3 --diag_suppress 236-I.\RTE\_STM32F103RC-IC:\Users\NguyenThanhTam\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="528" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STM32F103_CUSTOM -DCR95HF -DSYS_DEBUG-o .\obj\buttons.o --omf_browse .\obj\buttons.crf --depend .\obj\buttons.d)
 I (..\inc\buttons.h)(0x5DD5F93E)
-I (..\inc\hw_config.h)(0x5DD66A3D)
+I (..\inc\hw_config.h)(0x5DD75452)
 I (..\..\Libraries\CMSIS\Core\CM3\stm32f10x.h)(0x5D0761C3)
 I (..\..\Libraries\CMSIS\Core\CM3\core_cm3.h)(0x5CDD959B)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB87F2)
@@ -59,7 +59,7 @@ I (..\..\Utilities\FreeRTOSv10.0.1\portable\RVDS\ARM_CM3\portmacro.h)(0x5A3842DA
 I (..\..\Utilities\FreeRTOSv10.0.1\include\mpu_wrappers.h)(0x5A3842D8)
 I (..\..\Utilities\FreeRTOSv10.0.1\include\task.h)(0x5A3842D8)
 I (..\..\Utilities\FreeRTOSv10.0.1\include\list.h)(0x5A3842D8)
-F (..\src\hw_config.c)(0x5DD75196)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc -I ..\..\Libraries\CMSIS\Core\CM3 -I ..\..\Utilities\FreeRTOSv10.0.1\include -I ..\..\Utilities\FreeRTOSv10.0.1\portable\RVDS\ARM_CM3 --diag_suppress 236-I.\RTE\_STM32F103RC-IC:\Users\NguyenThanhTam\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="528" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STM32F103_CUSTOM -DCR95HF -DSYS_DEBUG-o .\obj\hw_config.o --omf_browse .\obj\hw_config.crf --depend .\obj\hw_config.d)
+F (..\src\hw_config.c)(0x5DD755A7)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc -I ..\..\Libraries\CMSIS\Core\CM3 -I ..\..\Utilities\FreeRTOSv10.0.1\include -I ..\..\Utilities\FreeRTOSv10.0.1\portable\RVDS\ARM_CM3 --diag_suppress 236-I.\RTE\_STM32F103RC-IC:\Users\NguyenThanhTam\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="528" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STM32F103_CUSTOM -DCR95HF -DSYS_DEBUG-o .\obj\hw_config.o --omf_browse .\obj\hw_config.crf --depend .\obj\hw_config.d)
 I (..\inc\main.h)(0x5DD502BA)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB87F2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB87F2)
@@ -73,7 +73,7 @@ I (..\..\Utilities\FreeRTOSv10.0.1\include\deprecated_definitions.h)(0x5A3842D8)
 I (..\..\Utilities\FreeRTOSv10.0.1\portable\RVDS\ARM_CM3\portmacro.h)(0x5A3842DA)
 I (..\..\Utilities\FreeRTOSv10.0.1\include\mpu_wrappers.h)(0x5A3842D8)
 I (..\..\Utilities\FreeRTOSv10.0.1\include\queue.h)(0x5DD5F8AB)
-I (..\inc\hw_config.h)(0x5DD66A3D)
+I (..\inc\hw_config.h)(0x5DD75452)
 I (..\inc\buttons.h)(0x5DD5F93E)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_exti.h)(0x4B066A4E)
 I (..\..\Libraries\CMSIS\Core\CM3\stm32f10x.h)(0x5D0761C3)
@@ -92,7 +92,7 @@ I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\misc.h)(0x4B066A4E)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_bkp.h)(0x4B066A4E)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_pwr.h)(0x4B066A4E)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_rtc.h)(0x4B066A4E)
-F (..\src\main.c)(0x5DD75184)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc -I ..\..\Libraries\CMSIS\Core\CM3 -I ..\..\Utilities\FreeRTOSv10.0.1\include -I ..\..\Utilities\FreeRTOSv10.0.1\portable\RVDS\ARM_CM3 --diag_suppress 236-I.\RTE\_STM32F103RC-IC:\Users\NguyenThanhTam\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="528" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STM32F103_CUSTOM -DCR95HF -DSYS_DEBUG-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+F (..\src\main.c)(0x5DD7554A)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc -I ..\..\Libraries\CMSIS\Core\CM3 -I ..\..\Utilities\FreeRTOSv10.0.1\include -I ..\..\Utilities\FreeRTOSv10.0.1\portable\RVDS\ARM_CM3 --diag_suppress 236-I.\RTE\_STM32F103RC-IC:\Users\NguyenThanhTam\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="528" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STM32F103_CUSTOM -DCR95HF -DSYS_DEBUG-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_gpio.h)(0x4B066A4E)
 I (..\..\Libraries\CMSIS\Core\CM3\stm32f10x.h)(0x5D0761C3)
 I (..\..\Libraries\CMSIS\Core\CM3\core_cm3.h)(0x5CDD959B)
@@ -124,7 +124,7 @@ I (..\..\Utilities\FreeRTOSv10.0.1\include\queue.h)(0x5DD5F8AB)
 I (..\..\Utilities\FreeRTOSv10.0.1\include\timers.h)(0x5A3842D8)
 I (..\..\Utilities\FreeRTOSv10.0.1\include\semphr.h)(0x5A3842D8)
 I (..\inc\eeprom.h)(0x5DD49A88)
-I (..\inc\hw_config.h)(0x5DD66A3D)
+I (..\inc\hw_config.h)(0x5DD75452)
 I (..\inc\valve.h)(0x5DD34318)
 I (..\inc\uart_command.h)(0x5DD64736)
 I (..\inc\buttons.h)(0x5DD5F93E)
@@ -147,7 +147,7 @@ I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_rcc.h)(0x5DD63896)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_spi.h)(0x4B066A4E)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_tim.h)(0x4B066A4E)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\misc.h)(0x4B066A4E)
-I (..\inc\hw_config.h)(0x5DD66A3D)
+I (..\inc\hw_config.h)(0x5DD75452)
 I (..\inc\uart_command.h)(0x5DD64736)
 I (..\inc\main.h)(0x5DD502BA)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5CEB87F2)
@@ -178,10 +178,10 @@ I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_rcc.h)(0x5DD63896)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_spi.h)(0x4B066A4E)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_tim.h)(0x4B066A4E)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\misc.h)(0x4B066A4E)
-I (..\inc\hw_config.h)(0x5DD66A3D)
+I (..\inc\hw_config.h)(0x5DD75452)
 F (..\src\Valve.c)(0x5DD57BEE)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\inc -I ..\..\Libraries\STM32F10x_StdPeriph_Driver\inc -I ..\..\Libraries\CMSIS\Core\CM3 -I ..\..\Utilities\FreeRTOSv10.0.1\include -I ..\..\Utilities\FreeRTOSv10.0.1\portable\RVDS\ARM_CM3 --diag_suppress 236-I.\RTE\_STM32F103RC-IC:\Users\NguyenThanhTam\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="528" -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STM32F103_CUSTOM -DCR95HF -DSYS_DEBUG-o .\obj\valve.o --omf_browse .\obj\valve.crf --depend .\obj\valve.d)
 I (..\inc\Valve.h)(0x5DD34318)
-I (..\inc\hw_config.h)(0x5DD66A3D)
+I (..\inc\hw_config.h)(0x5DD75452)
 I (..\inc\uart_command.h)(0x5DD64736)
 I (..\..\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_usart.h)(0x5C930F09)
 I (..\..\Libraries\CMSIS\Core\CM3\stm32f10x.h)(0x5D0761C3)

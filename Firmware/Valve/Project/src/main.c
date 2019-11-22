@@ -68,20 +68,20 @@ int main(void) {
 		
     /* Initialize STM32 peripherals (clocks, GPIO, NVIC) resources */
 		STM32F1_HW_Init();
-   // printf("\r\n**STM32F103 HW init successful** \r\n")	;	
-		//Motor_Init();
-		//EEPROM_Init();
-		//printf("\r\n**EEPROM init successful** \r\n")	;	
+    printf("\r\n**STM32F103 HW init successful** \r\n")	;	
+		Motor_Init();
+		EEPROM_Init();
+		printf("\r\n**EEPROM init successful** \r\n")	;	
     /* Free RTOS *//////
 //			GPIO_ResetBits(ZM_UART_TxGPIO,ZM_UART_TxPin);
-			while (1)
-			{
-				for (int i = 0;i <1000000;i++);
-				  //USART_SendData(DBG_UART, 'q');
-				USART_SendData(UART5, 'q');
-				
-			}
-	serialPortMutex = xSemaphoreCreateMutex();
+//			while (1)
+//			{
+//				for (int i = 0;i <1000000;i++);
+//				  //USART_SendData(DBG_UART, 'q');
+//				USART_SendData(ZM_UART, 'q');
+//				
+//			}
+		serialPortMutex = xSemaphoreCreateMutex();
 //    xTaskCreate(vMainTestTask, "TEST", configMINIMAL_STACK_SIZE*2, NULL, mainLED_TASK_PRIORITY + 1, NULL);
 
 		xQueue = xQueueCreate( 3, sizeof( Data_t ) );
