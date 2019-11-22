@@ -1299,7 +1299,7 @@ BaseType_t xQueueGiveFromISR( QueueHandle_t xQueue, BaseType_t * const pxHigherP
  BaseType_t xQueueReceiveFromISR(
 									   QueueHandle_t	xQueue,
 									   void	*pvBuffer,
-									   BaseType_t *pxTaskWoken
+									   BaseType_t *m
 								   );
  * </pre>
  *

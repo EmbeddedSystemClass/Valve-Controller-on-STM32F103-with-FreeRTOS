@@ -1,3 +1,11 @@
+/**
+  ******************************************************************************
+  * @file    Project/User/EEPROM
+  * @author  NTT - BKSTEK Team
+  * @version V1.0
+  * @date    15-11-2019
+  * @brief   EEPROM functions
+	*/
 #include "eeprom.h"
 #include "stm32f10x.h"
 #include "FreeRTOS.h"

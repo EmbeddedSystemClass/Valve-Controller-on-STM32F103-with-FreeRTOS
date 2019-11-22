@@ -17,9 +17,9 @@ typedef struct
     unsigned int taskSource;
 } Data_t;
 
-sw_t        switchState(int SWnumber);
-/* Private function prototype ------------------------------------------------------------*/
 
+/* Private function prototype ------------------------------------------------------------*/
+sw_t        switchState(int SWnumber);
 void vTaskButton1(void *pvParameters);
 void vTaskButton2(void *pvParameters);
 void vTaskButton3(void *pvParameters);

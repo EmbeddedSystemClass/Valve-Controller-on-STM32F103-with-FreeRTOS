@@ -1,3 +1,12 @@
+/**
+  ******************************************************************************
+  * @file    Project/User/button
+  * @author  NTT - BKSTEK Team
+  * @version V1.0
+  * @date    15-11-2019
+  * @brief   Button functions
+	*/
+	
 #include "buttons.h"
 #include "hw_config.h"
 #include "stm32f10x.h"

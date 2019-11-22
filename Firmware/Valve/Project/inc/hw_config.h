@@ -27,13 +27,16 @@
 
 	/* Define ZWAVE communication */
 	
-	#define ZM_UART                   UART5
-  #define ZM_UART_GPIO              GPIOA
+	#define ZM_UART                   	UART5
+  #define ZM_UART_RxGPIO              GPIOD
+	#define ZM_UART_TxGPIO              GPIOC
+	
   #define ZM_UART_CLK               RCC_APB1Periph_UART5
-  #define ZM_UART_GPIO_CLK          RCC_APB2Periph_GPIOC
+  #define ZM_UART_GPIO_TxCLK        RCC_APB2Periph_GPIOC
+	#define ZM_UART_GPIO_RxCLK        RCC_APB2Periph_GPIOD
   #define ZM_UART_RxPin             GPIO_Pin_2
   #define ZM_UART_TxPin             GPIO_Pin_12
-  #define ZM_UART_IRQn             UART5_IRQn
+  #define ZM_UART_IRQn              UART5_IRQn
   #define ZM_UART_IRQHandler        UART5_IRQHandler
 	/* Define DBG communication */
 	

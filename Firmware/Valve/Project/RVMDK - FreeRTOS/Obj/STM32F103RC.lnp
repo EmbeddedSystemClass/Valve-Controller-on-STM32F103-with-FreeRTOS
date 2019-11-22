@@ -1,11 +1,11 @@
 --cpu Cortex-M3
+".\obj\buttons.o"
+".\obj\eeprom.o"
 ".\obj\hw_config.o"
 ".\obj\main.o"
 ".\obj\stm32f10x_it.o"
 ".\obj\uart_command.o"
 ".\obj\valve.o"
-".\obj\buttons.o"
-".\obj\eeprom.o"
 ".\obj\misc.o"
 ".\obj\stm32f10x_adc.o"
 ".\obj\stm32f10x_bkp.o"

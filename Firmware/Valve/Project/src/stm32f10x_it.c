@@ -22,6 +22,12 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
+#include "stm32f10x_usart.h"
+#include "stm32f10x_gpio.h"
+#include "hw_config.h"
+#include "uart_command.h"
+#include "main.h"
+#include "hw_config.h"
 #include "FreeRTOS.h"
 
 
@@ -30,6 +36,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+T_CON_TYPE cmd_ready;
 uint16_t capture = 0;
 /**
  *	@brief  this uDataReady variable is set when the RF transceiver sends an interruption on the IRQout pad
@@ -142,9 +149,32 @@ void SysTick_Handler(void)
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file (startup_stm32f10x_xx.s).                                            */
 /******************************************************************************/
+
 void USART2_IRQHandler(void)
 {
+	if(USART_GetITStatus(DBG_UART, USART_IT_RXNE) != RESET)//enter interrupt when STM32 receice data.
+      {
+       //  GPIO_SetBits(LED1_GPIO_Port,LED1_Pin);
+      //printf("UASART2 Interrupt RX");
+			cmd_ready = Uart_update(TRUE);
+			USART_ClearITPendingBit(DBG_UART, USART_IT_RXNE);
+				// GPIO_ResetBits(LED1_GPIO_Port,LED1_Pin);
+      }
+    
+}
 
+
+void UART5_IRQHandler(void)
+{
+	if(USART_GetITStatus(ZM_UART, USART_IT_RXNE) != RESET)//enter interrupt when STM32 receice data.
+      {
+       //  GPIO_SetBits(LED1_GPIO_Port,LED1_Pin);
+      //printf("UASART2 Interrupt RX");
+			cmd_ready = Uart_update(TRUE);
+			USART_ClearITPendingBit(ZM_UART, USART_IT_RXNE);
+				// GPIO_ResetBits(LED1_GPIO_Port,LED1_Pin);
+      }
+    
 }
 /**
  *	@brief  This function handles the RF transceiver interupts

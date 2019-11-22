@@ -63,7 +63,7 @@ BOOL Uart_send_command(ZW_UART_COMMAND cmd)
     ZW_UART_SEND_BYTE(bChecksum);
     AckNak = NAK;
     AckNakNeeded = TRUE;  // Now we need an ACK...
-    for(i=10000;i>0;i--)
+    for(i=100000;i>0;i--)
     {
       if(AckNakNeeded==FALSE)
       {

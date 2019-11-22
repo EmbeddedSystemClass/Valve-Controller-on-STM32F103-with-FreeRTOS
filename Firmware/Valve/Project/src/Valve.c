@@ -1,3 +1,11 @@
+/**
+  ******************************************************************************
+  * @file    Project/User/Valve
+  * @author  NTT - BKSTEK Team
+  * @version V1.0
+  * @date    15-11-2019
+  * @brief   Valve functions
+	*/
 #include "Valve.h"
 #include "uart_command.h"
 

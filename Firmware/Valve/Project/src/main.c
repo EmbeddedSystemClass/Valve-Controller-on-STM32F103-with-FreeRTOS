@@ -37,6 +37,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 char data;
+
 /* Declare a variable of type xQueueHandle.  This is used to store the queue
 that is accessed by all three tasks. */
 
@@ -67,19 +68,26 @@ int main(void) {
 		
     /* Initialize STM32 peripherals (clocks, GPIO, NVIC) resources */
 		STM32F1_HW_Init();
-    printf("\r\n**STM32F103 HW init successful** \r\n")	;	
-		Motor_Init();
-		EEPROM_Init();
-		printf("\r\n**EEPROM init successful** \r\n")	;	
-    /* Free RTOS */
-
+   // printf("\r\n**STM32F103 HW init successful** \r\n")	;	
+		//Motor_Init();
+		//EEPROM_Init();
+		//printf("\r\n**EEPROM init successful** \r\n")	;	
+    /* Free RTOS *//////
+//			GPIO_ResetBits(ZM_UART_TxGPIO,ZM_UART_TxPin);
+			while (1)
+			{
+				for (int i = 0;i <1000000;i++);
+				  //USART_SendData(DBG_UART, 'q');
+				USART_SendData(UART5, 'q');
+				
+			}
 	serialPortMutex = xSemaphoreCreateMutex();
 //    xTaskCreate(vMainTestTask, "TEST", configMINIMAL_STACK_SIZE*2, NULL, mainLED_TASK_PRIORITY + 1, NULL);
 
 		xQueue = xQueueCreate( 3, sizeof( Data_t ) );
     xTaskCreate(vTaskLED,"Task LED",configMINIMAL_STACK_SIZE,NULL,1,NULL);
-		xTaskCreate(vTaskUART,"Task UART", configMINIMAL_STACK_SIZE,NULL,1,NULL);
-		//xTaskCreate(vTaskZWAVE,"Task ZWAVE", configMINIMAL_STACK_SIZE,NULL,1,NULL);
+		//xTaskCreate(vTaskUART,"Task UART", configMINIMAL_STACK_SIZE,NULL,1,NULL);
+		xTaskCreate(vTaskZWAVE,"Task ZWAVE", configMINIMAL_STACK_SIZE,NULL,1,NULL);
     xTaskCreate(vTaskButton2,"Task BTN2", configMINIMAL_STACK_SIZE,NULL,1,NULL);
     xTaskCreate(vTaskButton3,"Task BTN3", configMINIMAL_STACK_SIZE,NULL,1,NULL);
 		xTaskCreate(vTaskButton1,"Task BTN1", configMINIMAL_STACK_SIZE,NULL,1,NULL);
@@ -142,7 +150,7 @@ static void vTaskUART(void *pvParameters)
 
 		printf("Time: %0.2d:%0.2d:%0.2d\r", THH, TMM, TSS);
 		xSemaphoreGive(serialPortMutex);
-		vTaskDelay(1000);
+		vTaskDelay(5000);
 		
 	}
 }
@@ -154,12 +162,25 @@ static void vTaskUART(void *pvParameters)
 static void vTaskZWAVE(void *pvParameters)
 {
 	ZW_UART_COMMAND uart_cmd;
+
+			
+	while (1)
+	{
 			uart_cmd.zw_uartcommandset.length = 4;
 			uart_cmd.zw_uartcommandset.cmd = COMMAND_ZW_CONNECT;
       uart_cmd.zw_uartcommandset.type = ZW_SET_CONNECT;
 			uart_cmd.zw_uartcommandset.value1 =ZW_CONNECT;
-	
-	
+  			if (Uart_send_command(uart_cmd)==0)
+			{
+					printf("\r\n Failed to send command \r\n")	;	
+			}		
+			else
+			{
+					printf("\r\n Send command OK\r\n");
+			}
+		
+			vTaskDelay(1000);
+	}
 }
 void vApplicationIdleHook( void ) {
 }

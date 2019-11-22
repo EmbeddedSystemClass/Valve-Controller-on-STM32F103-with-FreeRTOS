@@ -1,5 +1,16 @@
+/**
+  ******************************************************************************
+  * @file    Project/User/hw_config
+  * @author  NTT - BKSTEK Team
+  * @version V1.0
+  * @date    15-11-2019
+  * @brief   Button functions
+	*/
+
 #include "main.h"
 #include "hw_config.h"
+#include "buttons.h"
+
 #include "stm32f10x_exti.h"
 
 
@@ -10,13 +21,15 @@
 #include "stm32f10x_pwr.h"
 #include "stm32f10x_rtc.h"
 
+
+
 extern void STM32F1_HW_Init(void)
 {
 	
 	UARTs_Init();
-	BTNs_Init();
-	LEDs_Init();
-	RTC_Init();
+//	BTNs_Init();
+//	LEDs_Init();
+//	RTC_Init();
 }
 
 static void BTNs_Init(void)
@@ -60,12 +73,19 @@ static void BTNs_Init(void)
 
 static void UARTs_Init(void) {
 	
-	  RCC_APB1PeriphClockCmd(ZM_UART_CLK , ENABLE);
+	
+	//RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART5 , ENABLE);
 	RCC_APB1PeriphClockCmd(DBG_UART_CLK , ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO , ENABLE);
+	
+
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC,ENABLE);
-	USART_InitTypeDef USART_InitStructure;
+		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD,ENABLE);
+			USART_InitTypeDef USART_InitStructure;
+			NVIC_InitTypeDef NVIC_InitStructure;
+			GPIO_InitTypeDef GPIO_InitStructure;
   /* 
 		**ZWAVE UART CONFIG USING UART5**
 	 USARTx configured as follow:
@@ -77,18 +97,42 @@ static void UARTs_Init(void) {
         - Receive and transmit enabled
 				- Uart Recive interrupt enabled
     */
-	
+			/* Configure DBG Rx as input floating */
+		  /* Enable the USART2 Pins Software Remapping */
+		//GPIO_PinRemapConfig(GPIO_Remap_USART2, ENABLE); 
+		 
+		  /* Configure ZM_UART Tx as alternate function push-pull */
+		GPIO_InitStructure.GPIO_Pin = ZM_UART_TxPin;
+		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+		GPIO_Init(ZM_UART_TxGPIO, &GPIO_InitStructure);
+		
+			GPIO_InitStructure.GPIO_Pin = ZM_UART_RxPin;
+			GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+			GPIO_Init(ZM_UART_RxGPIO, &GPIO_InitStructure);
+			
     USART_InitStructure.USART_BaudRate = 115200;
     USART_InitStructure.USART_WordLength = USART_WordLength_8b;
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
     USART_InitStructure.USART_Parity = USART_Parity_No;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-		USART_Init(ZM_UART, &USART_InitStructure);
+		USART_Init(UART5, &USART_InitStructure);
 	  /* Enable ZM_UART Receive interrupts */
+		USART_ClearFlag(ZM_UART,USART_IT_RXNE);
 		USART_ITConfig(ZM_UART, USART_IT_RXNE, ENABLE);
 		/* Enable ZM_UART Receive interrupts */
-		USART_Cmd(ZM_UART, ENABLE);
+		USART_Cmd(UART5, ENABLE);
+    /* NVIC configuation for ZM_UART   */
+	
+
+		/* Configure the NVIC Preemption Priority Bits */  
+	//	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
+//		NVIC_InitStructure.NVIC_IRQChannel = ZM_UART_IRQn;
+//		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+//		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+//		NVIC_Init(&NVIC_InitStructure);
+
 		 /* 
 		**ZWAVE UART CONFIG USING UART5**
 	 USARTx configured as follow:
@@ -103,29 +147,39 @@ static void UARTs_Init(void) {
 		/* Configure DBG Rx as input floating */
 		  /* Enable the USART2 Pins Software Remapping */
 		//GPIO_PinRemapConfig(GPIO_Remap_USART2, ENABLE); 
-		 USART_InitTypeDef USART_InitStructure2;
-		 GPIO_InitTypeDef GPIO_InitStructure;
-			GPIO_InitStructure.GPIO_Pin = DBG_UART_RxPin;
-			GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-			GPIO_Init(DBG_UART_GPIO, &GPIO_InitStructure);
-		  /* Configure DBG Tx as alternate function push-pull */
-		GPIO_InitStructure.GPIO_Pin = DBG_UART_TxPin;
-		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-		GPIO_Init(DBG_UART_GPIO, &GPIO_InitStructure);
-	
-		USART_InitStructure2.USART_BaudRate = 115200;
-    USART_InitStructure2.USART_WordLength = USART_WordLength_8b;
-    USART_InitStructure2.USART_StopBits = USART_StopBits_1;
-    USART_InitStructure2.USART_Parity = USART_Parity_No;
-    USART_InitStructure2.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-    USART_InitStructure2.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-		USART_Init(DBG_UART, &USART_InitStructure2);
-	  /* Enable DBG_UART Receive interrupts */
-		USART_ITConfig(DBG_UART, USART_IT_RXNE, ENABLE);
-		/* Enable DBG_UART   */
-		USART_Cmd(DBG_UART, ENABLE);
-    
+//		 USART_InitTypeDef USART_InitStructure2;
+//		
+//			GPIO_InitStructure.GPIO_Pin = DBG_UART_RxPin;
+//			GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+//			GPIO_Init(DBG_UART_GPIO, &GPIO_InitStructure);
+//		  /* Configure DBG Tx as alternate function push-pull */
+//		GPIO_InitStructure.GPIO_Pin = DBG_UART_TxPin;
+//		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+//		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+//		GPIO_Init(DBG_UART_GPIO, &GPIO_InitStructure);
+//	
+//		USART_InitStructure2.USART_BaudRate = 115200;
+//    USART_InitStructure2.USART_WordLength = USART_WordLength_8b;
+//    USART_InitStructure2.USART_StopBits = USART_StopBits_1;
+//    USART_InitStructure2.USART_Parity = USART_Parity_No;
+//    USART_InitStructure2.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+//    USART_InitStructure2.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+//		USART_Init(DBG_UART, &USART_InitStructure2);
+//	  /* Enable DBG_UART Receive interrupts */
+//		USART_ITConfig(DBG_UART, USART_IT_RXNE, ENABLE);
+//		/* Enable DBG_UART   */
+//		USART_Cmd(DBG_UART, ENABLE);
+    /* NVIC configuation for DBG_UART   */
+		
+
+		/* Configure the NVIC Preemption Priority Bits */  
+	//	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
+//		NVIC_InitStructure.NVIC_IRQChannel = DBG_UART_IRQn;
+//		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+//		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+//		NVIC_Init(&NVIC_InitStructure);
+			
+		
 }
 static void LEDs_Init(void)
 {
@@ -183,7 +237,10 @@ static void RTC_Init(void)
     /* Wait until last write operation on RTC registers has finished */
     RTC_WaitForLastTask();
   }
-	//Time_Adjust();
+	if(switchState(1)==0)
+	{
+		Time_Adjust();
+	}
 	  /* Clear reset flags */
   RCC_ClearFlag();
 
