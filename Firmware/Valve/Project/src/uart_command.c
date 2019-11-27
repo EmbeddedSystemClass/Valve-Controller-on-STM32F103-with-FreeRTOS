@@ -182,7 +182,7 @@ T_CON_TYPE Uart_update(BYTE acknowledge)
           // Drop through
 
         default :
-          con_state = stateSOFHunt; // Restart looking for SOF
+          con_state = stateSOFHunt; // Restat looking for SOF
           break;
       }
     }while((retVal == conIdle) && ZW_UART_REC_STATUS);

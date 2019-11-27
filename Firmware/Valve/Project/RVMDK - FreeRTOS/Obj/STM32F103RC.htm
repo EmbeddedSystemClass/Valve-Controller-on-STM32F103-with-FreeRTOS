@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Obj\STM32F103RC.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Obj\STM32F103RC.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Nov 22 10:27:36 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Nov 26 09:34:14 2019
 <BR><P>
 <H3>Maximum Stack Usage =        168 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -423,11 +423,13 @@ Global Symbols
 
 <P><STRONG><a name="[66]"></a>GPIO_ResetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f10x_gpio.o(i.GPIO_ResetBits))
 <BR><BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Init
+<LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskZWAVE
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskLED
 </UL>
 
 <P><STRONG><a name="[64]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f10x_gpio.o(i.GPIO_SetBits))
-<BR><BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskLED
+<BR><BR>[Called By]<UL><LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskZWAVE
+<LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskLED
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LEDs_Init
 </UL>
 
@@ -710,7 +712,6 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vApplicationMallocFailedHook
 <LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskZWAVE
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Scanf
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Time_Regulate
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Init
@@ -733,7 +734,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> printf1.o(i.__0printf$1)
 </UL>
-<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 162 bytes, Stack size 16 bytes, main.o(i.main))
+<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 172 bytes, Stack size 16 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = main &rArr; vTaskStartScheduler &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCreate
@@ -876,7 +877,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xPortStartScheduler
 </UL>
 
-<P><STRONG><a name="[4e]"></a>vTaskButton1</STRONG> (Thumb, 162 bytes, Stack size 16 bytes, buttons.o(i.vTaskButton1))
+<P><STRONG><a name="[4e]"></a>vTaskButton1</STRONG> (Thumb, 178 bytes, Stack size 16 bytes, buttons.o(i.vTaskButton1))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = vTaskButton1 &rArr; xQueueGenericSend &rArr; vTaskPlaceOnEventList &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
@@ -887,7 +888,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
-<P><STRONG><a name="[4c]"></a>vTaskButton2</STRONG> (Thumb, 154 bytes, Stack size 16 bytes, buttons.o(i.vTaskButton2))
+<P><STRONG><a name="[4c]"></a>vTaskButton2</STRONG> (Thumb, 170 bytes, Stack size 16 bytes, buttons.o(i.vTaskButton2))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = vTaskButton2 &rArr; xQueueGenericSend &rArr; vTaskPlaceOnEventList &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
@@ -897,7 +898,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
-<P><STRONG><a name="[4d]"></a>vTaskButton3</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, buttons.o(i.vTaskButton3))
+<P><STRONG><a name="[4d]"></a>vTaskButton3</STRONG> (Thumb, 118 bytes, Stack size 16 bytes, buttons.o(i.vTaskButton3))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = vTaskButton3 &rArr; xQueueGenericSend &rArr; vTaskPlaceOnEventList &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
@@ -1236,7 +1237,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STM32F1_HW_Init
 </UL>
 
-<P><STRONG><a name="[4a]"></a>vTaskLED</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, main.o(i.vTaskLED))
+<P><STRONG><a name="[4a]"></a>vTaskLED</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, main.o(i.vTaskLED))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = vTaskLED &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
@@ -1245,12 +1246,13 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
-<P><STRONG><a name="[4b]"></a>vTaskZWAVE</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, main.o(i.vTaskZWAVE))
+<P><STRONG><a name="[4b]"></a>vTaskZWAVE</STRONG> (Thumb, 64 bytes, Stack size 24 bytes, main.o(i.vTaskZWAVE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = vTaskZWAVE &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart_send_command
+<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
+<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
-<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>

@@ -52,6 +52,14 @@ portBASE_TYPE xStatus;
        currentVal = switchState(1);		
         if (currentVal != preVal)
         {
+													if (currentVal == PRESSED)
+								{
+									printf("BTN1 Pressed \n");
+								}
+								else
+								{
+									printf("BTN1 Released \n");
+								}
                 data.buttonValue = currentVal;
                 preVal = currentVal;
 								xStatus = xQueueSend( xQueue, &data, xTicksToWait );
@@ -88,6 +96,17 @@ portBASE_TYPE xStatus;
        currentVal = switchState(2);		
         if (currentVal != preVal)
         {
+								if (currentVal == PRESSED)
+								{
+									printf("BTN2 Pressed \n");
+								}
+								else
+								{
+									printf("BTN2 Released \n");
+								}
+								
+								
+								
                 data.buttonValue = currentVal;
                 preVal = currentVal;
 								xStatus = xQueueSend( xQueue, &data, xTicksToWait );
@@ -119,14 +138,36 @@ portBASE_TYPE xStatus;
     const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
     sw_t    preVal, currentVal;
     Data_t  data;
-
+		uint16_t pressCounter = 0;
     data.taskSource = xBTN3;
     preVal = switchState(3);
     for( ;; )
     {
-        currentVal = switchState(3);		
+        currentVal = switchState(3);
+				if (currentVal == PRESSED)
+				{
+					pressCounter++;
+				}
+					else{
+						pressCounter=0;
+						
+					}
+				if (pressCounter > 2000)	
+				{
+					printf("BTN3 Long Pressed \n");
+					pressCounter;
+				}					
+					
         if (currentVal != preVal)
         {
+							if (currentVal == PRESSED)
+								{
+									printf("BTN3 Pressed \n");
+								}
+								else
+								{
+									printf("BTN3 Released \n");
+								}
                 data.buttonValue = currentVal;
                 preVal = currentVal;
 								xStatus = xQueueSend( xQueue, &data, xTicksToWait );

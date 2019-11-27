@@ -27,6 +27,15 @@
 #include "main.h"
 
 /* Private typedef -----------------------------------------------------------*/
+enum
+{
+  VALVE_START=0,
+  VALVE_ZW_CONNECT,
+  VALVE_ON,
+  VALVE_OFF,
+  VALVE_FACTORYRESET,
+  VALVE_IDE,
+}VALVE_MODE;
 /* Private define ------------------------------------------------------------*/
 #define xBTN1 1
 #define xBTN2 2
@@ -34,15 +43,24 @@
 /*--------------- Tasks Priority -------------*/     
 
 /* Private macro -------------------------------------------------------------*/
-
+#define uxPriority 1
 /* Private variables ---------------------------------------------------------*/
+
 char data;
+  
+BOOL ZW_ready =FALSE;
+uint8_t Valve_mode = VALVE_IDE;
+extern T_CON_TYPE cmd_ready;
+extern T_CON_TYPE cmd_ready;
+extern BYTE serBuf[SERBUF_MAX];
 
 /* Declare a variable of type xQueueHandle.  This is used to store the queue
 that is accessed by all three tasks. */
 
 xQueueHandle xQueue;
 xSemaphoreHandle serialPortMutex;
+xSemaphoreHandle zwPortMutex;
+
 //motor_t MOTOR_INSTANT[MAX_MOTOR]; 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -82,15 +100,16 @@ int main(void) {
 //				
 //			}
 		serialPortMutex = xSemaphoreCreateMutex();
+		zwPortMutex		= xSemaphoreCreateMutex();
 //    xTaskCreate(vMainTestTask, "TEST", configMINIMAL_STACK_SIZE*2, NULL, mainLED_TASK_PRIORITY + 1, NULL);
 
 		xQueue = xQueueCreate( 3, sizeof( Data_t ) );
-    xTaskCreate(vTaskLED,"Task LED",configMINIMAL_STACK_SIZE,NULL,1,NULL);
+    xTaskCreate(vTaskLED,"Task LED",configMINIMAL_STACK_SIZE,NULL,uxPriority,NULL);
 		//xTaskCreate(vTaskUART,"Task UART", configMINIMAL_STACK_SIZE,NULL,1,NULL);
-		xTaskCreate(vTaskZWAVE,"Task ZWAVE", configMINIMAL_STACK_SIZE,NULL,1,NULL);
-    xTaskCreate(vTaskButton2,"Task BTN2", configMINIMAL_STACK_SIZE,NULL,1,NULL);
-    xTaskCreate(vTaskButton3,"Task BTN3", configMINIMAL_STACK_SIZE,NULL,1,NULL);
-		xTaskCreate(vTaskButton1,"Task BTN1", configMINIMAL_STACK_SIZE,NULL,1,NULL);
+		xTaskCreate(vTaskZWAVE,"Task ZWAVE", configMINIMAL_STACK_SIZE,NULL,uxPriority,NULL);
+    xTaskCreate(vTaskButton2,"Task BTN2", configMINIMAL_STACK_SIZE,NULL,uxPriority,NULL);
+    xTaskCreate(vTaskButton3,"Task BTN3", configMINIMAL_STACK_SIZE,NULL,uxPriority,NULL);
+		xTaskCreate(vTaskButton1,"Task BTN1", configMINIMAL_STACK_SIZE,NULL,uxPriority,NULL);
 	//	xTaskCreate(vTaskControlMotor,"Task Control Motor", configMINIMAL_STACK_SIZE, NULL, 1, 	NULL);
     /* Start scheduler */
 		vTaskStartScheduler();
@@ -114,10 +133,10 @@ static void vTaskLED(void *pvParameters)
 		vTaskDelay(1000);
 		GPIO_ResetBits(LED1_GPIO_Port,LED1_Pin);
 		vTaskDelay(1000);
-GPIO_SetBits(LED1_GPIO_Port,LED2_Pin);
-	vTaskDelay(1000);
-	GPIO_ResetBits(LED1_GPIO_Port,LED2_Pin);
-		vTaskDelay(1000);
+//GPIO_SetBits(LED1_GPIO_Port,LED2_Pin);
+//	vTaskDelay(1000);
+//	GPIO_ResetBits(LED1_GPIO_Port,LED2_Pin);
+//		vTaskDelay(1000);
 	}
 }
 
@@ -162,26 +181,73 @@ static void vTaskUART(void *pvParameters)
 static void vTaskZWAVE(void *pvParameters)
 {
 	ZW_UART_COMMAND uart_cmd;
-
+	
 			
 	while (1)
 	{
 			uart_cmd.zw_uartcommandset.length = 4;
 			uart_cmd.zw_uartcommandset.cmd = COMMAND_ZW_CONNECT;
-      uart_cmd.zw_uartcommandset.type = ZW_SET_CONNECT;
+     		 uart_cmd.zw_uartcommandset.type = ZW_SET_CONNECT;
 			uart_cmd.zw_uartcommandset.value1 =ZW_CONNECT;
   			if (Uart_send_command(uart_cmd)==0)
 			{
-					printf("\r\n Failed to send command \r\n")	;	
+					//printf("\r\n Failed to send command \r\n")	;	
+				GPIO_SetBits(LED1_GPIO_Port,LED2_Pin);
+				
 			}		
 			else
 			{
-					printf("\r\n Send command OK\r\n");
+				GPIO_ResetBits(LED1_GPIO_Port,LED2_Pin);
+					//printf("\r\n Send command OK\r\n");
 			}
 		
 			vTaskDelay(1000);
 	}
 }
+/**
+  * @brief  FreeRTOS Zwave protocol communication Task
+  * @param  pvParameters not used
+  * @retval None
+  */
+static void vTaskPeriodic(void *pvParameters)
+{
+	ZW_UART_COMMAND uart_cmd;
+	
+	while(1)
+	{
+		vTaskPrioritySet(vTaskPeriodic,uxPriority+1 );
+		xSemaphoreTake(zwPortMutex, portMAX_DELAY);
+		uart_cmd.zw_uartcommandset.length = 3;
+		uart_cmd.zw_uartcommandset.cmd = COMMAND_STATUS ;
+      	uart_cmd.zw_uartcommandset.type = ZW_GET_STATUS ;
+		  if (Uart_send_command(uart_cmd)==0)
+			{
+				xSemaphoreTake(serialPortMutex,portMAX_DELAY);
+						printf("\r\n Send command OK\r\n");
+				xSemaphoreGive(serialPortMutex);
+				
+			}		
+			else
+			{
+				xSemaphoreTake(serialPortMutex,portMAX_DELAY);
+					printf("\r\n Failed to send command\r\n");
+				xSemaphoreGive(serialPortMutex);
+			}
+//			if(cmd_ready==conFrameReceived)
+//			{
+//				memcpy(&uart_cmd.zw_uartcommand.length,serBuf,sizeof(uart_cmd));
+//				cmd_ready = conIdle;
+				
+			
+			
+			xSemaphoreTake(zwPortMutex, portMAX_DELAY);
+		// uart_cmd.zw_uartcommandset.value1 =ZW_CONNECT;
+			vTaskPrioritySet(vTaskPeriodic,uxPriority );
+			
+			vTaskDelay(5000);
+	}
+}
+
 void vApplicationIdleHook( void ) {
 }
 

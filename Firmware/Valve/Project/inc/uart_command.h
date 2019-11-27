@@ -28,7 +28,7 @@
 #define BOOL char
 #endif
 
-//#define DBG
+#define DBG
 #ifndef BYTE
 typedef unsigned char   BYTE;
 typedef unsigned char   IBYTE;
