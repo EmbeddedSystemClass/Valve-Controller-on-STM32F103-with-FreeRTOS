@@ -10,7 +10,7 @@
 #include "main.h"
 #include "hw_config.h"
 #include "buttons.h"
-
+#include "Valve.h"
 #include "stm32f10x_exti.h"
 
 
@@ -29,7 +29,9 @@ extern void STM32F1_HW_Init(void)
 	UARTs_Init();
 	BTNs_Init();
 	LEDs_Init();
-	RTC_Init();
+	Motor_Init();
+	EEPROM_Init();
+	//RTC_Init();
 }
 
 static void BTNs_Init(void)
@@ -51,24 +53,31 @@ static void BTNs_Init(void)
 		**EXTI CONFIG FOR  BUTTONs **
 	 
     */
-//	EXTI_InitTypeDef   EXTI_InitStructure;
-//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-//	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource4);
+	EXTI_InitTypeDef   EXTI_InitStructure;
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource4);
+	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource5);
+	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource6);
+
+
 //	
-//	EXTI_InitStructure.EXTI_Line = EXTI_Line4;
-//  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-//  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;  
-//  EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-//  EXTI_Init(&EXTI_InitStructure);
-//	
+	EXTI_InitStructure.EXTI_Line = EXTI_Line4|EXTI_Line5|EXTI_Line6;
+	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;  
+  EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+  EXTI_Init(&EXTI_InitStructure);
+	
 //	  /* Enable and set EXTI Interrupt to the lowest priority */
-//	NVIC_InitTypeDef   NVIC_InitStructure;
-//	
-//  NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
-//  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
-//  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
-//  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-//  NVIC_Init(&NVIC_InitStructure);
+	NVIC_InitTypeDef   NVIC_InitStructure;
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+
+  NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x08;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x08;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+	NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
+	NVIC_Init(&NVIC_InitStructure);
 }
 
 static void UARTs_Init(void) {

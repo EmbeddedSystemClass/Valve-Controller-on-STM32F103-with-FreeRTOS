@@ -28,7 +28,7 @@
 #define BOOL char
 #endif
 
-#define DBG
+//#define DBG
 #ifndef BYTE
 typedef unsigned char   BYTE;
 typedef unsigned char   IBYTE;
@@ -252,10 +252,10 @@ typedef union _ZW_UART_COMMAND
 //{
 //	while(USART_GetFlagStatus(DBG_UART) == RESET);USART_SendData(DBG_UART,data);
 //}
-#define ZW_UART_SEND_BYTE(i)   	while(USART_GetFlagStatus(DBG_UART,USART_FLAG_TXE) == RESET);USART_SendData(DBG_UART,i);
-#define ZW_UART_WAIT_RECEIVE    while(USART_GetFlagStatus(DBG_UART,USART_FLAG_RXNE) == RESET);
-#define ZW_UART_REC_BYTE        USART_ReceiveData(DBG_UART);
-#define ZW_UART_REC_STATUS      USART_GetFlagStatus(DBG_UART,USART_FLAG_RXNE)
+//#define ZW_UART_SEND_BYTE(i)   	while(USART_GetFlagStatus(DBG_UART,USART_FLAG_TXE) == RESET);USART_SendData(DBG_UART,i);
+//#define ZW_UART_WAIT_RECEIVE    while(USART_GetFlagStatus(DBG_UART,USART_FLAG_RXNE) == RESET);
+//#define ZW_UART_REC_BYTE        USART_ReceiveData(DBG_UART);
+//#define ZW_UART_REC_STATUS      USART_GetFlagStatus(DBG_UART,USART_FLAG_RXNE)
 #else
 
 #define ZW_UART_SEND_BYTE(i)    while(USART_GetFlagStatus(ZM_UART,USART_FLAG_TXE) == RESET);	USART_SendData(ZM_UART,i);

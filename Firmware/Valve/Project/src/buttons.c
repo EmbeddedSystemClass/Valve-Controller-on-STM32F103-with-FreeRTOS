@@ -16,11 +16,13 @@
 #include "task.h"
 #include "main.h"
 #include "semphr.h"
-
-extern xQueueHandle xQueue;
-extern xSemaphoreHandle serialPortMutex;
+#include "Valve.h"
+//extern xQueueHandle xQueue;
+//extern xQueueHandle xQueueControl;
+//extern xSemaphoreHandle serialPortMutex;
 sw_t switchState(int SWnumber)
 {
+	
     switch    (SWnumber)
         {
             case 1:
@@ -39,43 +41,38 @@ sw_t switchState(int SWnumber)
 
 void vTaskButton1(void *pvParameters)
 {
+	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
 	vTaskDelay(10);
 portBASE_TYPE xStatus;
-     const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
+    const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
     sw_t    preVal, currentVal;
     Data_t  data;
+	
 
-    data.taskSource = xBTN2;
+    data.taskSource = xBTN1;
     preVal = switchState(1);
     for( ;; )
     {
+			vTaskDelay(10);
        currentVal = switchState(1);		
         if (currentVal != preVal)
         {
-													if (currentVal == PRESSED)
+					preVal = currentVal;
+						if (currentVal == PRESSED)
 								{
-									printf("BTN1 Pressed \n");
+									data.buttonValue = currentVal;
+									xStatus = xQueueSend( pxValveHandles->xQueue, &data, xTicksToWait );
+									if (xStatus == pdPASS)
+									{
+										printf("btn1 send ok");
+									}
+									else {
+										printf("btn2 sent not ok");
+									}
 								}
 								else
 								{
-									printf("BTN1 Released \n");
-								}
-                data.buttonValue = currentVal;
-                preVal = currentVal;
-								xStatus = xQueueSend( xQueue, &data, xTicksToWait );
-                  xSemaphoreTake( serialPortMutex, portMAX_DELAY);
-					
-									printf("BTN2 Sending \n");
-									xSemaphoreGive( serialPortMutex);	
-                if( xStatus != pdPASS )
-                {xSemaphoreTake( serialPortMutex, portMAX_DELAY);
-                    printf( "Task 1 could not send to the queue.\n" );
-									xSemaphoreGive( serialPortMutex);	
-                }
-								else{
-									xSemaphoreTake( serialPortMutex, portMAX_DELAY);
-									 printf( "Task 1 sent to the queue.\n" );
-										xSemaphoreGive( serialPortMutex);	
+	
 								}
         }
 			}
@@ -84,101 +81,83 @@ portBASE_TYPE xStatus;
 
 void vTaskButton2(void *pvParameters)
 {
+	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
 portBASE_TYPE xStatus;
     const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
     sw_t    preVal, currentVal;
     Data_t  data;
-
+	Data_control_t data_control;
     data.taskSource = xBTN2;
     preVal = switchState(2);
     for( ;; )
     {
+			vTaskDelay(10);
        currentVal = switchState(2);		
         if (currentVal != preVal)
         {
-								if (currentVal == PRESSED)
+					preVal = currentVal;
+						if (currentVal == PRESSED)
 								{
-									printf("BTN2 Pressed \n");
+									//data.buttonValue = currentVal;
+									//xStatus = xQueueSend( xQueueControl, &data, xTicksToWait );
 								}
 								else
 								{
-									printf("BTN2 Released \n");
+	
 								}
-								
-								
-								
-                data.buttonValue = currentVal;
-                preVal = currentVal;
-								xStatus = xQueueSend( xQueue, &data, xTicksToWait );
-          									xSemaphoreTake( serialPortMutex, portMAX_DELAY);
-         
-					printf("BTN2 Sending \n");
-						xSemaphoreGive( serialPortMutex);	
-                if( xStatus != pdPASS )
-                {
-																		xSemaphoreTake( serialPortMutex, portMAX_DELAY);
-
-                    printf( "Task 2 could not send to the queue.\n" );
-										xSemaphoreGive( serialPortMutex);	
-                }
-								else{
-																		xSemaphoreTake( serialPortMutex, portMAX_DELAY);
-
-									 printf( "Task 2 sent to the queue.\n" );
-										xSemaphoreGive( serialPortMutex);	
-								}
+        
         }
 			}
-    
 }
+			
+    
+
 
 void vTaskButton3(void *pvParameters)
 {
+	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
 portBASE_TYPE xStatus;
-    const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
+    const portTickType xTicksToWait = 1000 / portTICK_RATE_MS;
     sw_t    preVal, currentVal;
     Data_t  data;
-		uint16_t pressCounter = 0;
-    data.taskSource = xBTN3;
+		Data_control_t data_control;
+		uint8_t test=1;
+		data.taskSource = xBTN3;
     preVal = switchState(3);
     for( ;; )
     {
-        currentVal = switchState(3);
-				if (currentVal == PRESSED)
-				{
-					pressCounter++;
-				}
-					else{
-						pressCounter=0;
-						
-					}
-				if (pressCounter > 2000)	
-				{
-					printf("BTN3 Long Pressed \n");
-					pressCounter;
-				}					
-					
+			vTaskDelay(10);
+         currentVal = switchState(3);		
         if (currentVal != preVal)
         {
-							if (currentVal == PRESSED)
+					preVal = currentVal;
+						if (currentVal == PRESSED)
 								{
-									printf("BTN3 Pressed \n");
+									data_control.motor_num = 1;
+									data_control.state  	 = 1;
+									printf("FreeRTOS freeHeapsize = %d\n",xPortGetFreeHeapSize());
+									xStatus = xQueueSend( pxValveHandles->xQueueControl, &test, xTicksToWait );	
+									 if( xStatus != pdPASS )
+                {
+                    printf("Could not send to the queue.\n" );
+                }
+								else {
+									printf("data sent the queue.\n" );
+								}
 								}
 								else
 								{
-									printf("BTN3 Released \n");
-								}
-                data.buttonValue = currentVal;
-                preVal = currentVal;
-								xStatus = xQueueSend( xQueue, &data, xTicksToWait );
-                   printf("BTN3 Sending \n");
-                if( xStatus != pdPASS )
+									data_control.motor_num = 1;
+									data_control.state  	 = 0;
+									xStatus = xQueueSend( pxValveHandles->xQueueControl, &data_control, xTicksToWait );	
+									 if( xStatus != pdPASS )
                 {
-                    printf( "Task 3 could not send to the queue.\n" );
+                    printf("Could not send to the queue.\n" );
                 }
-								else{
-									 printf( "Task 3 sent to the queue.\n" );
+								else {printf("data sent the queue.\n" );}
 								}
+        
         }
+        
     }
 }

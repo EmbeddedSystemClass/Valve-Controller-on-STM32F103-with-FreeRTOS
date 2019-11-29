@@ -11,6 +11,7 @@
 typedef     enum 
 {PRESSED=0,
 RELEASED}  sw_t;
+
 typedef struct
 {
     sw_t buttonValue;

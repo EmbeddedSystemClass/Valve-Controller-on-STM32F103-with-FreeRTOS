@@ -6,6 +6,7 @@
 ".\obj\stm32f10x_it.o"
 ".\obj\uart_command.o"
 ".\obj\valve.o"
+".\obj\zwave.o"
 ".\obj\misc.o"
 ".\obj\stm32f10x_adc.o"
 ".\obj\stm32f10x_bkp.o"

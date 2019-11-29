@@ -18,8 +18,14 @@ typedef enum {
 	MOTOR_AT_LEFT = 0,
 	MOTOR_AT_RIGHT,
 	MOTOR_RUN_LEFT,
-	MOTOR_RUN__RIGHT
+	MOTOR_RUN_RIGHT
 }state_t;
+
+typedef struct{
+	uint32_t motor_num;
+	uint32_t state;
+} Data_control_t;
+
 typedef struct {
 	state_t STATE;
 	uint16_t FlowMeter;
@@ -46,7 +52,7 @@ static void Motor_Run_Right(uint8_t motor_num);
 static void Motor_Run_Left(uint8_t motor_num);
 static void Motor_Home(uint8_t motor_num);
 static void Motor_Stop(uint8_t motor_num);
-
+void vTaskControlMotor(void *pvParameters);
 
 
 #endif

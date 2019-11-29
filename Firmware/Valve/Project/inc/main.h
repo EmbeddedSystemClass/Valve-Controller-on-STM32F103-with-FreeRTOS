@@ -22,12 +22,22 @@
 #include <stdio.h>
 #include <string.h>
 #include "FreeRTOS.h"
+
+#include "task.h"
 #include "queue.h"
+#include "timers.h"
+#include "semphr.h"
+#include "eeprom.h"
 
 #define USE_SEMAPHORE
 #define DISPENSER_SERIAL
 /* Exported types ------------------------------------------------------------*/
-
+typedef struct {
+	xQueueHandle xQueue;
+	xQueueHandle xQueueControl;
+	xSemaphoreHandle serialPortMutex;
+	xSemaphoreHandle zwPortMutex;
+} ValveHandles_t;
 typedef struct {
     uint8_t ucCommand;
     uint8_t ucFrameType;

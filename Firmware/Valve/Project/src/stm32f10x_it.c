@@ -29,15 +29,23 @@
 #include "main.h"
 #include "hw_config.h"
 #include "FreeRTOS.h"
-
+#include "task.h"
+#include "queue.h"
+#include "timers.h"
+#include "semphr.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
+#define xBTN1 1
+#define xBTN2 2
+#define xBTN3 3
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 T_CON_TYPE cmd_ready;
 uint16_t capture = 0;
+extern ValveHandles_t ValveHandles;
+
 /**
  *	@brief  this uDataReady variable is set when the RF transceiver sends an interruption on the IRQout pad
  */
@@ -149,7 +157,36 @@ void SysTick_Handler(void)
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file (startup_stm32f10x_xx.s).                                            */
 /******************************************************************************/
+void EXTI9_5_IRQHandler(void)
+{
+		
+	        portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
+		if (EXTI_GetITStatus(EXTI_Line5)){
+			uint8_t data = xBTN2;
+			xQueueSendFromISR(ValveHandles.xQueue,&data,&xHigherPriorityTaskWoken) ;
+			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+			EXTI_ClearFlag(EXTI_Line5);			
+		}
+	if (EXTI_GetITStatus(EXTI_Line6)){
+		
+		uint8_t data = xBTN3;
+			xQueueSendFromISR(ValveHandles.xQueue,&data,&xHigherPriorityTaskWoken) ;
+			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+			EXTI_ClearFlag(EXTI_Line6);
+		}
+
+	
+}
+void EXTI4_IRQHandler(void)
+{
+			portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+			uint8_t data = xBTN1;
+			xQueueSendFromISR(ValveHandles.xQueueControl,&data,&xHigherPriorityTaskWoken) ;
+			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+		
+		EXTI_ClearFlag(EXTI_Line4);
+}
 void USART2_IRQHandler(void)
 {
 	if(USART_GetITStatus(DBG_UART, USART_IT_RXNE) != RESET)//enter interrupt when STM32 receice data.

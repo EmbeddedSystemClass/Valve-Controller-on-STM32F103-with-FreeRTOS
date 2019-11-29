@@ -24,6 +24,7 @@ typedef enum {
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 
-
+/* Private functions prototype ---------------------------------------------------------*/
+void vTaskZmReceiver(void *pvParameters);
 
 #endif 

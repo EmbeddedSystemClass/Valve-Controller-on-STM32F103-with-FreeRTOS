@@ -6,11 +6,34 @@
   * @date    15-11-2019
   * @brief   Valve functions
 	*/
-#include "Valve.h"
+
+/*Standard library include*/
+#include <stdio.h>
+#include <string.h>
+
+/*FreeROTS library include*/
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "timers.h"
+#include "semphr.h"
+
+/*STM32 library include*/
+#include "stm32f10x_gpio.h"
+#include "stm32f10x_rcc.h"
+#include "stm32f10x.h"
+#include "stm32f10x_rtc.h"
+
+/*Valve Controller libary include*/
+#include "zwave.h"
+#include "buttons.h"
 #include "uart_command.h"
+#include "Valve.h"
+#include "main.h"
 
 
-
+/* Private variables ---------------------------------------------------------*/
+//extern xQueueHandle xQueueControl;
 /* Define GPIO Port Array for ez Index */
 GPIO_TypeDef* SENSOR_PORT[MAX_MOTOR] = 
 {	MOTOR1_SA_GPIO_Port, 
@@ -143,7 +166,56 @@ static void Motor_Stop(uint8_t motor_num)
 }
 //static bool Motor_Get_State()
 void vTaskControlMotor(void *pvParameters)
-	{
-		
-	}
+{
+			  ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+
+		//Data_control_t data_control;
+		portBASE_TYPE xStatus;
+    const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
+		//state_t MotorState[MAX_MOTOR];
+		uint8_t buf = 0;
+		while (TRUE)
+		{
+			
+			xStatus = xQueueReceive( pxValveHandles->xQueueControl, &buf, NULL );
+	
+			if (xStatus == pdPASS){
+				printf("Motor controller recevied data ");
+				//MotorState[1] = buf;
+			}
+			
+			//Get state for each motor refer from queue
+//			for (uint8_t motor_num=0;motor_num<MAX_MOTOR;motor_num++)
+//					{
+//						switch (MotorState[motor_num])
+//							{
+//								case MOTOR_AT_LEFT: // this case seem to be a valve off
+//								{
+//									
+//									break;
+//								}
+//								case MOTOR_AT_RIGHT: //this case seem to be a valve on
+//								{
+//									
+//									break;
+//								}
+//								case MOTOR_RUN_LEFT:
+//								{
+//									Motor_Run_Left(motor_num);
+//									//MotorState[motor_num] = MOTOR_AT_LEFT;
+//									break;
+//								}
+//								case MOTOR_RUN_RIGHT:
+//								{
+//									Motor_Run_Right(motor_num);
+//									//MotorState[motor_num] = MOTOR_AT_RIGHT;
+//									break;
+//								}
+//								
+//							}
+//						}
+				}
+			
+}
+
 	

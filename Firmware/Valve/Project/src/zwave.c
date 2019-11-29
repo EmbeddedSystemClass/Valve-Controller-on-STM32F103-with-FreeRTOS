@@ -1,4 +1,11 @@
-
+/**
+  ******************************************************************************
+  * @file    Project/User/zwave
+  * @author  NTT - BKSTEK Team
+  * @version V1.0
+  * @date    15-11-2019
+  * @brief   Zwave functions description
+	*/
 /*Standard library include*/
 #include <stdio.h>
 #include <string.h>
@@ -17,13 +24,14 @@
 #include "stm32f10x_rtc.h"
 
 /*Valve Controller libary include*/
-#include "zware.h"
+#include "zwave.h"
 #include "buttons.h"
 #include "uart_command.h"
+#include "Valve.h"
+#include "main.h"
 
 /* Private variables ---------------------------------------------------------*/
 zwave_mode_t Zwave_mode = ZWAVE_IDLE;
-extern xQueueHandle xQueue;
 extern T_CON_TYPE cmd_ready;
 extern BYTE serBuf[SERBUF_MAX];
 
@@ -34,22 +42,26 @@ extern BYTE serBuf[SERBUF_MAX];
   */
 void vTaskZmReceiver(void *pvParameters)
 {
+		  ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+
+	const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
+	portBASE_TYPE xStatus;
+	Data_control_t data_control;
 	ZW_UART_COMMAND uart_cmd;
 	BOOL ZW_ready =FALSE;
   
   BOOL ZW_appversion_send = FALSE;
   BOOL ZW_getconnect_send = FALSE;
 	uint8_t tryCounter = 0;
+	uint8_t  data_btn;
 	while (1)
 	{
 		switch(Zwave_mode)
 		{
 			case ZWAVE_START:
 			{
-				printf("Starting or Handling Zwave device");
-
-				xSemaphoreTake(xQueue,portMAX_DELAY);
-        break;
+				
+				break;
 			}
       case ZWAVE_EXC:
       {
@@ -66,11 +78,11 @@ void vTaskZmReceiver(void *pvParameters)
 								*/
 									tryCounter++;
 									if(tryCounter == 10) 
-										Zwave_mode = ZWAVE_START ;
+										Zwave_mode = ZWAVE_IDLE ;
 							}		
 					else
 							{
-									printf("\r\n ZWave communication OK \r\n");
+								printf("\r\n ZWave communication OK: Sent EXCLUSION \r\n");
 									Zwave_mode = ZWAVE_IDLE;
 							}
         break;
@@ -90,19 +102,35 @@ void vTaskZmReceiver(void *pvParameters)
 								*/
 									tryCounter++;
 									if(tryCounter == 10) 
-											Zwave_mode = ZWAVE_START ;
+											Zwave_mode = ZWAVE_IDLE ;
 							}		
 					else
 							{
-									printf("\r\n ZWave communication OK \r\n");
+									printf("\r\n Connect ZWave communication OK \r\n");
 									Zwave_mode = ZWAVE_IDLE;
 							}
+							break;
 			}
 			case ZWAVE_IDLE:
 			{
 				/*Statement for sending message*/
-        
+				//printf("Starting or Handling Zwave device after RESET!");
+				xStatus = xQueueReceive(pxValveHandles->xQueue,&data_btn,NULL );
+				if (xStatus == pdPASS)
+				{
+					if (data_btn == xBTN2)
+					{
+						Zwave_mode = ZWAVE_CONNECT;
+					}
+					if (data_btn == xBTN3)
+					{
+						Zwave_mode = ZWAVE_EXC;
 
+					}
+					
+					break;
+					
+				}	
 				/*Statement for receiving message*/
 				if (cmd_ready == conFrameReceived)
 				{	
@@ -116,10 +144,13 @@ void vTaskZmReceiver(void *pvParameters)
               {
                 if (uart_cmd.zw_uartcommandreport.value1 == ZW_CONNECT)
                 {
+									printf(" Zw reponse connected");
                   //ZW is ready  
                 }
                 else if (uart_cmd.zw_uartcommandreport.value1 == ZW_DISCONNECT)
                 {
+									printf(" Zw reponse not connected");
+
                   //ZW not ready
                 }                
               }
@@ -131,10 +162,14 @@ void vTaskZmReceiver(void *pvParameters)
               {
                 if(uart_cmd.zw_uartcommandget.value == ZW_CONNECT)
                 {
+																		printf(" Zw reponse connected");
+
                   //ZW is connected
                 }
                 else if( uart_cmd.zw_uartcommandget.value == ZW_DISCONNECT)
                 {
+																		printf(" Zw reponse not connected");
+
                   //ZW is not connected
                 }
               }
@@ -143,12 +178,27 @@ void vTaskZmReceiver(void *pvParameters)
             }
             case COMMAND_SWITCHBINARY:
             {
+							if (uart_cmd.zw_uartcommandset.type ==ZW_SWITCHBINARY_SET )
+							{
+								// send data to queue for motor task 
+								data_control.motor_num 	=uart_cmd.zw_uartcommandset.value1;
+								data_control.state 			= uart_cmd.zw_uartcommandset.value2;
+								xStatus = xQueueSend( pxValveHandles->xQueueControl, &data_control, xTicksToWait );
+                if( xStatus != pdPASS )
+                {
+                    printf("Could not send to the queue.\n" );
+                }
+								
+							}
+							
 
               break;
             }
 						case COMMAND_ZWAVE_RESET:
             { 
-              Zwave_mode = ZWAVE_START;
+							printf("Zwave reset.\n" );
+
+              Zwave_mode = ZWAVE_IDLE;
               break;
             }
             
@@ -162,6 +212,7 @@ void vTaskZmReceiver(void *pvParameters)
 		}
   }
 }
+	
 /**
   * @brief  FreeRTOS Zwave Periodic Checking Task
   * @param  pvParameters not used
@@ -173,11 +224,9 @@ void vTaskZmPeriodic(void *pvParameters)
     ZW_UART_COMMAND uart_cmd;
     while (TRUE)
     {
-      6
-      3.+
-      3
+   
 
-      vTaskdelay(5000);
+      vTaskDelay(5000);
     }
     
 }
