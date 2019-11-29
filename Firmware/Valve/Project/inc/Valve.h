@@ -22,9 +22,9 @@ typedef enum {
 }state_t;
 
 typedef struct{
-	uint32_t motor_num;
-	uint32_t state;
-} Data_control_t;
+	uint8_t motor_num;
+	uint8_t state;
+} Data_motor_t;
 
 typedef struct {
 	state_t STATE;
@@ -51,7 +51,7 @@ void vTaskControlMotor(void *pvParameters);
 static void Motor_Run_Right(uint8_t motor_num);
 static void Motor_Run_Left(uint8_t motor_num);
 static void Motor_Home(uint8_t motor_num);
-static void Motor_Stop(uint8_t motor_num);
+void Motor_Stop(uint8_t motor_num);
 void vTaskControlMotor(void *pvParameters);
 
 

@@ -46,7 +46,7 @@ void vTaskZmReceiver(void *pvParameters)
 
 	const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
 	portBASE_TYPE xStatus;
-	Data_control_t data_control;
+	Data_motor_t data_control;
 	ZW_UART_COMMAND uart_cmd;
 	BOOL ZW_ready =FALSE;
   
@@ -183,6 +183,7 @@ void vTaskZmReceiver(void *pvParameters)
 								// send data to queue for motor task 
 								data_control.motor_num 	=uart_cmd.zw_uartcommandset.value1;
 								data_control.state 			= uart_cmd.zw_uartcommandset.value2;
+								//uint8_t data;
 								xStatus = xQueueSend( pxValveHandles->xQueueControl, &data_control, xTicksToWait );
                 if( xStatus != pdPASS )
                 {

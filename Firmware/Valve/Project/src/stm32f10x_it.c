@@ -24,10 +24,13 @@
 #include "stm32f10x_it.h"
 #include "stm32f10x_usart.h"
 #include "stm32f10x_gpio.h"
+
 #include "hw_config.h"
 #include "uart_command.h"
 #include "main.h"
 #include "hw_config.h"
+#include "Valve.h"
+
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
@@ -157,10 +160,26 @@ void SysTick_Handler(void)
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file (startup_stm32f10x_xx.s).                                            */
 /******************************************************************************/
+void EXTI0_IRQHandler(void)
+{
+	
+	if (GPIO_ReadInputDataBit(MOTOR4_SA_GPIO_Port,MOTOR4_SA_Pin)==0)
+	{
+		Motor_Stop(3);
+	}
+	EXTI_ClearFlag(EXTI_Line0);
+}
+void EXTI1_IRQHandler(void)
+{
+	if (GPIO_ReadInputDataBit(MOTOR4_SB_GPIO_Port,MOTOR4_SB_Pin)==0)
+	{
+		Motor_Stop(3);
+	}						
+	EXTI_ClearFlag(EXTI_Line1);
+}
 void EXTI9_5_IRQHandler(void)
 {
-		
-	        portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
 		if (EXTI_GetITStatus(EXTI_Line5)){
 			uint8_t data = xBTN2;
@@ -181,7 +200,10 @@ void EXTI9_5_IRQHandler(void)
 void EXTI4_IRQHandler(void)
 {
 			portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-			uint8_t data = xBTN1;
+			//uint8_t data1;
+			Data_motor_t data ;
+			data.motor_num = 3;
+			data.state = 0;
 			xQueueSendFromISR(ValveHandles.xQueueControl,&data,&xHigherPriorityTaskWoken) ;
 			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
 		

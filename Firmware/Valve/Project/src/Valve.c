@@ -120,17 +120,40 @@ void Motor_Init(void)
 		}
 		/*Init Encoder as Input (note: Encoder pin is not mapped with any timer input counter)*/
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-	GPIO_InitStructure.GPIO_Speed= GPIO_Speed_10MHz;	
+		GPIO_InitStructure.GPIO_Speed= GPIO_Speed_10MHz;	
 		for (int motor= 0; motor < MAX_MOTOR;motor++)
 		{
 			GPIO_InitStructure.GPIO_Pin = ENCODER_PIN[motor];
 			GPIO_Init(ENCODER_PORT[motor],&GPIO_InitStructure);
 		//	GPIO_SetBits(SENSOR_PORT[motor],SENSOR_PIN_A[motor]|SENSOR_PIN_B[motor]);
 		}
+		
+		/*NVIC for StopSensor/*/
+			EXTI_InitTypeDef   EXTI_InitStructure;
+		
+		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource0);
+		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource1);
+			EXTI_InitStructure.EXTI_Line = EXTI_Line0|EXTI_Line1;
+			EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+			EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;  
+			EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+			EXTI_Init(&EXTI_InitStructure);
+		
+			NVIC_InitTypeDef   NVIC_InitStructure;
+			NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+
+			NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
+			NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x08;
+			NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x08;
+			NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+			NVIC_Init(&NVIC_InitStructure);
+			NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;
+			NVIC_Init(&NVIC_InitStructure);	
 	//Home all
+		Motor_Run_Right(3);
 		for (int motor= 0; motor < MAX_MOTOR;motor++)
 		{
-			//Motor_Home(motor);
+			
 		}
 }
 
@@ -144,76 +167,77 @@ static void Motor_Home(uint8_t motor_num)
 	
 static void Motor_Run_Left(uint8_t motor_num)
 	{
-		if(!GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_B[motor_num]))
+		if(GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_A[motor_num]))
 		{
-		GPIO_SetBits(MOTOR_PORT[motor_num],MOTOR_PIN_A[motor_num]);
-		GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
+		GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_A[motor_num]);
+		GPIO_SetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
 		}
 		
 	}
 static void Motor_Run_Right(uint8_t motor_num)
 	{
-		if(!GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_A[motor_num]))
+		if(GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_B[motor_num]))
 		{
 		GPIO_SetBits(MOTOR_PORT[motor_num],MOTOR_PIN_A[motor_num]);
 		GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
 		}
 	}
-static void Motor_Stop(uint8_t motor_num)
+void Motor_Stop(uint8_t motor_num)
 {
-	GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
+	GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_A[motor_num]);
 	GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
 }
 //static bool Motor_Get_State()
 void vTaskControlMotor(void *pvParameters)
 {
 			  ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
-
-		//Data_control_t data_control;
+		
+		Data_motor_t data_control;
+		Data_motor_t data_reponse;
 		portBASE_TYPE xStatus;
     const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
-		//state_t MotorState[MAX_MOTOR];
+		state_t MotorState[MAX_MOTOR];
 		uint8_t buf = 0;
 		while (TRUE)
 		{
 			
-			xStatus = xQueueReceive( pxValveHandles->xQueueControl, &buf, NULL );
+			xStatus = xQueueReceive( pxValveHandles->xQueueControl, &data_control, NULL );
 	
 			if (xStatus == pdPASS){
-				printf("Motor controller recevied data ");
-				//MotorState[1] = buf;
+				printf("Motor controller recevied data: %d %d",data_control.motor_num,data_control.state);				
+				MotorState[data_control.motor_num] = (data_control.state ==0)?2:3;
 			}
 			
 			//Get state for each motor refer from queue
-//			for (uint8_t motor_num=0;motor_num<MAX_MOTOR;motor_num++)
-//					{
-//						switch (MotorState[motor_num])
-//							{
-//								case MOTOR_AT_LEFT: // this case seem to be a valve off
-//								{
-//									
-//									break;
-//								}
-//								case MOTOR_AT_RIGHT: //this case seem to be a valve on
-//								{
-//									
-//									break;
-//								}
-//								case MOTOR_RUN_LEFT:
-//								{
-//									Motor_Run_Left(motor_num);
-//									//MotorState[motor_num] = MOTOR_AT_LEFT;
-//									break;
-//								}
-//								case MOTOR_RUN_RIGHT:
-//								{
-//									Motor_Run_Right(motor_num);
-//									//MotorState[motor_num] = MOTOR_AT_RIGHT;
-//									break;
-//								}
-//								
-//							}
-//						}
+			for (uint8_t motor_num=0;motor_num<MAX_MOTOR;motor_num++)
+					{
+						switch (MotorState[motor_num])
+							{
+								case MOTOR_AT_LEFT: // this case seem to be a valve off
+								{
+									
+									break;
+								}
+								case MOTOR_AT_RIGHT: //this case seem to be a valve on
+								{
+									
+									break;
+								}
+								case MOTOR_RUN_LEFT:
+								{
+									Motor_Run_Left(motor_num);
+									//MotorState[motor_num] = MOTOR_AT_LEFT;
+									break;
+								}
+								case MOTOR_RUN_RIGHT:
+								{
+									Motor_Run_Right(motor_num);
+									//MotorState[motor_num] = MOTOR_AT_RIGHT;
+									break;
+								}
+								
+							}
+						}
 				}
 			
 }

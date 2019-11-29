@@ -39,125 +39,125 @@ sw_t switchState(int SWnumber)
         }
 }
 
-void vTaskButton1(void *pvParameters)
-{
-	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
-	vTaskDelay(10);
-portBASE_TYPE xStatus;
-    const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
-    sw_t    preVal, currentVal;
-    Data_t  data;
-	
+//void vTaskButton1(void *pvParameters)
+//{
+//	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+//	vTaskDelay(10);
+//portBASE_TYPE xStatus;
+//    const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
+//    sw_t    preVal, currentVal;
+//    Data_t  data;
+//	
 
-    data.taskSource = xBTN1;
-    preVal = switchState(1);
-    for( ;; )
-    {
-			vTaskDelay(10);
-       currentVal = switchState(1);		
-        if (currentVal != preVal)
-        {
-					preVal = currentVal;
-						if (currentVal == PRESSED)
-								{
-									data.buttonValue = currentVal;
-									xStatus = xQueueSend( pxValveHandles->xQueue, &data, xTicksToWait );
-									if (xStatus == pdPASS)
-									{
-										printf("btn1 send ok");
-									}
-									else {
-										printf("btn2 sent not ok");
-									}
-								}
-								else
-								{
-	
-								}
-        }
-			}
-    
-}
+//    data.taskSource = xBTN1;
+//    preVal = switchState(1);
+//    for( ;; )
+//    {
+//			vTaskDelay(10);
+//       currentVal = switchState(1);		
+//        if (currentVal != preVal)
+//        {
+//					preVal = currentVal;
+//						if (currentVal == PRESSED)
+//								{
+//									data.buttonValue = currentVal;
+//									xStatus = xQueueSend( pxValveHandles->xQueue, &data, xTicksToWait );
+//									if (xStatus == pdPASS)
+//									{
+//										printf("btn1 send ok");
+//									}
+//									else {
+//										printf("btn2 sent not ok");
+//									}
+//								}
+//								else
+//								{
+//	
+//								}
+//        }
+//			}
+//    
+//}
 
-void vTaskButton2(void *pvParameters)
-{
-	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
-portBASE_TYPE xStatus;
-    const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
-    sw_t    preVal, currentVal;
-    Data_t  data;
-	Data_control_t data_control;
-    data.taskSource = xBTN2;
-    preVal = switchState(2);
-    for( ;; )
-    {
-			vTaskDelay(10);
-       currentVal = switchState(2);		
-        if (currentVal != preVal)
-        {
-					preVal = currentVal;
-						if (currentVal == PRESSED)
-								{
-									//data.buttonValue = currentVal;
-									//xStatus = xQueueSend( xQueueControl, &data, xTicksToWait );
-								}
-								else
-								{
-	
-								}
-        
-        }
-			}
-}
-			
-    
+//void vTaskButton2(void *pvParameters)
+//{
+//	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+//portBASE_TYPE xStatus;
+//    const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
+//    sw_t    preVal, currentVal;
+//    Data_t  data;
+//	Data_motor data_control;
+//    data.taskSource = xBTN2;
+//    preVal = switchState(2);
+//    for( ;; )
+//    {
+//			vTaskDelay(10);
+//       currentVal = switchState(2);		
+//        if (currentVal != preVal)
+//        {
+//					preVal = currentVal;
+//						if (currentVal == PRESSED)
+//								{
+//									//data.buttonValue = currentVal;
+//									//xStatus = xQueueSend( xQueueControl, &data, xTicksToWait );
+//								}
+//								else
+//								{
+//	
+//								}
+//        
+//        }
+//			}
+//}
+//			
+//    
 
 
-void vTaskButton3(void *pvParameters)
-{
-	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
-portBASE_TYPE xStatus;
-    const portTickType xTicksToWait = 1000 / portTICK_RATE_MS;
-    sw_t    preVal, currentVal;
-    Data_t  data;
-		Data_control_t data_control;
-		uint8_t test=1;
-		data.taskSource = xBTN3;
-    preVal = switchState(3);
-    for( ;; )
-    {
-			vTaskDelay(10);
-         currentVal = switchState(3);		
-        if (currentVal != preVal)
-        {
-					preVal = currentVal;
-						if (currentVal == PRESSED)
-								{
-									data_control.motor_num = 1;
-									data_control.state  	 = 1;
-									printf("FreeRTOS freeHeapsize = %d\n",xPortGetFreeHeapSize());
-									xStatus = xQueueSend( pxValveHandles->xQueueControl, &test, xTicksToWait );	
-									 if( xStatus != pdPASS )
-                {
-                    printf("Could not send to the queue.\n" );
-                }
-								else {
-									printf("data sent the queue.\n" );
-								}
-								}
-								else
-								{
-									data_control.motor_num = 1;
-									data_control.state  	 = 0;
-									xStatus = xQueueSend( pxValveHandles->xQueueControl, &data_control, xTicksToWait );	
-									 if( xStatus != pdPASS )
-                {
-                    printf("Could not send to the queue.\n" );
-                }
-								else {printf("data sent the queue.\n" );}
-								}
-        
-        }
-        
-    }
-}
+//void vTaskButton3(void *pvParameters)
+//{
+//	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+//portBASE_TYPE xStatus;
+//    const portTickType xTicksToWait = 1000 / portTICK_RATE_MS;
+//    sw_t    preVal, currentVal;
+//    Data_t  data;
+//		Data_control_t data_control;
+//		uint8_t test=1;
+//		data.taskSource = xBTN3;
+//    preVal = switchState(3);
+//    for( ;; )
+//    {
+//			vTaskDelay(10);
+//         currentVal = switchState(3);		
+//        if (currentVal != preVal)
+//        {
+//					preVal = currentVal;
+//						if (currentVal == PRESSED)
+//								{
+//									data_control.motor_num = 1;
+//									data_control.state  	 = 1;
+//									printf("FreeRTOS freeHeapsize = %d\n",xPortGetFreeHeapSize());
+//									xStatus = xQueueSend( pxValveHandles->xQueueControl, &test, xTicksToWait );	
+//									 if( xStatus != pdPASS )
+//                {
+//                    printf("Could not send to the queue.\n" );
+//                }
+//								else {
+//									printf("data sent the queue.\n" );
+//								}
+//								}
+//								else
+//								{
+//									data_control.motor_num = 1;
+//									data_control.state  	 = 0;
+//									xStatus = xQueueSend( pxValveHandles->xQueueControl, &data_control, xTicksToWait );	
+//									 if( xStatus != pdPASS )
+//                {
+//                    printf("Could not send to the queue.\n" );
+//                }
+//								else {printf("data sent the queue.\n" );}
+//								}
+//        
+//        }
+//        
+//    }
+//}

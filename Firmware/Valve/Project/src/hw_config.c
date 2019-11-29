@@ -175,7 +175,7 @@ static void UARTs_Init(void) {
     USART_InitStructure2.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 		USART_Init(DBG_UART, &USART_InitStructure2);
 	  /* Enable DBG_UART Receive interrupts */
-		USART_ITConfig(DBG_UART, USART_IT_RXNE, ENABLE);
+		USART_ITConfig(DBG_UART, USART_IT_RXNE, DISABLE);
 		/* Enable DBG_UART   */
 		USART_Cmd(DBG_UART, ENABLE);
     /* NVIC configuation for DBG_UART   */

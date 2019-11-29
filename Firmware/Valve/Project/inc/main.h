@@ -35,6 +35,7 @@
 typedef struct {
 	xQueueHandle xQueue;
 	xQueueHandle xQueueControl;
+	//xQueueHandle xQueueReponse;
 	xSemaphoreHandle serialPortMutex;
 	xSemaphoreHandle zwPortMutex;
 } ValveHandles_t;
