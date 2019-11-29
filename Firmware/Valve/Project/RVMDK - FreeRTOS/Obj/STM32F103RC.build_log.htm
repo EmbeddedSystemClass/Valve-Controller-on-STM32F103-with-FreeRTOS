@@ -27,32 +27,32 @@ Project File Date:  11/26/2019
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F103RC'
-compiling Valve.c...
-..\inc\zwave.h(30): warning:  #1-D: last line of file ends without a newline
-  #endif 
-..\inc\hw_config.h(123): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\inc\Valve.h(58): warning:  #1-D: last line of file ends without a newline
-  #endif
+compiling main.c...
 ..\inc\eeprom.h(16): warning:  #1-D: last line of file ends without a newline
   #endif
-..\src\Valve.c(131): warning:  #9-D: nested comment is not allowed
-  		/*NVIC for StopSensor/*/
-..\src\Valve.c(208): warning:  #188-D: enumerated type mixed with another type
-  				MotorState[data_control.motor_num] = (data_control.state ==0)?2:3;
-..\src\Valve.c(196): warning:  #177-D: variable "data_reponse"  was declared but never referenced
-  		Data_motor_t data_reponse;
-..\src\Valve.c(198): warning:  #177-D: variable "xTicksToWait"  was declared but never referenced
-      const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
-..\src\Valve.c(200): warning:  #177-D: variable "buf"  was declared but never referenced
-  		uint8_t buf = 0;
-..\src\Valve.c(245): warning:  #1-D: last line of file ends without a newline
-  	
-..\src\Valve.c(160): warning:  #177-D: function "Motor_Home"  was declared but never referenced
-  static void Motor_Home(uint8_t motor_num)
-..\src\Valve.c: 11 warnings, 0 errors
+..\inc\hw_config.h(123): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\inc\valve.h(58): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\inc\zwave.h(30): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\src\main.c(132): warning:  #177-D: variable "pxValveHandles"  was declared but never referenced
+  	    ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+..\src\main.c(134): warning:  #550-D: variable "THH"  was set but never used
+  	uint32_t THH = 0, TMM = 0, TSS = 0;
+..\src\main.c(134): warning:  #550-D: variable "TMM"  was set but never used
+  	uint32_t THH = 0, TMM = 0, TSS = 0;
+..\src\main.c(134): warning:  #550-D: variable "TSS"  was set but never used
+  	uint32_t THH = 0, TMM = 0, TSS = 0;
+..\src\main.c(135): warning:  #177-D: variable "data"  was declared but never referenced
+  		char data= 0xff;
+..\src\main.c(130): warning:  #177-D: function "vTaskUART"  was declared but never referenced
+  static void vTaskUART(void *pvParameters)
+..\src\main.c(63): warning:  #177-D: function "vTaskZWAVE"  was declared but never referenced
+  static void vTaskZWAVE(void *pvParameters);
+..\src\main.c: 11 warnings, 0 errors
 linking...
-Program Size: Code=10348 RO-data=376 RW-data=176 ZI-data=18832  
+Program Size: Code=10464 RO-data=376 RW-data=176 ZI-data=18824  
 FromELF: creating hex file...
 ".\Obj\STM32F103RC.axf" - 0 Error(s), 11 Warning(s).
 

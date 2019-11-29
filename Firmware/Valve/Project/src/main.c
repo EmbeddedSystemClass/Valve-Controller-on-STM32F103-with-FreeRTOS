@@ -79,24 +79,19 @@ static void vTaskZWAVE(void *pvParameters);
 		STM32F1_HW_Init();
 		printf("\r\n**STM32F103 HW init successful** \r\n")	;	
     /* Free RTOS *//////
-		ValveHandles.serialPortMutex = xSemaphoreCreateMutex();		
-		ValveHandles.zwPortMutex		= xSemaphoreCreateMutex();
+		//ValveHandles.serialPortMutex = xSemaphoreCreateMutex();		
+	//	ValveHandles.zwPortMutex		= xSemaphoreCreateMutex();
 //    xTaskCreate(vMainTestTask, "TEST", configMINIMAL_STACK_SIZE*2, NULL, mainLED_TASK_PRIORITY + 1, NULL);
 
 		ValveHandles.xQueue = xQueueCreate( 1, sizeof(uint8_t)) ;
 		ValveHandles.xQueueControl = xQueueCreate(1, 	sizeof( Data_motor_t ));
-		//ValveHandles.xQueueReponse = xQueueCreate(1, sizeof(Data_motor_t));
-		    if ((ValveHandles.serialPortMutex       != NULL) && (ValveHandles.zwPortMutex        != NULL) && \
-        (ValveHandles.xQueueControl != NULL) && (ValveHandles.xQueue != NULL)) {
+		ValveHandles.xQueueReponse = xQueueCreate(1, sizeof(Data_motor_t));
+		   
     xTaskCreate(vTaskLED,"Task LED",configMINIMAL_STACK_SIZE,NULL,uxPriority,NULL);
 		//xTaskCreate(vTaskUART,"Task UART", configMINIMAL_STACK_SIZE,NULL,1,NULL);
 		xTaskCreate(vTaskZmReceiver,"Task ZWAVE", configMINIMAL_STACK_SIZE*2,(void *)&ValveHandles,uxPriority,NULL);
 		xTaskCreate(vTaskControlMotor,"Task Control Motor", configMINIMAL_STACK_SIZE*8, (void *) &ValveHandles, uxPriority, 	NULL);
-				}
-				else 
-				{
-					printf("Cannot create Task handles");
-				}
+				
 					
 					/* Start scheduler */
 		

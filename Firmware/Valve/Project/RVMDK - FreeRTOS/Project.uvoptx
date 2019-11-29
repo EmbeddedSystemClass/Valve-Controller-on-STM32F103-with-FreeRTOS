@@ -152,34 +152,18 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>178</LineNumber>
+          <LineNumber>134</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134218722</Address>
+          <Address>134225952</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\src\stm32f10x_it.c</Filename>
+          <Filename>..\src\zwave.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\STM32F103RC\../src/stm32f10x_it.c\178</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>170</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134218690</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\src\stm32f10x_it.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\STM32F103RC\../src/stm32f10x_it.c\170</Expression>
+          <Expression>\\STM32F103RC\../src/zwave.c\134</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>

@@ -226,13 +226,13 @@ void vTaskControlMotor(void *pvParameters)
 								case MOTOR_RUN_LEFT:
 								{
 									Motor_Run_Left(motor_num);
-									//MotorState[motor_num] = MOTOR_AT_LEFT;
+									MotorState[motor_num] = MOTOR_AT_LEFT;
 									break;
 								}
 								case MOTOR_RUN_RIGHT:
 								{
 									Motor_Run_Right(motor_num);
-									//MotorState[motor_num] = MOTOR_AT_RIGHT;
+									MotorState[motor_num] = MOTOR_AT_RIGHT;
 									break;
 								}
 								

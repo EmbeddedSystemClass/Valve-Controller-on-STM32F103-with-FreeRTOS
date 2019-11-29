@@ -47,6 +47,7 @@ void vTaskZmReceiver(void *pvParameters)
 	const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
 	portBASE_TYPE xStatus;
 	Data_motor_t data_control;
+	Data_motor_t data_reponse;
 	ZW_UART_COMMAND uart_cmd;
 	BOOL ZW_ready =FALSE;
   
@@ -128,8 +129,35 @@ void vTaskZmReceiver(void *pvParameters)
 
 					}
 					
-					break;
+					break;					
+				}	
+				xStatus = xQueueReceive(pxValveHandles->xQueueReponse,&data_reponse,NULL);
+					if (xStatus == pdPASS)
+				{
+					uart_cmd.zw_uartcommandreport.length = 5;
+					uart_cmd.zw_uartcommandreport.cmd = COMMAND_SWITCHBINARY  ;
+					uart_cmd.zw_uartcommandreport.type = ZW_SWITCHBINARY_REPORT  ;
+					uart_cmd.zw_uartcommandreport.value1 =data_reponse.motor_num;
+					uart_cmd.zw_uartcommandreport.value2 =data_reponse.state;
+					if (Uart_send_command(uart_cmd)==0)
+							{
+									printf("\r\n Failed to send data to ZW \r\n");
+									vTaskDelay(50);
+								/*
+								Reset Zwave device when cannot connect after 10 times trying to connect
+								*/
+									tryCounter++;
+									if(tryCounter == 10) 
+											Zwave_mode = ZWAVE_IDLE ;
+							}		
+					else
+							{
+								printf("\r\n Connect ZWave communication: Repones motor state OK  \r\n");
+									Zwave_mode = ZWAVE_IDLE;
+							}
+							
 					
+					break;					
 				}	
 				/*Statement for receiving message*/
 				if (cmd_ready == conFrameReceived)

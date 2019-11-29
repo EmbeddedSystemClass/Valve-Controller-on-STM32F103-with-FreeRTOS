@@ -31,6 +31,7 @@
 #include "hw_config.h"
 #include "Valve.h"
 
+
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
@@ -162,18 +163,30 @@ void SysTick_Handler(void)
 /******************************************************************************/
 void EXTI0_IRQHandler(void)
 {
-	
+		portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+
 	if (GPIO_ReadInputDataBit(MOTOR4_SA_GPIO_Port,MOTOR4_SA_Pin)==0)
 	{
 		Motor_Stop(3);
+		Data_motor_t data;
+		data.motor_num = 3;
+		data.state = 0x00;
+		xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
+
 	}
 	EXTI_ClearFlag(EXTI_Line0);
 }
 void EXTI1_IRQHandler(void)
 {
+		portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 	if (GPIO_ReadInputDataBit(MOTOR4_SB_GPIO_Port,MOTOR4_SB_Pin)==0)
 	{
 		Motor_Stop(3);
+		Data_motor_t data;
+		data.motor_num = 3;
+		data.state = 0xff;
+		xQueueSendFromISR(ValveHandles.xQueueReponse,&data,&xHigherPriorityTaskWoken) ;
+
 	}						
 	EXTI_ClearFlag(EXTI_Line1);
 }
