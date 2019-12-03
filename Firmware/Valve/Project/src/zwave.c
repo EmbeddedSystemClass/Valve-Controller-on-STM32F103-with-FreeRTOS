@@ -64,6 +64,7 @@ void vTaskZmReceiver(void *pvParameters)
 				
 				break;
 			}
+			
       case ZWAVE_EXC:
       {
         uart_cmd.zw_uartcommandset.length = 4;
@@ -126,7 +127,6 @@ void vTaskZmReceiver(void *pvParameters)
 					if (data_btn == xBTN3)
 					{
 						Zwave_mode = ZWAVE_EXC;
-
 					}
 					
 					break;					
@@ -250,15 +250,40 @@ void vTaskZmReceiver(void *pvParameters)
   */
 void vTaskZmPeriodic(void *pvParameters)
 {
+	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+
     ZW_UART_COMMAND uart_cmd;
     while (TRUE)
     {
    
-
-      vTaskDelay(5000);
-    }
-    
+				for (uint8_t motor_num = 0; motor_num < MAX_MOTOR; motor_num ++)
+				{
+				uint8_t *pFloat = (uint8_t*) &pxValveHandles->Flowmeter[motor_num];
+				uart_cmd.zw_uartcommandreport.length = 7;
+				uart_cmd.zw_uartcommandreport.cmd    = COMMAND_METER;
+				uart_cmd.zw_uartcommandreport.type   = ZW_FLOW_REPORT;
+				uart_cmd.zw_uartcommandreport.value1 = motor_num; //ID
+				uart_cmd.zw_uartcommandreport.value2 =*(pFloat++);
+				uart_cmd.zw_uartcommandreport.value3 =*(pFloat++);
+				uart_cmd.zw_uartcommandreport.value4 =*(pFloat++);
+				uart_cmd.zw_uartcommandreport.value5 =*(pFloat);
+				if (Uart_send_command(uart_cmd)==0)
+				{
+					printf("\r\n Failed to send data to ZW: Flowmeter \r\n");
+				}
+				else
+				{
+						printf("\r\n ZWave communication OK: Sent Flowmeter \r\n");
+				}
+				
+				}
+				
+				 vTaskDelay(10000);
+			}
+     
 }
+    
+
 
 
 

@@ -17,6 +17,7 @@ typedef enum {
 	ZWAVE_CONNECT,
 	ZWAVE_IDLE,
   ZWAVE_RESET,
+	ZWAVE_PERIOD,
   ZWAVE_EXC      // zwave exclusion mode
 } zwave_mode_t;
 
@@ -26,5 +27,5 @@ typedef enum {
 
 /* Private functions prototype ---------------------------------------------------------*/
 void vTaskZmReceiver(void *pvParameters);
-
+void vTaskZmPeriodic(void *pvParameters);
 #endif 

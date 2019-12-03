@@ -5,6 +5,7 @@
 #include "uart_command.h"
 /* Private typedef -----------------------------------------------------------*/
 #define MAX_MOTOR 4 
+#define FLOWMETER_TIME_SAMPLING 1000 //100ms = 1s
 //enum
 //{
 //  VALVE_START=0,
@@ -31,7 +32,11 @@ typedef struct {
 	uint16_t FlowMeter;
 	
 }motor_t;
-
+typedef struct{
+	uint16_t preVal;
+	uint16_t curVal;
+	float flowVal;	
+} Flow_meter_t;
 
 
 
@@ -53,6 +58,6 @@ static void Motor_Run_Left(uint8_t motor_num);
 static void Motor_Home(uint8_t motor_num);
 void Motor_Stop(uint8_t motor_num);
 void vTaskControlMotor(void *pvParameters);
-
+void vTaskMeasure(void* pvParameters);
 
 #endif

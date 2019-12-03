@@ -47,7 +47,6 @@ enum
 #define uxPriority 2
 /* Private variables ---------------------------------------------------------*/
 ValveHandles_t ValveHandles;
-
 /* Declare a variable of type xQueueHandle.  This is used to store the queue
 that is accessed by all three tasks. */
 
@@ -86,12 +85,12 @@ static void vTaskZWAVE(void *pvParameters);
 		ValveHandles.xQueue = xQueueCreate( 1, sizeof(uint8_t)) ;
 		ValveHandles.xQueueControl = xQueueCreate(1, 	sizeof( Data_motor_t ));
 		ValveHandles.xQueueReponse = xQueueCreate(1, sizeof(Data_motor_t));
-		   
     xTaskCreate(vTaskLED,"Task LED",configMINIMAL_STACK_SIZE,NULL,uxPriority,NULL);
 		//xTaskCreate(vTaskUART,"Task UART", configMINIMAL_STACK_SIZE,NULL,1,NULL);
 		xTaskCreate(vTaskZmReceiver,"Task ZWAVE", configMINIMAL_STACK_SIZE*2,(void *)&ValveHandles,uxPriority,NULL);
+		xTaskCreate(vTaskZmPeriodic,"Task ZWAVE sent period report", configMINIMAL_STACK_SIZE,(void *)&ValveHandles,uxPriority,NULL);
 		xTaskCreate(vTaskControlMotor,"Task Control Motor", configMINIMAL_STACK_SIZE*8, (void *) &ValveHandles, uxPriority, 	NULL);
-				
+		xTaskCreate(vTaskMeasure,"Task Measure flow of water", configMINIMAL_STACK_SIZE, (void *)&ValveHandles, uxPriority,   NULL);		
 					
 					/* Start scheduler */
 		

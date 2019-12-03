@@ -48,6 +48,7 @@
 /* Private variables ---------------------------------------------------------*/
 T_CON_TYPE cmd_ready;
 uint16_t capture = 0;
+uint16_t flowCounter[4];
 extern ValveHandles_t ValveHandles;
 
 /**
@@ -190,6 +191,62 @@ void EXTI1_IRQHandler(void)
 	}						
 	EXTI_ClearFlag(EXTI_Line1);
 }
+void EXTI2_IRQHandler(void)
+{
+	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+
+	if (GPIO_ReadInputDataBit(MOTOR3_SA_GPIO_Port,MOTOR3_SA_Pin)==0)
+	{
+		Motor_Stop(2);
+		Data_motor_t data;
+		data.motor_num = 2;
+		data.state = 0x00;
+		xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
+		
+	}
+	EXTI_ClearFlag(EXTI_Line2);
+}
+void EXTI3_IRQHandler(void)
+{
+	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+
+	if (GPIO_ReadInputDataBit(MOTOR3_SB_GPIO_Port,MOTOR3_SB_Pin)==0)
+	{
+		Motor_Stop(2);
+		Data_motor_t data;
+		data.motor_num = 2;
+		data.state = 0xff;
+		xQueueSendFromISR(ValveHandles.xQueueReponse,&data,&xHigherPriorityTaskWoken) ;
+		
+	}
+	EXTI_ClearFlag(EXTI_Line3);
+}
+void EXTI4_IRQHandler(void)
+{
+	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+
+	if (GPIO_ReadInputDataBit(MOTOR3_SA_GPIO_Port,MOTOR3_SA_Pin)==0)
+	{
+		Motor_Stop(1);
+		Data_motor_t data;
+		data.motor_num = 1;
+		data.state = 0x00;
+		xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
+		EXTI_ClearFlag(EXTI_Line4);
+	}
+	if (GPIO_ReadInputDataBit(BTN_1_GPIO_Port,BTN_1_Pin) ==0 )
+	{
+			Data_motor_t data ;
+			data.motor_num = 1;
+			data.state = 0;
+			xQueueSendFromISR(ValveHandles.xQueueControl,&data,&xHigherPriorityTaskWoken) ;
+			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+		
+		EXTI_ClearFlag(EXTI_Line4);
+		
+	}
+	EXTI_ClearFlag(EXTI_Line4);
+}
 void EXTI9_5_IRQHandler(void)
 {
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
@@ -210,30 +267,49 @@ void EXTI9_5_IRQHandler(void)
 
 	
 }
-void EXTI4_IRQHandler(void)
+void EXTI15_10_IRQHandler(void) 
 {
-			portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-			//uint8_t data1;
-			Data_motor_t data ;
-			data.motor_num = 3;
-			data.state = 0;
-			xQueueSendFromISR(ValveHandles.xQueueControl,&data,&xHigherPriorityTaskWoken) ;
-			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+	if (EXTI_GetITStatus(EXTI_Line12))
+	{
+		flowCounter[0]++;
+		EXTI_ClearFlag(EXTI_Line12);
+
 		
-		EXTI_ClearFlag(EXTI_Line4);
+	}
+	if (EXTI_GetITStatus(EXTI_Line13))
+	{
+		flowCounter[1]++;
+		EXTI_ClearFlag(EXTI_Line13);
+
+	}
+	if (EXTI_GetITStatus(EXTI_Line14))
+	{
+		flowCounter[2]++;
+		EXTI_ClearFlag(EXTI_Line14);
+
+		
+	}
+	if (EXTI_GetITStatus(EXTI_Line15))
+	{
+		flowCounter[3]++;
+		EXTI_ClearFlag(EXTI_Line15);
+
+		
+	}
 }
-void USART2_IRQHandler(void)
-{
-	if(USART_GetITStatus(DBG_UART, USART_IT_RXNE) != RESET)//enter interrupt when STM32 receice data.
-      {
-       //  GPIO_SetBits(LED1_GPIO_Port,LED1_Pin);
-      //printf("UASART2 Interrupt RX");
-			cmd_ready = Uart_update(TRUE);
-			USART_ClearITPendingBit(DBG_UART, USART_IT_RXNE);
-				// GPIO_ResetBits(LED1_GPIO_Port,LED1_Pin);
-      }
-    
-}
+
+//void USART2_IRQHandler(void)
+//{
+//	if(USART_GetITStatus(DBG_UART, USART_IT_RXNE) != RESET)//enter interrupt when STM32 receice data.
+//      {
+//       //  GPIO_SetBits(LED1_GPIO_Port,LED1_Pin);
+//      //printf("UASART2 Interrupt RX");
+//			cmd_ready = Uart_update(TRUE);
+//			USART_ClearITPendingBit(DBG_UART, USART_IT_RXNE);
+//				// GPIO_ResetBits(LED1_GPIO_Port,LED1_Pin);
+//      }
+//    
+//}
 
 
 void UART5_IRQHandler(void)

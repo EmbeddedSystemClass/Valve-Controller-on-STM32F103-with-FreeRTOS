@@ -31,7 +31,8 @@
 #include "Valve.h"
 #include "main.h"
 
-
+Flow_meter_t Flow_meter[4];
+extern uint16_t flowCounter[4];
 /* Private variables ---------------------------------------------------------*/
 //extern xQueueHandle xQueueControl;
 /* Define GPIO Port Array for ez Index */
@@ -133,7 +134,15 @@ void Motor_Init(void)
 		
 		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource0);
 		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource1);
-			EXTI_InitStructure.EXTI_Line = EXTI_Line0|EXTI_Line1;
+		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource2);
+		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource3);
+		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource4);
+		//GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource5); CAUSE CANNOT INTERRUPT FOR XBTN2
+		
+
+		
+			EXTI_InitStructure.EXTI_Line = EXTI_Line0|EXTI_Line1|EXTI_Line2|EXTI_Line3|
+		EXTI_Line4|EXTI_Line5|EXTI_Line12|EXTI_Line13|EXTI_Line14|EXTI_Line15;
 			EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
 			EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;  
 			EXTI_InitStructure.EXTI_LineCmd = ENABLE;
@@ -148,7 +157,27 @@ void Motor_Init(void)
 			NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 			NVIC_Init(&NVIC_InitStructure);
 			NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;
-			NVIC_Init(&NVIC_InitStructure);	
+			NVIC_Init(&NVIC_InitStructure);
+			NVIC_InitStructure.NVIC_IRQChannel = EXTI2_IRQn;
+			NVIC_Init(&NVIC_InitStructure);
+			NVIC_InitStructure.NVIC_IRQChannel = EXTI3_IRQn;
+			NVIC_Init(&NVIC_InitStructure);
+			NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
+			NVIC_Init(&NVIC_InitStructure);
+			NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
+			NVIC_Init(&NVIC_InitStructure);
+			
+			NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
+			NVIC_Init(&NVIC_InitStructure);
+		
+		GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource12);
+		GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
+		GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource14);
+		GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource15);
+	//
+	
+	
+	
 	//Home all
 		Motor_Run_Right(3);
 		for (int motor= 0; motor < MAX_MOTOR;motor++)
@@ -187,6 +216,13 @@ void Motor_Stop(uint8_t motor_num)
 	GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_A[motor_num]);
 	GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
 }
+float  getMeasure(uint8_t motor)
+{
+	float retVal = (float)flowCounter[motor]/98; // caculating 
+	flowCounter[motor]= 0;
+	return retVal; 
+}
+
 //static bool Motor_Get_State()
 void vTaskControlMotor(void *pvParameters)
 {
@@ -226,13 +262,13 @@ void vTaskControlMotor(void *pvParameters)
 								case MOTOR_RUN_LEFT:
 								{
 									Motor_Run_Left(motor_num);
-									MotorState[motor_num] = MOTOR_AT_LEFT;
+									//MotorState[motor_num] = MOTOR_AT_LEFT;
 									break;
 								}
 								case MOTOR_RUN_RIGHT:
 								{
 									Motor_Run_Right(motor_num);
-									MotorState[motor_num] = MOTOR_AT_RIGHT;
+									//MotorState[motor_num] = MOTOR_AT_RIGHT;
 									break;
 								}
 								
@@ -241,5 +277,23 @@ void vTaskControlMotor(void *pvParameters)
 				}
 			
 }
+
+void vTaskMeasure(void* pvParameters)
+{
+	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+
+	while(1)
+	{
+		for (uint8_t motor_num=0; motor_num <MAX_MOTOR;motor_num++)
+		{			
+		(pxValveHandles->Flowmeter[motor_num]) = getMeasure(motor_num);
+		printf(" FLowmeter %d %f L/Min \r\n ",motor_num,pxValveHandles->Flowmeter[motor_num]);
+		}
+		vTaskDelay(1000);
+		
+	}
+}
+
+
 
 	
