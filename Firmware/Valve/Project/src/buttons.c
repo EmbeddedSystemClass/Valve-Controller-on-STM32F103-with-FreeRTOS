@@ -25,59 +25,66 @@ sw_t switchState(int SWnumber)
 	
     switch    (SWnumber)
         {
-            case 1:
+            case 0:
                 if (GPIO_ReadInputDataBit(BTN_1_GPIO_Port,BTN_1_Pin)==0) return PRESSED;
                 else return RELEASED;
 
-            case 2:
+            case 1:
                if (GPIO_ReadInputDataBit(BTN_2_GPIO_Port,BTN_2_Pin)==0) return PRESSED;
                 else return RELEASED;
-						case 3:
+						case 2:
 						if (GPIO_ReadInputDataBit(BTN_3_GPIO_Port,BTN_3_Pin)==0) return PRESSED;
                 else return RELEASED;
 
         }
 }
 
-//void vTaskButton1(void *pvParameters)
-//{
-//	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
-//	vTaskDelay(10);
-//portBASE_TYPE xStatus;
-//    const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
-//    sw_t    preVal, currentVal;
-//    Data_t  data;
-//	
+void vTaskButton1(void *pvParameters)
+{
+	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+	vTaskDelay(10);
+    portBASE_TYPE xStatus;
+   const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
+   sw_t    preVal[3], currentVal[3];
+   Data_t  data[3];
+	
 
-//    data.taskSource = xBTN1;
-//    preVal = switchState(1);
-//    for( ;; )
-//    {
-//			vTaskDelay(10);
-//       currentVal = switchState(1);		
-//        if (currentVal != preVal)
-//        {
-//					preVal = currentVal;
-//						if (currentVal == PRESSED)
-//								{
-//									data.buttonValue = currentVal;
-//									xStatus = xQueueSend( pxValveHandles->xQueue, &data, xTicksToWait );
-//									if (xStatus == pdPASS)
-//									{
-//										printf("btn1 send ok");
-//									}
-//									else {
-//										printf("btn2 sent not ok");
-//									}
-//								}
-//								else
-//								{
-//	
-//								}
-//        }
-//			}
-//    
-//}
+   data[0].taskSource = xBTN1;
+   data[1].taskSource = xBTN2;
+   data[2].taskSource = xBTN3;
+   preVal[0] = switchState(0);
+   preVal[1] = switchState(1);
+   preVal[2] = switchState(2);
+   for( ;; )
+   {
+       for (uint8_t btn_num =0 ; btn_num<3 ; btn_num++)
+       {
+            currentVal[btn_num] = switchState(btn_num);		
+        if (currentVal[btn_num] != preVal[btn_num])
+            {
+					preVal[btn_num] = currentVal[btn_num];
+						if (currentVal[btn_num] == PRESSED)
+								{
+									data[btn_num].buttonValue = currentVal[btn_num];
+									xStatus = xQueueSend( pxValveHandles->xQueue, &data[btn_num], xTicksToWait );
+									if (xStatus == pdPASS)
+									{
+										printf("BTN send ok");
+									}
+									else {
+										printf("BTN sent not ok");
+									}
+								}
+								else
+								{
+	
+								}
+            }
+	    }
+  }
+     
+   
+}
 
 //void vTaskButton2(void *pvParameters)
 //{

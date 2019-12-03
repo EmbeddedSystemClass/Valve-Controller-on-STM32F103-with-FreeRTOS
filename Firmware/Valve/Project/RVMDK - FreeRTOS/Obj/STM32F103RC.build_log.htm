@@ -27,34 +27,36 @@ Project File Date:  11/26/2019
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F103RC'
-compiling main.c...
-..\inc\eeprom.h(16): warning:  #1-D: last line of file ends without a newline
-  #endif
+compiling Valve.c...
+..\inc\zwave.h(30): warning:  #1-D: last line of file ends without a newline
+  #endif 
 ..\inc\hw_config.h(123): warning:  #1-D: last line of file ends without a newline
   #endif
-..\inc\valve.h(63): warning:  #1-D: last line of file ends without a newline
+..\inc\Valve.h(63): warning:  #1-D: last line of file ends without a newline
   #endif
-..\inc\zwave.h(31): warning:  #1-D: last line of file ends without a newline
-  #endif 
-..\src\main.c(131): warning:  #177-D: variable "pxValveHandles"  was declared but never referenced
-  	    ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
-..\src\main.c(133): warning:  #550-D: variable "THH"  was set but never used
-  	uint32_t THH = 0, TMM = 0, TSS = 0;
-..\src\main.c(133): warning:  #550-D: variable "TMM"  was set but never used
-  	uint32_t THH = 0, TMM = 0, TSS = 0;
-..\src\main.c(133): warning:  #550-D: variable "TSS"  was set but never used
-  	uint32_t THH = 0, TMM = 0, TSS = 0;
-..\src\main.c(134): warning:  #177-D: variable "data"  was declared but never referenced
-  		char data= 0xff;
-..\src\main.c(129): warning:  #177-D: function "vTaskUART"  was declared but never referenced
-  static void vTaskUART(void *pvParameters)
-..\src\main.c(62): warning:  #177-D: function "vTaskZWAVE"  was declared but never referenced
-  static void vTaskZWAVE(void *pvParameters);
-..\src\main.c: 11 warnings, 0 errors
+..\inc\eeprom.h(16): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\src\Valve.c(133): warning:  #9-D: nested comment is not allowed
+  		/*NVIC for StopSensor/*/
+..\src\Valve.c(134): warning:  #550-D: variable "EXTI_InitStructure"  was set but never used
+  			EXTI_InitTypeDef   EXTI_InitStructure;
+..\src\Valve.c(246): warning:  #188-D: enumerated type mixed with another type
+  				MotorState[data_control.motor_num] = (data_control.state ==0)?2:3;
+..\src\Valve.c(234): warning:  #177-D: variable "data_reponse"  was declared but never referenced
+  		Data_motor_t data_reponse;
+..\src\Valve.c(236): warning:  #177-D: variable "xTicksToWait"  was declared but never referenced
+      const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
+..\src\Valve.c(238): warning:  #177-D: variable "buf"  was declared but never referenced
+  		uint8_t buf = 0;
+..\src\Valve.c(342): warning:  #1-D: last line of file ends without a newline
+  	
+..\src\Valve.c(191): warning:  #177-D: function "Motor_Home"  was declared but never referenced
+  static void Motor_Home(uint8_t motor_num)
+..\src\Valve.c: 12 warnings, 0 errors
 linking...
-Program Size: Code=14740 RO-data=376 RW-data=184 ZI-data=18840  
+Program Size: Code=11668 RO-data=376 RW-data=188 ZI-data=18844  
 FromELF: creating hex file...
-".\Obj\STM32F103RC.axf" - 0 Error(s), 11 Warning(s).
+".\Obj\STM32F103RC.axf" - 0 Error(s), 12 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -68,7 +70,7 @@ Package Vendor: Keil
   C:\Users\NguyenThanhTam\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

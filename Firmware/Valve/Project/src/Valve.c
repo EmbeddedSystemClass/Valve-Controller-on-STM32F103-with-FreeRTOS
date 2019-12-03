@@ -92,6 +92,7 @@ const uint16_t MOTOR_PIN_B[MAX_MOTOR] =
 	MOTOR3_B_Pin,
 	MOTOR4_B_Pin
 };
+state_t MotorState[MAX_MOTOR]= {MOTOR_RUN_LEFT,MOTOR_RUN_LEFT,MOTOR_RUN_LEFT,MOTOR_RUN_LEFT};
 
 void Motor_Init(void)
 {
@@ -132,12 +133,12 @@ void Motor_Init(void)
 		/*NVIC for StopSensor/*/
 			EXTI_InitTypeDef   EXTI_InitStructure;
 		
-		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource0);
-		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource1);
-		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource2);
-		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource3);
-		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource4);
-		//GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource5); CAUSE CANNOT INTERRUPT FOR XBTN2
+//		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource0);
+//		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource1);
+//		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource2);
+//		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource3);
+//		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource4);
+//		GPIO_EXTILineConfig(GPIO_PortSourceGPIOC, GPIO_PinSource5);//CAUSE CANNOT INTERRUPT FOR XBTN2
 		
 
 		
@@ -146,7 +147,7 @@ void Motor_Init(void)
 			EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
 			EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;  
 			EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-			EXTI_Init(&EXTI_InitStructure);
+	//	EXTI_Init(&EXTI_InitStructure);
 		
 			NVIC_InitTypeDef   NVIC_InitStructure;
 			NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
@@ -163,13 +164,14 @@ void Motor_Init(void)
 			NVIC_InitStructure.NVIC_IRQChannel = EXTI3_IRQn;
 			NVIC_Init(&NVIC_InitStructure);
 			NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
-			NVIC_Init(&NVIC_InitStructure);
-			NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
-			NVIC_Init(&NVIC_InitStructure);
+			NVIC_Init(&NVIC_InitStructure);	
 			
 			NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
 			NVIC_Init(&NVIC_InitStructure);
 		
+		/*Interrupt for water sensor*/
+			NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
+			NVIC_Init(&NVIC_InitStructure);
 		GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource12);
 		GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);
 		GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource14);
@@ -179,7 +181,7 @@ void Motor_Init(void)
 	
 	
 	//Home all
-		Motor_Run_Right(3);
+	//	Motor_Run_Right(3);
 		for (int motor= 0; motor < MAX_MOTOR;motor++)
 		{
 			
@@ -232,7 +234,7 @@ void vTaskControlMotor(void *pvParameters)
 		Data_motor_t data_reponse;
 		portBASE_TYPE xStatus;
     const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
-		state_t MotorState[MAX_MOTOR];
+		
 		uint8_t buf = 0;
 		while (TRUE)
 		{
@@ -251,12 +253,12 @@ void vTaskControlMotor(void *pvParameters)
 							{
 								case MOTOR_AT_LEFT: // this case seem to be a valve off
 								{
-									
+									Motor_Run_Left(motor_num);
 									break;
 								}
 								case MOTOR_AT_RIGHT: //this case seem to be a valve on
 								{
-									
+									Motor_Run_Right(motor_num);
 									break;
 								}
 								case MOTOR_RUN_LEFT:
@@ -287,11 +289,52 @@ void vTaskMeasure(void* pvParameters)
 		for (uint8_t motor_num=0; motor_num <MAX_MOTOR;motor_num++)
 		{			
 		(pxValveHandles->Flowmeter[motor_num]) = getMeasure(motor_num);
-		printf(" FLowmeter %d %f L/Min \r\n ",motor_num,pxValveHandles->Flowmeter[motor_num]);
+		//printf(" FLowmeter %d %f L/Min \r\n ",motor_num,pxValveHandles->Flowmeter[motor_num]);
 		}
 		vTaskDelay(1000);
 		
 	}
+}
+
+void vTaskStopSensorCheck(void *pvParameters)
+	
+{
+	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+		Data_motor_t data;
+	while(1)
+	{
+		for(uint8_t motor_num=0 ; motor_num < MAX_MOTOR; motor_num++)
+		{
+			if (MotorState[motor_num] == MOTOR_RUN_LEFT )
+				{	
+					if (GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_A[motor_num]) == 0 )
+						{		
+							Motor_Stop(motor_num);							
+							data.motor_num = motor_num;
+							data.state = 0x00;
+							xQueueSend(pxValveHandles->xQueueReponse	,&data, NULL) ;
+							MotorState[motor_num] = MOTOR_AT_LEFT;
+							printf("Motor %d is stop",motor_num);
+						}
+				}
+			else if (MotorState[motor_num] == MOTOR_RUN_RIGHT)
+			{
+				if (GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_B[motor_num]) == 0 )
+						{							
+							Motor_Stop(motor_num);
+							data.motor_num = motor_num;
+							data.state = 0xff;
+							xQueueSend(pxValveHandles->xQueueReponse	,&data, NULL) ;
+							MotorState[motor_num] = MOTOR_AT_RIGHT;
+							printf("Motor %d is stop ",motor_num);
+						}
+			}
+		}
+		
+		
+		
+	}
+	
 }
 
 

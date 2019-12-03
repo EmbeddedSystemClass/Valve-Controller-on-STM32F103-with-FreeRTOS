@@ -82,14 +82,17 @@ static void vTaskZWAVE(void *pvParameters);
 	//	ValveHandles.zwPortMutex		= xSemaphoreCreateMutex();
 //    xTaskCreate(vMainTestTask, "TEST", configMINIMAL_STACK_SIZE*2, NULL, mainLED_TASK_PRIORITY + 1, NULL);
 
-		ValveHandles.xQueue = xQueueCreate( 1, sizeof(uint8_t)) ;
+		ValveHandles.xQueue = xQueueCreate( 1, sizeof(Data_t)) ;
 		ValveHandles.xQueueControl = xQueueCreate(1, 	sizeof( Data_motor_t ));
 		ValveHandles.xQueueReponse = xQueueCreate(1, sizeof(Data_motor_t));
+		
+		xTaskCreate(vTaskButton1,"Task BTNs", configMINIMAL_STACK_SIZE, (void *)&ValveHandles,uxPriority,NULL);
     xTaskCreate(vTaskLED,"Task LED",configMINIMAL_STACK_SIZE,NULL,uxPriority,NULL);
 		//xTaskCreate(vTaskUART,"Task UART", configMINIMAL_STACK_SIZE,NULL,1,NULL);
 		xTaskCreate(vTaskZmReceiver,"Task ZWAVE", configMINIMAL_STACK_SIZE*2,(void *)&ValveHandles,uxPriority,NULL);
 		xTaskCreate(vTaskZmPeriodic,"Task ZWAVE sent period report", configMINIMAL_STACK_SIZE,(void *)&ValveHandles,uxPriority,NULL);
 		xTaskCreate(vTaskControlMotor,"Task Control Motor", configMINIMAL_STACK_SIZE*8, (void *) &ValveHandles, uxPriority, 	NULL);
+		xTaskCreate(vTaskStopSensorCheck,"Task Read stop sensor",configMINIMAL_STACK_SIZE, (void*)&ValveHandles,uxPriority,NULL);
 		xTaskCreate(vTaskMeasure,"Task Measure flow of water", configMINIMAL_STACK_SIZE, (void *)&ValveHandles, uxPriority,   NULL);		
 					
 					/* Start scheduler */
@@ -128,7 +131,7 @@ static void vTaskLED(void *pvParameters)
 
 static void vTaskUART(void *pvParameters)
 {
-	    ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+	ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
 	
 	uint32_t THH = 0, TMM = 0, TSS = 0;
 		char data= 0xff;
@@ -145,7 +148,7 @@ static void vTaskUART(void *pvParameters)
   /* Compute seconds */
   TSS = (TimeVar % 3600) % 60;
 
-		//printf("Time: %0.2d:%0.2d:%0.2d\r", THH, TMM, TSS);
+		printf("Time: %0.2d:%0.2d:%0.2d\r", THH, TMM, TSS);
 		
 		vTaskDelay(5000);		
 	}

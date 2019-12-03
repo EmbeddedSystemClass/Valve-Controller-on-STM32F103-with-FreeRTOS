@@ -225,7 +225,7 @@ void EXTI4_IRQHandler(void)
 {
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
-	if (GPIO_ReadInputDataBit(MOTOR3_SA_GPIO_Port,MOTOR3_SA_Pin)==0)
+	//if (GPIO_ReadInputDataBit(MOTOR3_SA_GPIO_Port,MOTOR3_SA_Pin)==0)
 	{
 		Motor_Stop(1);
 		Data_motor_t data;
@@ -234,39 +234,50 @@ void EXTI4_IRQHandler(void)
 		xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
 		EXTI_ClearFlag(EXTI_Line4);
 	}
-	if (GPIO_ReadInputDataBit(BTN_1_GPIO_Port,BTN_1_Pin) ==0 )
-	{
-			Data_motor_t data ;
-			data.motor_num = 1;
-			data.state = 0;
-			xQueueSendFromISR(ValveHandles.xQueueControl,&data,&xHigherPriorityTaskWoken) ;
-			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
-		
-		EXTI_ClearFlag(EXTI_Line4);
-		
-	}
+//	if (GPIO_ReadInputDataBit(BTN_1_GPIO_Port,BTN_1_Pin) ==0 )
+//	{
+//			Data_motor_t data ;
+//			data.motor_num = 1;
+//			data.state = 0;
+//			xQueueSendFromISR(ValveHandles.xQueueControl,&data,&xHigherPriorityTaskWoken) ;
+//			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+//		
+//		EXTI_ClearFlag(EXTI_Line4);
+//		
+	//}
 	EXTI_ClearFlag(EXTI_Line4);
 }
 void EXTI9_5_IRQHandler(void)
 {
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+		portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
-		if (EXTI_GetITStatus(EXTI_Line5)){
-			uint8_t data = xBTN2;
-			xQueueSendFromISR(ValveHandles.xQueue,&data,&xHigherPriorityTaskWoken) ;
-			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
-			EXTI_ClearFlag(EXTI_Line5);			
-		}
-	if (EXTI_GetITStatus(EXTI_Line6)){
-		
-		uint8_t data = xBTN3;
-			xQueueSendFromISR(ValveHandles.xQueue,&data,&xHigherPriorityTaskWoken) ;
-			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
-			EXTI_ClearFlag(EXTI_Line6);
-		}
+		{
+		Motor_Stop(1);
+		Data_motor_t data;
+		data.motor_num = 1;
+		data.state = 0x00;
+		xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
+		EXTI_ClearFlag(EXTI_Line4);
+	}
+//	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+
+//		if (EXTI_GetITStatus(EXTI_Line5)){
+//			uint8_t data = xBTN2;
+//			xQueueSendFromISR(ValveHandles.xQueue,&data,&xHigherPriorityTaskWoken) ;
+//			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+//			EXTI_ClearFlag(EXTI_Line5);			
+//		}
+//	if (EXTI_GetITStatus(EXTI_Line6)){
+//		
+//		uint8_t data = xBTN3;
+//			xQueueSendFromISR(ValveHandles.xQueue,&data,&xHigherPriorityTaskWoken) ;
+//			portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+//			EXTI_ClearFlag(EXTI_Line6);
+//		}
 
 	
 }
+
 void EXTI15_10_IRQHandler(void) 
 {
 	if (EXTI_GetITStatus(EXTI_Line12))

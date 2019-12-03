@@ -54,7 +54,7 @@ void vTaskZmReceiver(void *pvParameters)
   BOOL ZW_appversion_send = FALSE;
   BOOL ZW_getconnect_send = FALSE;
 	uint8_t tryCounter = 0;
-	uint8_t  data_btn;
+	Data_t  data_btn;
 	while (1)
 	{
 		switch(Zwave_mode)
@@ -120,11 +120,11 @@ void vTaskZmReceiver(void *pvParameters)
 				xStatus = xQueueReceive(pxValveHandles->xQueue,&data_btn,NULL );
 				if (xStatus == pdPASS)
 				{
-					if (data_btn == xBTN2)
+					if (data_btn.taskSource == xBTN2)
 					{
 						Zwave_mode = ZWAVE_CONNECT;
 					}
-					if (data_btn == xBTN3)
+					if (data_btn.taskSource == xBTN3)
 					{
 						Zwave_mode = ZWAVE_EXC;
 					}

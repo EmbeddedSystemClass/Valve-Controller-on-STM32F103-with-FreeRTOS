@@ -55,9 +55,9 @@ static void BTNs_Init(void)
     */
 	EXTI_InitTypeDef   EXTI_InitStructure;
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource4);
-	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource5);
-	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource6);
+	//GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource4);
+	//GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource5);
+	///GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource6);
 
 
 //	
@@ -65,7 +65,7 @@ static void BTNs_Init(void)
 	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
   EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;  
   EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-  EXTI_Init(&EXTI_InitStructure);
+  //EXTI_Init(&EXTI_InitStructure);
 	
 //	  /* Enable and set EXTI Interrupt to the lowest priority */
 	NVIC_InitTypeDef   NVIC_InitStructure;

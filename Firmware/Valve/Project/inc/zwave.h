@@ -17,7 +17,6 @@ typedef enum {
 	ZWAVE_CONNECT,
 	ZWAVE_IDLE,
   ZWAVE_RESET,
-	ZWAVE_PERIOD,
   ZWAVE_EXC      // zwave exclusion mode
 } zwave_mode_t;
 

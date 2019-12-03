@@ -59,5 +59,5 @@ static void Motor_Home(uint8_t motor_num);
 void Motor_Stop(uint8_t motor_num);
 void vTaskControlMotor(void *pvParameters);
 void vTaskMeasure(void* pvParameters);
-
+void vTaskStopSensorCheck(void *pvParameters);
 #endif
