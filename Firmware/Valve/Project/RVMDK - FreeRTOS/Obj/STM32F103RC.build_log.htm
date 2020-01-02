@@ -27,36 +27,26 @@ Project File Date:  11/26/2019
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F103RC'
-compiling Valve.c...
+compiling zwave.c...
 ..\inc\zwave.h(30): warning:  #1-D: last line of file ends without a newline
   #endif 
 ..\inc\hw_config.h(123): warning:  #1-D: last line of file ends without a newline
   #endif
-..\inc\Valve.h(63): warning:  #1-D: last line of file ends without a newline
+..\inc\Valve.h(67): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\inc\eeprom.h(16): warning:  #1-D: last line of file ends without a newline
   #endif
-..\src\Valve.c(133): warning:  #9-D: nested comment is not allowed
-  		/*NVIC for StopSensor/*/
-..\src\Valve.c(134): warning:  #550-D: variable "EXTI_InitStructure"  was set but never used
-  			EXTI_InitTypeDef   EXTI_InitStructure;
-..\src\Valve.c(246): warning:  #188-D: enumerated type mixed with another type
-  				MotorState[data_control.motor_num] = (data_control.state ==0)?2:3;
-..\src\Valve.c(234): warning:  #177-D: variable "data_reponse"  was declared but never referenced
-  		Data_motor_t data_reponse;
-..\src\Valve.c(236): warning:  #177-D: variable "xTicksToWait"  was declared but never referenced
-      const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
-..\src\Valve.c(238): warning:  #177-D: variable "buf"  was declared but never referenced
-  		uint8_t buf = 0;
-..\src\Valve.c(342): warning:  #1-D: last line of file ends without a newline
-  	
-..\src\Valve.c(191): warning:  #177-D: function "Motor_Home"  was declared but never referenced
-  static void Motor_Home(uint8_t motor_num)
-..\src\Valve.c: 12 warnings, 0 errors
+..\src\zwave.c(52): warning:  #177-D: variable "ZW_ready"  was declared but never referenced
+  	BOOL ZW_ready =FALSE;
+..\src\zwave.c(54): warning:  #177-D: variable "ZW_appversion_send"  was declared but never referenced
+    BOOL ZW_appversion_send = FALSE;
+..\src\zwave.c(55): warning:  #177-D: variable "ZW_getconnect_send"  was declared but never referenced
+    BOOL ZW_getconnect_send = FALSE;
+..\src\zwave.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=11668 RO-data=376 RW-data=188 ZI-data=18844  
+Program Size: Code=11884 RO-data=376 RW-data=192 ZI-data=18840  
 FromELF: creating hex file...
-".\Obj\STM32F103RC.axf" - 0 Error(s), 12 Warning(s).
+".\Obj\STM32F103RC.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 

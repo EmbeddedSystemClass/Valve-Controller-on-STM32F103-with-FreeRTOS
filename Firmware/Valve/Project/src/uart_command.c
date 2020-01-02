@@ -10,9 +10,10 @@
  *
  * Author:   Tuan Nguyen Khac Phuong
  *
- * Last Changed By:  $Author: TNKP $
+ * Last Changed By:  $User: NTT $
  * Revision:         $Revision: 1.0 $
  * Last Changed:     $Date: 2018-01-31 14:01:44 +0700 (We, 31 January 2018) $
+ 
  *
  ****************************************************************************/
 

@@ -64,7 +64,29 @@ void vTaskZmReceiver(void *pvParameters)
 				
 				break;
 			}
-			
+			case ZWAVE_RESET:
+			{
+				uart_cmd.zw_uartcommandset.length = 3;
+        uart_cmd.zw_uartcommandset.cmd =COMMAND_ZWAVE_RESET;
+        uart_cmd.zw_uartcommandset.type =  ZW_SET_RESET;
+        if (Uart_send_command(uart_cmd)==0)
+							{
+									printf("\r\n Failed to send data to ZW \r\n");
+									vTaskDelay(500);
+								/*
+								Reset Zwave device when cannot connect after 10 times trying to connect
+								*/
+									tryCounter++;
+									if(tryCounter == 10) 
+										Zwave_mode = ZWAVE_IDLE ;
+							}		
+					else
+							{
+								printf("\r\n ZWave communication OK: Sent EXCLUSION \r\n");
+									Zwave_mode = ZWAVE_IDLE;
+							}
+        break;
+			}
       case ZWAVE_EXC:
       {
         uart_cmd.zw_uartcommandset.length = 4;
@@ -127,6 +149,10 @@ void vTaskZmReceiver(void *pvParameters)
 					if (data_btn.taskSource == xBTN3)
 					{
 						Zwave_mode = ZWAVE_EXC;
+					}
+					if (data_btn.taskSource == xBTN1)
+					{
+						Zwave_mode = ZWAVE_RESET;
 					}
 					
 					break;					

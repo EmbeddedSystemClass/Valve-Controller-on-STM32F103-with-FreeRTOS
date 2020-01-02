@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Obj\STM32F103RC.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Obj\STM32F103RC.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Dec 03 14:33:19 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Jan 02 17:34:04 2020
 <BR><P>
 <H3>Maximum Stack Usage =        168 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -927,7 +927,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[4f]"></a>vTaskStopSensorCheck</STRONG> (Thumb, 162 bytes, Stack size 8 bytes, valve.o(i.vTaskStopSensorCheck))
+<P><STRONG><a name="[4f]"></a>vTaskStopSensorCheck</STRONG> (Thumb, 272 bytes, Stack size 8 bytes, valve.o(i.vTaskStopSensorCheck))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = vTaskStopSensorCheck &rArr; xQueueGenericSend &rArr; vTaskPlaceOnEventList &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Stop
@@ -962,7 +962,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
-<P><STRONG><a name="[4c]"></a>vTaskZmReceiver</STRONG> (Thumb, 528 bytes, Stack size 32 bytes, zwave.o(i.vTaskZmReceiver))
+<P><STRONG><a name="[4c]"></a>vTaskZmReceiver</STRONG> (Thumb, 610 bytes, Stack size 32 bytes, zwave.o(i.vTaskZmReceiver))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = vTaskZmReceiver &rArr; xQueueGenericSend &rArr; vTaskPlaceOnEventList &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive

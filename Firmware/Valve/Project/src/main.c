@@ -95,6 +95,7 @@ static void vTaskZWAVE(void *pvParameters);
 		xTaskCreate(vTaskStopSensorCheck,"Task Read stop sensor",configMINIMAL_STACK_SIZE, (void*)&ValveHandles,uxPriority,NULL);
 		xTaskCreate(vTaskMeasure,"Task Measure flow of water", configMINIMAL_STACK_SIZE, (void *)&ValveHandles, uxPriority,   NULL);		
 					
+
 					/* Start scheduler */
 		
 		vTaskStartScheduler();

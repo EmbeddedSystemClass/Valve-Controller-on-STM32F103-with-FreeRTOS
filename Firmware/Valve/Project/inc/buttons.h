@@ -11,10 +11,13 @@
 typedef     enum 
 {PRESSED=0,
 RELEASED}  sw_t;
-
+typedef enum{
+	SHORT_PRESS = 0,
+	LONG_PRESS
+} sw_data_t;
 typedef struct
 {
-    sw_t buttonValue;
+    sw_data_t buttonValue;
     unsigned int taskSource;
 } Data_t;
 

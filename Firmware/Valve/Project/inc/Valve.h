@@ -21,7 +21,11 @@ typedef enum {
 	MOTOR_RUN_LEFT,
 	MOTOR_RUN_RIGHT
 }state_t;
-
+typedef enum
+{
+	MOTOR_TYPE_0 = 0,  //no stop sensor - control 	
+	MOTOR_TYPE_1       // stop sensor 
+}motorType_t;
 typedef struct{
 	uint8_t motor_num;
 	uint8_t state;

@@ -33,6 +33,9 @@
 
 Flow_meter_t Flow_meter[4];
 extern uint16_t flowCounter[4];
+
+
+
 /* Private variables ---------------------------------------------------------*/
 //extern xQueueHandle xQueueControl;
 /* Define GPIO Port Array for ez Index */
@@ -93,6 +96,7 @@ const uint16_t MOTOR_PIN_B[MAX_MOTOR] =
 	MOTOR4_B_Pin
 };
 state_t MotorState[MAX_MOTOR]= {MOTOR_RUN_LEFT,MOTOR_RUN_LEFT,MOTOR_RUN_LEFT,MOTOR_RUN_LEFT};
+motorType_t MotorType[MAX_MOTOR] = {MOTOR_TYPE_0,MOTOR_TYPE_0,MOTOR_TYPE_1,MOTOR_TYPE_1};
 
 void Motor_Init(void)
 {
@@ -200,8 +204,8 @@ static void Motor_Run_Left(uint8_t motor_num)
 	{
 		if(GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_A[motor_num]))
 		{
-		GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_A[motor_num]);
-		GPIO_SetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
+			GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_A[motor_num]);
+			GPIO_SetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
 		}
 		
 	}
@@ -209,8 +213,8 @@ static void Motor_Run_Right(uint8_t motor_num)
 	{
 		if(GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_B[motor_num]))
 		{
-		GPIO_SetBits(MOTOR_PORT[motor_num],MOTOR_PIN_A[motor_num]);
-		GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
+			GPIO_SetBits(MOTOR_PORT[motor_num],MOTOR_PIN_A[motor_num]);
+			GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
 		}
 	}
 void Motor_Stop(uint8_t motor_num)
@@ -305,33 +309,64 @@ void vTaskStopSensorCheck(void *pvParameters)
 	{
 		for(uint8_t motor_num=0 ; motor_num < MAX_MOTOR; motor_num++)
 		{
-			if (MotorState[motor_num] == MOTOR_RUN_LEFT )
-				{	
-					if (GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_A[motor_num]) == 0 )
-						{		
-							Motor_Stop(motor_num);							
-							data.motor_num = motor_num;
-							data.state = 0x00;
-							xQueueSend(pxValveHandles->xQueueReponse	,&data, NULL) ;
-							MotorState[motor_num] = MOTOR_AT_LEFT;
-							printf("Motor %d is stop",motor_num);
-						}
-				}
-			else if (MotorState[motor_num] == MOTOR_RUN_RIGHT)
+			switch (MotorType[motor_num])
 			{
-				if (GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_B[motor_num]) == 0 )
-						{							
-							Motor_Stop(motor_num);
-							data.motor_num = motor_num;
-							data.state = 0xff;
-							xQueueSend(pxValveHandles->xQueueReponse	,&data, NULL) ;
-							MotorState[motor_num] = MOTOR_AT_RIGHT;
-							printf("Motor %d is stop ",motor_num);
+				/*
+				Type 0 have no sensor to determine valve is on/off
+				
+				*/
+				case MOTOR_TYPE_0:
+				{
+					if (MotorState[motor_num] == MOTOR_RUN_LEFT )
+						{	
+									//Motor_Stop(motor_num);							
+									data.motor_num = motor_num;
+									data.state = 0x00;
+									xQueueSend(pxValveHandles->xQueueReponse	,&data, NULL) ;
+									MotorState[motor_num] = MOTOR_AT_LEFT;
+									printf("Motor %d is stop",motor_num);
 						}
-			}
+					else if (MotorState[motor_num] == MOTOR_RUN_RIGHT)
+						{
+								//Motor_Stop(motor_num);
+								data.motor_num = motor_num;
+								data.state = 0xff;
+								xQueueSend(pxValveHandles->xQueueReponse	,&data, NULL) ;
+								MotorState[motor_num] = MOTOR_AT_RIGHT;
+								printf("Motor %d is stop ",motor_num);
+						}
+					break;
+				}
+				case MOTOR_TYPE_1:
+				{
+					if (MotorState[motor_num] == MOTOR_RUN_LEFT )
+						{	
+							if (GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_A[motor_num]) == 0 )
+								{		
+									Motor_Stop(motor_num);							
+									data.motor_num = motor_num;
+									data.state = 0x00;
+									xQueueSend(pxValveHandles->xQueueReponse	,&data, NULL) ;
+									MotorState[motor_num] = MOTOR_AT_LEFT;
+									printf("Motor %d is stop",motor_num);
+								}
+						}
+					else if (MotorState[motor_num] == MOTOR_RUN_RIGHT)
+						{
+							if (GPIO_ReadInputDataBit(SENSOR_PORT[motor_num],SENSOR_PIN_B[motor_num]) == 0 )
+								{							
+								Motor_Stop(motor_num);
+								data.motor_num = motor_num;
+								data.state = 0xff;
+								xQueueSend(pxValveHandles->xQueueReponse	,&data, NULL) ;
+								MotorState[motor_num] = MOTOR_AT_RIGHT;
+								printf("Motor %d is stop ",motor_num);
+								}
+						}
+					break;
+				}
 		}
-		
-		
+	}
 		
 	}
 	
