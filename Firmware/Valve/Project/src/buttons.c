@@ -46,41 +46,142 @@ void vTaskButton1(void *pvParameters)
     portBASE_TYPE xStatus;
    const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
    sw_t    preVal[3], currentVal[3];
-   Data_t  data[3];
-	
+   sw_data_t  swData[3];
+  led_object_t ledData;
 
-   data[0].taskSource = xBTN1;
-   data[1].taskSource = xBTN2;
-   data[2].taskSource = xBTN3;
-   preVal[0] = switchState(0);
-   preVal[1] = switchState(1);
-   preVal[2] = switchState(2);
+   swData[0].swTaskSource = xBTN1;
+   swData[1].swTaskSource = xBTN2;
+   swData[2].swTaskSource = xBTN3;
+  //  preVal[0] = switchState(0);
+  //  preVal[1] = switchState(1);
+  //  preVal[2] = switchState(2);
+   sw_object_t swObject[xMAX_BUTTON_NUM] ={
+      {.swState =  WAITING, .detectTimeInterval = 0, .resetTimeInterval =0 },
+      {.swState =  WAITING, .detectTimeInterval = 0, .resetTimeInterval =0},
+      {.swState =  WAITING, .detectTimeInterval = 0, .resetTimeInterval =0},
+   };
+	  // sw_state_t swState[xMAX_BUTTON_NUM] = { WAITING,WAITING,WAITING}
    for( ;; )
-   {
-       for (uint8_t btn_num =0 ; btn_num<3 ; btn_num++)
-       {
-            currentVal[btn_num] = switchState(btn_num);		
-        if (currentVal[btn_num] != preVal[btn_num])
+   {  
+        vTaskDelay(MIN_WAITING_MS);
+				for (uint8_t btn_num = 0; btn_num < xMAX_BUTTON_NUM; btn_num++)
+			 {
+					switch (swObject[btn_num].swState)
+          {
+          case WAITING:
+          {
+            if (switchState(btn_num) ==  PRESSED) 
             {
-					preVal[btn_num] = currentVal[btn_num];
-						if (currentVal[btn_num] == PRESSED)
-								{
-									data[btn_num].buttonValue = currentVal[btn_num];
-									xStatus = xQueueSend( pxValveHandles->xQueue, &data[btn_num], xTicksToWait );
-									if (xStatus == pdPASS)
-									{
-										printf("BTN send ok");
-									}
-									else {
-										printf("BTN sent not ok");
-									}
-								}
-								else
-								{
-	
-								}
+              swObject[btn_num].detectTimeInterval ++ ;
+              if (swObject[btn_num].detectTimeInterval >= MIN_WAITING_MS)
+              {
+                swObject[btn_num].swState = PREAMBLE;
+                swObject[btn_num].detectTimeInterval  = 0;
+              }
             }
-	    }
+            break;
+          }
+          case  PREAMBLE:
+          /*
+            this case to decide what button do
+          */
+          {
+            if (switchState(btn_num) ==  PRESSED)
+            {
+               swObject[btn_num].detectTimeInterval ++ ;
+              if (swObject[btn_num].detectTimeInterval >= 10*MAX_WAITING_MS)
+              {
+                swObject[btn_num].swState = LONG;
+                swObject[btn_num].detectTimeInterval  = 0;
+              }
+            }
+            else if ( switchState(btn_num) ==  RELEASED )
+            {
+                swObject[btn_num].resetTimeInterval ++ ;
+                if (swObject[btn_num].resetTimeInterval >= MAX_WAITING_MS)
+              {
+                swObject[btn_num].swState = SHORT;
+                swObject[btn_num].resetTimeInterval  = 0;
+              }
+            }
+            
+        
+            break;  
+          }
+          case SHORT:
+          {
+						ledData.ledEffect  = BLK;
+						ledData.ledNum     = 1;
+						ledData.timeEffect = 100;
+						ledData.numTime    = 10;
+					//	xStatus = xQueueSend( pxValveHandles->xQueueLedIndicate, &ledData, xTicksToWait );
+
+            swData[btn_num].swData = SHORT_PRESS;
+						xStatus = xQueueSend( pxValveHandles->xQueue, &swData[btn_num], xTicksToWait );
+            swObject[btn_num].swState = END;
+						printf("Send Short");
+						
+            break;  
+          }
+          case LONG:
+          {
+            ledData.ledEffect  = BLK;
+						ledData.ledNum     = 2;
+						ledData.timeEffect = 100;
+						ledData.numTime    = 10;
+					//	xStatus = xQueueSend( pxValveHandles->xQueueLedIndicate, &ledData, xTicksToWait );
+						
+            swData[btn_num].swData = LONG_PRESS;
+						xStatus = xQueueSend( pxValveHandles->xQueue, &swData[btn_num], xTicksToWait );
+            swObject[btn_num].swState = END;
+						printf("Send Long");
+
+            break;  
+          }
+          case DOUBLE:
+          {
+            break;
+
+          }        
+					case END:
+					{
+						if(switchState(btn_num) ==  RELEASED)
+						{							
+							swObject[btn_num].swState = WAITING;
+						}
+						break;
+					}
+          default:
+            break;
+          }
+			 }
+		 
+		 
+		 
+//       for (uint8_t btn_num =0 ; btn_num<3 ; btn_num++)
+//       {
+//            currentVal[btn_num] = switchState(btn_num);		
+//        if (currentVal[btn_num] != preVal[btn_num])
+//            {
+//					preVal[btn_num] = currentVal[btn_num];
+//						if (currentVal[btn_num] == PRESSED)
+//								{
+//									data[btn_num].buttonValue = currentVal[btn_num];
+//									xStatus = xQueueSend( pxValveHandles->xQueue, &data[btn_num], xTicksToWait );
+//									if (xStatus == pdPASS)
+//									{
+//										printf("BTN send ok");
+//									}
+//									else {
+//										printf("BTN sent not ok");
+//									}
+//								}
+//								else
+//								{
+//	
+//								}
+//            }
+//	    }
   }
      
    

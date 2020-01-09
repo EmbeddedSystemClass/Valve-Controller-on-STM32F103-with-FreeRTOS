@@ -82,12 +82,13 @@ static void vTaskZWAVE(void *pvParameters);
 	//	ValveHandles.zwPortMutex		= xSemaphoreCreateMutex();
 //    xTaskCreate(vMainTestTask, "TEST", configMINIMAL_STACK_SIZE*2, NULL, mainLED_TASK_PRIORITY + 1, NULL);
 
-		ValveHandles.xQueue = xQueueCreate( 1, sizeof(Data_t)) ;
+		ValveHandles.xQueue = xQueueCreate( 1, sizeof(sw_data_t)) ;
 		ValveHandles.xQueueControl = xQueueCreate(1, 	sizeof( Data_motor_t ));
 		ValveHandles.xQueueReponse = xQueueCreate(1, sizeof(Data_motor_t));
+		//ValveHandles.xQueueLedIndicate = xQueueCreate(1, sizeof(uint8_t));
 		
 		xTaskCreate(vTaskButton1,"Task BTNs", configMINIMAL_STACK_SIZE, (void *)&ValveHandles,uxPriority,NULL);
-    xTaskCreate(vTaskLED,"Task LED",configMINIMAL_STACK_SIZE,NULL,uxPriority,NULL);
+ //   xTaskCreate(vTaskLED,"Task LED"      ,configMINIMAL_STACK_SIZE, (void *)&ValveHandles,uxPriority,NULL);
 		//xTaskCreate(vTaskUART,"Task UART", configMINIMAL_STACK_SIZE,NULL,1,NULL);
 		xTaskCreate(vTaskZmReceiver,"Task ZWAVE", configMINIMAL_STACK_SIZE*2,(void *)&ValveHandles,uxPriority,NULL);
 		xTaskCreate(vTaskZmPeriodic,"Task ZWAVE sent period report", configMINIMAL_STACK_SIZE,(void *)&ValveHandles,uxPriority,NULL);
@@ -111,16 +112,74 @@ static void vTaskZWAVE(void *pvParameters);
   * @retval None
   */
 
+//void LEDs_Effect(uint8_t led, led_effect ef )
+//{
+//	
+//}
+/**
+  * @brief  FreeRTOS RGB LED Task
+  * @param  pvParameters not used
+  * @retval None
+  */
 static void vTaskLED(void *pvParameters)
 {
+		ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
+	const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
+	portBASE_TYPE xStatus;
+	led_object_t xData;
+	
+	led_object_t ledObject[MAX_LED];
 	while(1)
 	{
-		GPIO_SetBits(LED1_GPIO_Port,LED1_Pin);
-		vTaskDelay(500);
-		GPIO_ResetBits(LED1_GPIO_Port,LED1_Pin);
-		vTaskDelay(500);
+		xStatus = xQueueReceive(pxValveHandles->xQueueLedIndicate,&xData,xTicksToWait);
+		if (xStatus == pdPASS){
+			ledObject[xData.ledNum].ledEffect = xData.ledEffect;
+			ledObject[xData.ledNum].timeEffect = 2*xData.timeEffect;
+			ledObject[xData.ledNum].numTime = xData.numTime;
+		}	
+		for (uint8_t led_num; led_num < MAX_LED; led_num ++)
+		{
+			switch (ledObject[led_num].ledEffect)
+			{
+				case ON:
+				{
+					LED_Control(led_num, ON );
+					break;
+				}
+				case OFF:
+				{
+					LED_Control(led_num, ON );
+					break;
+				}
+				case BLK:
+				{
+					ledObject[led_num].timerCounter++;
+					if (ledObject[led_num].timerCounter > ledObject[led_num].timeEffect)
+					{
+						ledObject[led_num].timerCounter = 0;
+						LED_Toggle(led_num);
+						if (ledObject[led_num].numTime ==0) 
+							{
+							break;
+							}
+						ledObject[led_num].numTime --;
+						if (ledObject[led_num].numTime ==0 ) 
+							{
+							ledObject[led_num].ledEffect = OFF;
+							}
+
+					}
+					
+					break;
+				}
+				
+		}
+			
+	}
+			vTaskDelay(1); 
 	}
 }
+
 
 /**
   * @brief  FreeRTOS UART Test Task

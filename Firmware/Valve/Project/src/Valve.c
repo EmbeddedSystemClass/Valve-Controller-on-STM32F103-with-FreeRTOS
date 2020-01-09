@@ -96,7 +96,7 @@ const uint16_t MOTOR_PIN_B[MAX_MOTOR] =
 	MOTOR4_B_Pin
 };
 state_t MotorState[MAX_MOTOR]= {MOTOR_RUN_LEFT,MOTOR_RUN_LEFT,MOTOR_RUN_LEFT,MOTOR_RUN_LEFT};
-motorType_t MotorType[MAX_MOTOR] = {MOTOR_TYPE_0,MOTOR_TYPE_0,MOTOR_TYPE_1,MOTOR_TYPE_1};
+motorType_t MotorType[MAX_MOTOR] = {MOTOR_TYPE_1,MOTOR_TYPE_1,MOTOR_TYPE_0,MOTOR_TYPE_0};
 
 void Motor_Init(void)
 {
@@ -247,11 +247,20 @@ void vTaskControlMotor(void *pvParameters)
 	
 			if (xStatus == pdPASS){
 				printf("Motor controller recevied data: %d %d",data_control.motor_num,data_control.state);				
-				MotorState[data_control.motor_num] = (data_control.state ==0)?2:3;
+				if(data_control.motor_num ==  MAX_MOTOR){
+					for (uint8_t motor_num=0;motor_num<MAX_MOTOR;motor_num++)
+					{
+						MotorState[motor_num] = (data_control.state ==0)?2:3;
+					}
+				}
+				else{
+						MotorState[data_control.motor_num] = (data_control.state ==0)?2:3;
+				}
+				
 			}
 			
 			//Get state for each motor refer from queue
-			for (uint8_t motor_num=0;motor_num<MAX_MOTOR;motor_num++)
+			for (uint8_t motor_num = 0;motor_num<MAX_MOTOR;motor_num++)
 					{
 						switch (MotorState[motor_num])
 							{

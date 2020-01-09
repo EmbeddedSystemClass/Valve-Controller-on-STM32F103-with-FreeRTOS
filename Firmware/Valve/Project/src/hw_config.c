@@ -22,7 +22,6 @@
 #include "stm32f10x_rtc.h"
 
 
-
 extern void STM32F1_HW_Init(void)
 {
 	
@@ -204,6 +203,44 @@ static void LEDs_Init(void)
 	GPIO_Init(LED_GPIO_Port,&GPIO_InitStructure);
 	GPIO_SetBits(LED_GPIO_Port,LED2_Pin|LED1_Pin);
 }
+void LED_Control(uint8_t led, led_effect state)
+{
+	
+  switch (led)
+  {
+  case /* constant-expression */ 1:
+  {
+    /* code */
+    GPIO_WriteBit(LED1_GPIO_Port,LED1_Pin,(BitAction)state);
+    break;
+  }
+  case 2:
+  {
+    GPIO_WriteBit(LED1_GPIO_Port,LED1_Pin,(BitAction)state);
+    break;
+  }
+  }
+}
+void LED_Toggle(uint8_t led)
+{
+  switch (led)
+  {
+  case /* constant-expression */ 1:
+  {
+    /* code */
+    GPIO_WriteBit(LED1_GPIO_Port, LED1_Pin, (BitAction)(1 - GPIO_ReadOutputDataBit(LED1_GPIO_Port, LED1_Pin)));
+
+    break;
+  }
+  case 2:
+  {
+    GPIO_WriteBit(LED2_GPIO_Port, LED2_Pin, (BitAction)(1 - GPIO_ReadOutputDataBit(LED2_GPIO_Port, LED2_Pin)));
+
+    break;
+  }
+  }
+}
+
 static void RTC_Init(void)
 {
 	
@@ -220,7 +257,7 @@ static void RTC_Init(void)
     printf("\r\n RTC configured....");
 
     /* Adjust time by values entered by the user on the hyperterminal */
-   // Time_Adjust();
+    Time_Adjust();
 
     BKP_WriteBackupRegister(BKP_DR1, 0xA5A5);
   }
@@ -298,7 +335,9 @@ static void RTC_Configuration(void)
   /* Wait until last write operation on RTC registers has finished */
   RTC_WaitForLastTask();
 }
-uint8_t USART_Scanf(uint32_t value)
+
+
+ uint8_t USART_Scanf(uint32_t value)
 {
   uint32_t index = 0;
   uint32_t tmp[2] = {0, 0};

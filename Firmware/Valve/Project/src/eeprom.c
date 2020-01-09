@@ -16,12 +16,12 @@ void EEPROM_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	I2C_InitTypeDef I2C_InitStructure;
-//	I2C_DeInit(I2C2);
-	
+	I2C_DeInit(I2C2);
 	
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO , ENABLE);
+	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;//OD
@@ -89,7 +89,7 @@ void EEPROM_Write (uint8_t Addr, uint8_t data)
 //			while(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
 
 //			I2C_GenerateSTOP(I2C2, ENABLE);
-				vTaskDelay(5);
+	
 
 }
 uint8_t EEPROM_Read(uint8_t Addr)

@@ -36,6 +36,7 @@ typedef struct {
 	xQueueHandle xQueue;
 	xQueueHandle xQueueControl;
 	xQueueHandle xQueueReponse;
+	xQueueHandle xQueueLedIndicate;
 	float Flowmeter[4];
 } ValveHandles_t;
 typedef struct {

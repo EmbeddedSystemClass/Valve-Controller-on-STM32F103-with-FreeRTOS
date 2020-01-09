@@ -1,10 +1,12 @@
 {
     "files.associations": {
-        "queue.h": "c",
         "array": "c",
         "vector": "c",
         "xstring": "c",
         "xutility": "c",
-        "string": "c"
+        "string": "c",
+        "random": "c",
+        "iosfwd": "c",
+        "xlocbuf": "c"
     }
 }

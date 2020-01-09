@@ -54,7 +54,7 @@ void vTaskZmReceiver(void *pvParameters)
   BOOL ZW_appversion_send = FALSE;
   BOOL ZW_getconnect_send = FALSE;
 	uint8_t tryCounter = 0;
-	Data_t  data_btn;
+	sw_data_t swData;
 	while (1)
 	{
 		switch(Zwave_mode)
@@ -139,21 +139,60 @@ void vTaskZmReceiver(void *pvParameters)
 			{
 				/*Statement for sending message*/
 				//printf("Starting or Handling Zwave device after RESET!");
-				xStatus = xQueueReceive(pxValveHandles->xQueue,&data_btn,NULL );
+				xStatus = xQueueReceive(pxValveHandles->xQueue,&swData,NULL );
 				if (xStatus == pdPASS)
 				{
-					if (data_btn.taskSource == xBTN2)
+//				if (swData.swTaskSource == xBTN2)
+//				{
+//					Zwave_mode = ZWAVE_CONNECT;
+//				}
+//				if (swData.swTaskSource == xBTN3)
+//				{
+//					Zwave_mode = ZWAVE_EXC;
+//				}
+					if (swData.swTaskSource == xBTN1)
 					{
-						Zwave_mode = ZWAVE_CONNECT;
+						if (swData.swData == LONG_PRESS)
+						{
+							Zwave_mode = ZWAVE_RESET;
+						}
+						else if ( swData.swData == SHORT_PRESS)
+						{
+							Zwave_mode = ZWAVE_CONNECT;
+						}
+							
 					}
-					if (data_btn.taskSource == xBTN3)
+					if (swData.swTaskSource == xBTN2)
 					{
-						Zwave_mode = ZWAVE_EXC;
+						if (swData.swData == LONG_PRESS)
+						{
+							// send data to queue for motor task 
+								data_control.motor_num 	=4;
+								data_control.state 			= 255;
+								//uint8_t data;
+								xStatus = xQueueSend( pxValveHandles->xQueueControl, &data_control, xTicksToWait );
+                if( xStatus != pdPASS )
+                {
+                    printf("Could not send to the queue.\n" );
+                }
+						}
 					}
-					if (data_btn.taskSource == xBTN1)
+					if (swData.swTaskSource == xBTN3)
 					{
-						Zwave_mode = ZWAVE_RESET;
+						if (swData.swData == LONG_PRESS)
+						{
+							// send data to queue for motor task 
+								data_control.motor_num 	=4;
+								data_control.state 			= 0;
+								//uint8_t data;
+								xStatus = xQueueSend( pxValveHandles->xQueueControl, &data_control, xTicksToWait );
+                if( xStatus != pdPASS )
+                {
+                    printf("Could not send to the queue.\n" );
+                }
+						}
 					}
+					
 					
 					break;					
 				}	
