@@ -252,4 +252,86 @@
 \i (00:00:20) trapsize 7
 \i (00:00:21) vis 
 \i (00:00:22) generaledit 
-\i (00:00:23) setwindow
+\i (00:00:23) setwindow form.working_visible_form
+\i (00:00:23) FORM working_visible_form visible_all YES 
+\i (00:00:24) setwindow pcb
+\i (00:00:24) zoom out 1 
+\i (00:00:24) setwindow pcb
+\i (00:00:24) zoom out 12149.7 9629.7
+\i (00:00:24) trapsize 13
+\i (00:00:24) zoom out 1 
+\i (00:00:24) setwindow pcb
+\i (00:00:24) zoom out 12149.6 9629.8
+\i (00:00:24) trapsize 26
+\i (00:00:24) zoom out 1 
+\i (00:00:24) setwindow pcb
+\i (00:00:24) zoom out 12149.7 9629.8
+\i (00:00:24) trapsize 53
+\i (00:00:24) zoom out 1 
+\i (00:00:24) setwindow pcb
+\i (00:00:24) zoom out 12149.7 9629.7
+\i (00:00:24) trapsize 105
+\i (00:00:24) zoom out 1 
+\i (00:00:24) setwindow pcb
+\i (00:00:24) zoom out 12149.7 9629.8
+\i (00:00:24) trapsize 210
+\i (00:00:24) zoom out 1 
+\i (00:00:24) setwindow pcb
+\i (00:00:24) zoom out 12149.7 9629.8
+\i (00:00:24) trapsize 421
+\i (00:00:24) zoom out 1 
+\i (00:00:24) setwindow pcb
+\i (00:00:24) zoom out 12149.7 9629.8
+\i (00:00:24) trapsize 842
+\i (00:00:25) zoom out 1 
+\i (00:00:25) setwindow pcb
+\i (00:00:25) zoom out 14141.3 9629.8
+\i (00:00:25) trapsize 1448
+\i (00:00:25) zoom out 1 
+\i (00:00:25) setwindow pcb
+\i (00:00:25) zoom out 24327.1 7298.1
+\i (00:00:25) trapsize 1448
+\i (00:00:25) zoom out 1 
+\i (00:00:25) setwindow pcb
+\i (00:00:25) zoom out 24269.2 7240.2
+\i (00:00:25) trapsize 1448
+\i (00:00:25) zoom out 1 
+\i (00:00:25) setwindow pcb
+\i (00:00:25) zoom out 24211.3 7124.4
+\i (00:00:25) trapsize 1448
+\i (00:00:26) open 
+\i (00:00:28) fillin "VALVECONTROLLER.brd"
+\t (00:00:28) Opening existing design...
+\i (00:00:29) trapsize 4525
+\d (00:00:29) Design opened: C:/GIT/STM32F103_ValveController/Hardware/ValveController/VALVECONTROLLER.brd
+\i (00:00:30) generaledit 
+\i (00:00:30) zoom out 1 
+\i (00:00:30) setwindow pcb
+\i (00:00:30) zoom out 12397.947 13293.014
+\i (00:00:30) trapsize 9050
+\i (00:00:30) zoom out 1 
+\i (00:00:30) setwindow pcb
+\i (00:00:30) zoom out 12397.946 13293.013
+\i (00:00:30) trapsize 18101
+\i (00:00:30) zoom out 1 
+\i (00:00:30) setwindow pcb
+\i (00:00:30) zoom out 12397.946 13293.014
+\i (00:00:30) trapsize 36201
+\i (00:00:30) zoom out 1 
+\i (00:00:30) setwindow pcb
+\i (00:00:30) zoom out 12397.947 13293.014
+\i (00:00:30) trapsize 72402
+\i (00:00:31) zoom in 1 
+\i (00:00:31) setwindow pcb
+\i (00:00:31) zoom in 10790.622 12931.004
+\i (00:00:31) trapsize 36201
+\i (00:00:31) zoom in 1 
+\i (00:00:31) setwindow pcb
+\i (00:00:31) zoom in 10790.622 12931.004
+\i (00:00:31) trapsize 18101
+\i (00:00:31) zoom in 1 
+\i (00:00:31) setwindow pcb
+\i (00:00:31) zoom in 11807.871 12909.284
+\i (00:00:31) trapsize 9050
+\i (00:14:03) exit 
+\t (00:14:04)     Journal end - Mon Jan 13 13:43:07 2020
