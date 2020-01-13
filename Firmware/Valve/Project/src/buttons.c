@@ -47,7 +47,8 @@ void vTaskButton1(void *pvParameters)
    const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
    sw_t    preVal[3], currentVal[3];
    sw_data_t  swData[3];
-  led_object_t ledData;
+		
+	Data_led_t ledData;
 
    swData[0].swTaskSource = xBTN1;
    swData[1].swTaskSource = xBTN2;
@@ -91,8 +92,13 @@ void vTaskButton1(void *pvParameters)
                swObject[btn_num].detectTimeInterval ++ ;
               if (swObject[btn_num].detectTimeInterval >= 10*MAX_WAITING_MS)
               {
-                swObject[btn_num].swState = LONG;
+								ledData.profileNum  = BLK;
+								ledData.ledNum     = 0;						
+								xStatus = xQueueSend( pxValveHandles->xQueueLedIndicate, &ledData, xTicksToWait );
+						
+                swObject[btn_num].swState = LONG_CMP;
                 swObject[btn_num].detectTimeInterval  = 0;
+								swObject[btn_num].resetTimeInterval    =0 ;
               }
             }
             else if ( switchState(btn_num) ==  RELEASED )
@@ -102,6 +108,11 @@ void vTaskButton1(void *pvParameters)
               {
                 swObject[btn_num].swState = SHORT;
                 swObject[btn_num].resetTimeInterval  = 0;
+								ledData.profileNum  = BLK;
+								ledData.ledNum     = 0;
+								
+								xStatus = xQueueSend( pxValveHandles->xQueueLedIndicate, &ledData, xTicksToWait );
+
               }
             }
             
@@ -110,12 +121,7 @@ void vTaskButton1(void *pvParameters)
           }
           case SHORT:
           {
-						ledData.ledEffect  = BLK;
-						ledData.ledNum     = 1;
-						ledData.timeEffect = 100;
-						ledData.numTime    = 10;
-					//	xStatus = xQueueSend( pxValveHandles->xQueueLedIndicate, &ledData, xTicksToWait );
-
+						
             swData[btn_num].swData = SHORT_PRESS;
 						xStatus = xQueueSend( pxValveHandles->xQueue, &swData[btn_num], xTicksToWait );
             swObject[btn_num].swState = END;
@@ -123,14 +129,44 @@ void vTaskButton1(void *pvParameters)
 						
             break;  
           }
-          case LONG:
-          {
-            ledData.ledEffect  = BLK;
-						ledData.ledNum     = 2;
-						ledData.timeEffect = 100;
-						ledData.numTime    = 10;
-					//	xStatus = xQueueSend( pxValveHandles->xQueueLedIndicate, &ledData, xTicksToWait );
+					case LONG_CMP:
+					{
 						
+						if (switchState(btn_num) ==  PRESSED)
+            {
+               swObject[btn_num].detectTimeInterval ++ ;
+              if (swObject[btn_num].detectTimeInterval >= 15*MAX_WAITING_MS)
+              {
+                swObject[btn_num].swState = DBLONG;
+                swObject[btn_num].detectTimeInterval  = 0;
+								ledData.profileNum  = LONG_BLK;
+								ledData.ledNum     = 0;						
+								xStatus = xQueueSend( pxValveHandles->xQueueLedIndicate, &ledData, xTicksToWait );
+              }
+            }
+            else if ( switchState(btn_num) ==  RELEASED )
+            {
+                swObject[btn_num].resetTimeInterval ++ ;
+                if (swObject[btn_num].resetTimeInterval >= MAX_WAITING_MS)
+              {
+                swObject[btn_num].swState = LONG;
+                swObject[btn_num].resetTimeInterval  = 0;
+              }
+            }
+						break;
+					}
+					case DBLONG:
+					{
+						swData[btn_num].swData = DBLONG_PRESS;
+						xStatus = xQueueSend( pxValveHandles->xQueue, &swData[btn_num], xTicksToWait );
+            swObject[btn_num].swState = END;
+						printf("Send DBLong");
+						break;
+						
+					}
+          case LONG:
+          {			             
+												
             swData[btn_num].swData = LONG_PRESS;
 						xStatus = xQueueSend( pxValveHandles->xQueue, &swData[btn_num], xTicksToWait );
             swObject[btn_num].swState = END;

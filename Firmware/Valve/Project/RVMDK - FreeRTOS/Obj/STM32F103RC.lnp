@@ -37,7 +37,7 @@
 ".\obj\event_groups.o"
 ".\obj\stream_buffer.o"
 ".\obj\timers.o"
-".\obj\heap_4.o"
+".\obj\heap_1.o"
 ".\obj\startup_stm32f10x_hd.o"
 ".\obj\system_stm32f10x.o"
 ".\obj\core_cm3.o"

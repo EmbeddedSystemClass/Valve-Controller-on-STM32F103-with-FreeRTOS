@@ -207,6 +207,10 @@ static void Motor_Run_Left(uint8_t motor_num)
 			GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_A[motor_num]);
 			GPIO_SetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
 		}
+		else
+		{
+			Motor_Stop(motor_num);
+		}
 		
 	}
 static void Motor_Run_Right(uint8_t motor_num)
@@ -215,6 +219,10 @@ static void Motor_Run_Right(uint8_t motor_num)
 		{
 			GPIO_SetBits(MOTOR_PORT[motor_num],MOTOR_PIN_A[motor_num]);
 			GPIO_ResetBits(MOTOR_PORT[motor_num],MOTOR_PIN_B[motor_num]);
+		}
+		else
+		{
+			Motor_Stop(motor_num);
 		}
 	}
 void Motor_Stop(uint8_t motor_num)
@@ -301,7 +309,7 @@ void vTaskMeasure(void* pvParameters)
 	{
 		for (uint8_t motor_num=0; motor_num <MAX_MOTOR;motor_num++)
 		{			
-		(pxValveHandles->Flowmeter[motor_num]) = getMeasure(motor_num);
+		//(pxValveHandles->Flowmeter[motor_num]) = getMeasure(motor_num);
 		//printf(" FLowmeter %d %f L/Min \r\n ",motor_num,pxValveHandles->Flowmeter[motor_num]);
 		}
 		vTaskDelay(1000);

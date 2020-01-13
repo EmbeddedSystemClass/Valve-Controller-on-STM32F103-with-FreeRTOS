@@ -20,13 +20,16 @@ RELEASED}  sw_t;
 typedef enum{
 		SHORT_PRESS = 0,
 		LONG_PRESS,
-        DOUBLE_PRESS
+		DBLONG_PRESS,
+		DOUBLE_PRESS
 } sw_action_t;
 typedef enum{
     WAITING = 0,
     PREAMBLE   ,
     SHORT,
     LONG,
+		DBLONG,
+		LONG_CMP,
     DOUBLE,
 		END
 } sw_state_t;

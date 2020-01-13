@@ -203,20 +203,20 @@ static void LEDs_Init(void)
 	GPIO_Init(LED_GPIO_Port,&GPIO_InitStructure);
 	GPIO_SetBits(LED_GPIO_Port,LED2_Pin|LED1_Pin);
 }
-void LED_Control(uint8_t led, led_effect state)
+void LED_Control(uint8_t led, uint8_t state)
 {
 	
   switch (led)
   {
-  case /* constant-expression */ 1:
+  case /* constant-expression */ 0:
   {
     /* code */
     GPIO_WriteBit(LED1_GPIO_Port,LED1_Pin,(BitAction)state);
     break;
   }
-  case 2:
+  case 1:
   {
-    GPIO_WriteBit(LED1_GPIO_Port,LED1_Pin,(BitAction)state);
+    GPIO_WriteBit(LED1_GPIO_Port,LED2_Pin,(BitAction)state);
     break;
   }
   }
@@ -225,14 +225,14 @@ void LED_Toggle(uint8_t led)
 {
   switch (led)
   {
-  case /* constant-expression */ 1:
+  case /* constant-expression */ 0:
   {
     /* code */
     GPIO_WriteBit(LED1_GPIO_Port, LED1_Pin, (BitAction)(1 - GPIO_ReadOutputDataBit(LED1_GPIO_Port, LED1_Pin)));
 
     break;
   }
-  case 2:
+  case 1:
   {
     GPIO_WriteBit(LED2_GPIO_Port, LED2_Pin, (BitAction)(1 - GPIO_ReadOutputDataBit(LED2_GPIO_Port, LED2_Pin)));
 

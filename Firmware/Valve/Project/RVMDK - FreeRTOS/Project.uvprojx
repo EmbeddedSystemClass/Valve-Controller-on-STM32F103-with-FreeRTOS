@@ -649,9 +649,9 @@
               <FilePath>..\..\Utilities\FreeRTOSv10.0.1\timers.c</FilePath>
             </File>
             <File>
-              <FileName>heap_4.c</FileName>
+              <FileName>heap_1.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Utilities\FreeRTOSv10.0.1\portable\MemMang\heap_4.c</FilePath>
+              <FilePath>..\..\Utilities\FreeRTOSv10.0.1\portable\MemMang\heap_1.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1317,9 +1317,9 @@
               <FilePath>..\..\Utilities\FreeRTOSv10.0.1\timers.c</FilePath>
             </File>
             <File>
-              <FileName>heap_4.c</FileName>
+              <FileName>heap_1.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Utilities\FreeRTOSv10.0.1\portable\MemMang\heap_4.c</FilePath>
+              <FilePath>..\..\Utilities\FreeRTOSv10.0.1\portable\MemMang\heap_1.c</FilePath>
             </File>
           </Files>
         </Group>

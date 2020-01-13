@@ -46,6 +46,7 @@ enum
 /* Private macro -------------------------------------------------------------*/
 #define uxPriority 2
 /* Private variables ---------------------------------------------------------*/
+//led_object_t LedObjectProfile[3]
 ValveHandles_t ValveHandles;
 /* Declare a variable of type xQueueHandle.  This is used to store the queue
 that is accessed by all three tasks. */
@@ -82,13 +83,13 @@ static void vTaskZWAVE(void *pvParameters);
 	//	ValveHandles.zwPortMutex		= xSemaphoreCreateMutex();
 //    xTaskCreate(vMainTestTask, "TEST", configMINIMAL_STACK_SIZE*2, NULL, mainLED_TASK_PRIORITY + 1, NULL);
 
-		ValveHandles.xQueue = xQueueCreate( 1, sizeof(sw_data_t)) ;
-		ValveHandles.xQueueControl = xQueueCreate(1, 	sizeof( Data_motor_t ));
-		ValveHandles.xQueueReponse = xQueueCreate(1, sizeof(Data_motor_t));
-		//ValveHandles.xQueueLedIndicate = xQueueCreate(1, sizeof(uint8_t));
+		ValveHandles.xQueue = xQueueCreate( 3, sizeof(sw_data_t)) ;
+		ValveHandles.xQueueControl = xQueueCreate(3, 	sizeof( Data_motor_t ));
+		ValveHandles.xQueueReponse = xQueueCreate(3, sizeof(Data_motor_t));
+		ValveHandles.xQueueLedIndicate = xQueueCreate(3, sizeof(Data_led_t));
 		
 		xTaskCreate(vTaskButton1,"Task BTNs", configMINIMAL_STACK_SIZE, (void *)&ValveHandles,uxPriority,NULL);
- //   xTaskCreate(vTaskLED,"Task LED"      ,configMINIMAL_STACK_SIZE, (void *)&ValveHandles,uxPriority,NULL);
+    xTaskCreate(vTaskLED,"Task LED"      ,configMINIMAL_STACK_SIZE, (void *)&ValveHandles,uxPriority,NULL);
 		//xTaskCreate(vTaskUART,"Task UART", configMINIMAL_STACK_SIZE,NULL,1,NULL);
 		xTaskCreate(vTaskZmReceiver,"Task ZWAVE", configMINIMAL_STACK_SIZE*2,(void *)&ValveHandles,uxPriority,NULL);
 		xTaskCreate(vTaskZmPeriodic,"Task ZWAVE sent period report", configMINIMAL_STACK_SIZE,(void *)&ValveHandles,uxPriority,NULL);
@@ -126,20 +127,30 @@ static void vTaskLED(void *pvParameters)
 		ValveHandles_t *pxValveHandles = (ValveHandles_t*) pvParameters;
 	const portTickType xTicksToWait = 100 / portTICK_RATE_MS;
 	portBASE_TYPE xStatus;
-	led_object_t xData;
-	
+	Data_led_t xData;
+	uint16_t numFreqProfile[4] = {0,0,10,100};
+	uint16_t numTimeProfile[4] = {0,0,10,10};
 	led_object_t ledObject[MAX_LED];
+//	ledObject[0].numFreq =  10;
+//	ledObject[1].numFreq =  10;
+//	ledObject[0].numTime = 10;
+//	ledObject[1].numTime = 10;
+	bool invert[MAX_LED]; 
 	while(1)
 	{
-		xStatus = xQueueReceive(pxValveHandles->xQueueLedIndicate,&xData,xTicksToWait);
+		//xStatus = xQueueSend( pxValveHandles->xQueueLedIndicate, &ledData, xTicksToWait );
+		xStatus = xQueueReceive(pxValveHandles->xQueueLedIndicate,&xData,NULL);
 		if (xStatus == pdPASS){
-			ledObject[xData.ledNum].ledEffect = xData.ledEffect;
-			ledObject[xData.ledNum].timeEffect = 2*xData.timeEffect;
-			ledObject[xData.ledNum].numTime = xData.numTime;
+				ledObject[xData.ledNum].profileNum = BLK;
+				ledObject[xData.ledNum].numFreq = numFreqProfile[xData.profileNum];
+				ledObject[xData.ledNum].numTime = numTimeProfile[xData.profileNum];
+//			ledObject[xData.ledNum].ledEffect = xData.ledEffect;
+//			ledObject[xData.ledNum].timeEffect = 2*xData.timeEffect;
+//			ledObject[xData.ledNum].numTime = xData.numTime;
 		}	
-		for (uint8_t led_num; led_num < MAX_LED; led_num ++)
+		for (uint8_t led_num=0; led_num < MAX_LED; led_num ++)
 		{
-			switch (ledObject[led_num].ledEffect)
+			switch (ledObject[led_num].profileNum)
 			{
 				case ON:
 				{
@@ -148,37 +159,51 @@ static void vTaskLED(void *pvParameters)
 				}
 				case OFF:
 				{
-					LED_Control(led_num, ON );
+					LED_Control(led_num, OFF );
 					break;
 				}
 				case BLK:
 				{
-					ledObject[led_num].timerCounter++;
-					if (ledObject[led_num].timerCounter > ledObject[led_num].timeEffect)
+						ledObject[led_num].numCounter++;
+					if ( ledObject[led_num].numCounter > ledObject[led_num].numFreq)
 					{
-						ledObject[led_num].timerCounter = 0;
+						ledObject[led_num].numCounter =0;
 						LED_Toggle(led_num);
-						if (ledObject[led_num].numTime ==0) 
+						//LED_Control(led_num, invert[led_num] );					
+						ledObject[led_num].numTime --;
+						 if (ledObject[led_num].numTime ==0) 
 							{
+							ledObject[led_num].profileNum = OFF;
 							break;
 							}
-						ledObject[led_num].numTime --;
-						if (ledObject[led_num].numTime ==0 ) 
-							{
-							ledObject[led_num].ledEffect = OFF;
-							}
-
 					}
 					
-					break;
+//					ledObject[led_num].timerCounter++;
+//					if (ledObject[led_num].timerCounter > ledObject[led_num].timeEffect)
+//					{
+//						ledObject[led_num].timerCounter = 0;
+//						LED_Toggle(led_num);
+//						if (ledObject[led_num].numTime ==0) 
+//							{
+//							break;
+//							}
+//						ledObject[led_num].numTime --;
+//						if (ledObject[led_num].numTime ==0 ) 
+//							{
+//							ledObject[led_num].ledEffect = OFF;
+//							}
+						break;
+					}
+					
+					
 				}
 				
 		}
-			
-	}
 			vTaskDelay(1); 
 	}
+			
 }
+
 
 
 /**

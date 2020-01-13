@@ -6,18 +6,29 @@
 /*                      PUBLIC TYPES and DEFINITIONS                       */
 /****************************************************************************/
 #define MAX_LED 2
-typedef enum{
+enum{
 	OFF=0,
 	ON,
 	BLK,
-} led_effect ;
+	LONG_BLK
+};
+//typedef struct {
+//	uint8_t numTime;
+//	uint8_t timeEffect;
+//	uint8_t timerCounter;
+//	uint8_t ledEffect;
+//} led_object_t;
+typedef struct{
+	uint8_t  numFreq;
+	uint16_t numCounter;
+	uint16_t numTime;
+	uint8_t  profileNum;
+}led_object_t;
+
 typedef struct {
 	uint8_t ledNum;
-	uint8_t numTime;
-	uint8_t timeEffect;
-	uint8_t timerCounter;
-	led_effect ledEffect;
-} led_object_t;
+	uint8_t profileNum;
+} Data_led_t;
 //typedef enum
 //{ Bit_RESET = 0,
 //  Bit_SET
@@ -148,6 +159,6 @@ static void RTC_Init(void);
 static void Time_Adjust(void);
 
 
-void LED_Control(uint8_t led, led_effect state);
+void LED_Control(uint8_t led, uint8_t state);
 void LED_Toggle(uint8_t led);
 #endif
