@@ -172,7 +172,7 @@ void EXTI0_IRQHandler(void)
 		Data_motor_t data;
 		data.motor_num = 3;
 		data.state = 0x00;
-		xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
+		//xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
 
 	}
 	EXTI_ClearFlag(EXTI_Line0);
@@ -186,7 +186,7 @@ void EXTI1_IRQHandler(void)
 		Data_motor_t data;
 		data.motor_num = 3;
 		data.state = 0xff;
-		xQueueSendFromISR(ValveHandles.xQueueReponse,&data,&xHigherPriorityTaskWoken) ;
+		//xQueueSendFromISR(ValveHandles.xQueueReponse,&data,&xHigherPriorityTaskWoken) ;
 
 	}						
 	EXTI_ClearFlag(EXTI_Line1);
@@ -201,7 +201,7 @@ void EXTI2_IRQHandler(void)
 		Data_motor_t data;
 		data.motor_num = 2;
 		data.state = 0x00;
-		xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
+		//xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
 		
 	}
 	EXTI_ClearFlag(EXTI_Line2);
@@ -216,7 +216,7 @@ void EXTI3_IRQHandler(void)
 		Data_motor_t data;
 		data.motor_num = 2;
 		data.state = 0xff;
-		xQueueSendFromISR(ValveHandles.xQueueReponse,&data,&xHigherPriorityTaskWoken) ;
+		//xQueueSendFromISR(ValveHandles.xQueueReponse,&data,&xHigherPriorityTaskWoken) ;
 		
 	}
 	EXTI_ClearFlag(EXTI_Line3);
@@ -231,7 +231,7 @@ void EXTI4_IRQHandler(void)
 		Data_motor_t data;
 		data.motor_num = 1;
 		data.state = 0x00;
-		xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
+		//xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
 		EXTI_ClearFlag(EXTI_Line4);
 	}
 //	if (GPIO_ReadInputDataBit(BTN_1_GPIO_Port,BTN_1_Pin) ==0 )
@@ -256,7 +256,7 @@ void EXTI9_5_IRQHandler(void)
 		Data_motor_t data;
 		data.motor_num = 1;
 		data.state = 0x00;
-		xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
+		//xQueueSendFromISR(ValveHandles.xQueueReponse	,&data,&xHigherPriorityTaskWoken) ;
 		EXTI_ClearFlag(EXTI_Line4);
 	}
 //	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;

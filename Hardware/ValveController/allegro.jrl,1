@@ -1,39 +1,68 @@
-\t (00:00:07) allegro 16.6 S049 (v16-6-112DV) Windows 32
-\t (00:00:07)     Journal start - Mon Jan 13 12:03:58 2020
-\t (00:00:07)         Host=NTT-ASUSROG User=NguyenThanhTam Pid=15332 CPUs=4
-\t (00:00:07) CmdLine= C:\Cadence\SPB_16.6\tools\pcb\bin\allegro.exe
-\t (00:00:07) 
-   (00:00:12) Searching for nsWare programs v2.78
-   (00:00:12) 	NsWare directory found: E:/CAD/pcbenv/nsWare/
-   (00:00:13) 	NsWare programs must reside in this directory!
-   (00:00:13) Loading axlcore.cxt 
-   (00:00:13) function PinVia_Overlap_FinishEnterFun redefined
-   (00:00:13) function Find_Point_On_Line_From_Distant redefined
-   (00:00:13) function Find_Point_Quadrature_Line redefined
-   (00:00:13) function Line_Line_Intersect redefined
-   (00:00:13) function _getPinsNet redefined
-   (00:00:13) function _getBranchs redefined
-   (00:00:13) function _getPaths redefined
-   (00:00:13) function _get2PointsPath redefined
-   (00:00:13) function _checkElementList redefined
-   (00:00:13) function _getSurroundPoints redefined
-   (00:00:13) function _getListPointsLPaths redefined
-   (00:00:13) function _checkPathPoint redefined
-   (00:00:13) function _deleteElementList redefined
-   (00:00:13) function _checkElementList redefined
-   (00:00:13) function _deleteElementList redefined
-   (00:00:13) function Find_Point_On_Line_From_Distant redefined
-   (00:00:13) function Find_Point_Quadrature_Line redefined
-   (00:00:13) function Is_Point_On_List redefined
-   (00:00:13) function Line_Line_Intersect redefined
-   (00:00:13) function Line_Line_Distant redefined
-\t (00:00:14) Starting new design...
-\i (00:00:16) trapsize 837
-\i (00:00:17) trapsize 817
-\i (00:00:17) trapsize 840
-\i (00:00:17) trapsize 850
-\i (00:00:18) trapsize 1027
-\i (00:00:18) trapsize 1448
-\i (00:00:23) generaledit 
-\i (00:49:36) exit 
-\t (00:49:36)     Journal end - Mon Jan 13 12:53:27 2020
+\t (00:03:42) allegro 16.6 S049 (v16-6-112DV) Windows 32
+\t (00:03:42)     Journal start - Tue Mar 31 16:29:33 2020
+\t (00:03:42)         Host=NTT-ASUSROG User=NguyenThanhTam Pid=23696 CPUs=4
+\t (00:03:42) CmdLine= C:\Cadence\SPB_16.6\tools\pcb\bin\allegro.exe
+\t (00:03:42) 
+\d (00:03:42) Design opened: C:/GIT/STM32F103_ValveController/Hardware/ValveController/VALVECONTROLLER.brd
+\i (00:03:42) generaledit 
+\i (00:03:43) zoom out 1 
+\i (00:03:43) setwindow pcb
+\i (00:03:43) zoom out 12375.134 13187.508
+\i (00:03:43) trapsize 13642
+\i (00:03:43) zoom out 1 
+\i (00:03:43) setwindow pcb
+\i (00:03:43) zoom out 12383.320 13187.508
+\i (00:03:43) trapsize 27284
+\i (00:03:43) zoom out 1 
+\i (00:03:43) setwindow pcb
+\i (00:03:43) zoom out 12383.319 13187.509
+\i (00:03:43) trapsize 54569
+\i (00:03:43) zoom out 1 
+\i (00:03:43) setwindow pcb
+\i (00:03:43) zoom out 12383.319 13187.508
+\i (00:03:43) trapsize 109137
+\i (00:03:44) zoom in 1 
+\i (00:03:44) setwindow pcb
+\i (00:03:44) zoom in 8301.593 12023.349
+\i (00:03:44) trapsize 54569
+\i (00:03:44) zoom in 1 
+\i (00:03:44) setwindow pcb
+\i (00:03:44) zoom in 8377.989 12743.654
+\i (00:03:44) trapsize 27284
+\i (00:03:45) zoom in 1 
+\i (00:03:45) setwindow pcb
+\i (00:03:45) zoom in 9054.639 13081.979
+\i (00:03:45) trapsize 13642
+\i (00:03:46) zoom in 1 
+\i (00:03:46) setwindow pcb
+\i (00:03:46) zoom in 9237.444 13090.164
+\i (00:03:46) trapsize 6821
+\i (00:03:48) zoom out 1 
+\i (00:03:49) setwindow pcb
+\i (00:03:49) zoom out 9216.981 13061.516
+\i (00:03:49) trapsize 13642
+\i (00:03:49) zoom out 1 
+\i (00:03:49) setwindow pcb
+\i (00:03:49) zoom out 9216.981 13061.516
+\i (00:03:49) trapsize 27284
+\i (00:03:49) zoom out 1 
+\i (00:03:49) setwindow pcb
+\i (00:03:49) zoom out 9216.981 13061.517
+\i (00:03:49) trapsize 54569
+\i (00:04:32) xdehilite 
+\i (00:04:32) xname_flush 
+\i (00:04:32) done 
+\i (00:04:33) xhilite 
+\i (00:04:33) xname_flush 
+\i (00:04:33) done 
+\i (00:04:33) generaledit 
+\i (00:04:35) xdehilite 
+\i (00:04:35) xname_flush 
+\i (00:04:35) done 
+\i (00:04:35) generaledit 
+\i (00:04:47) opencd E:/LVTN/AccessControllerBoard/16_Controller/03_layout/controller.brd 
+\e (00:04:48) Do you want to save the changes you made to VALVECONTROLLER.brd?
+\i (00:04:49) fillin no 
+\t (00:04:49) Opening existing design...
+\i (00:04:49) trapsize 17
+\t (00:04:49)     Journal end - Tue Mar 31 16:30:40 2020

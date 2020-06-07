@@ -84,8 +84,10 @@ static void vTaskZWAVE(void *pvParameters);
 //    xTaskCreate(vMainTestTask, "TEST", configMINIMAL_STACK_SIZE*2, NULL, mainLED_TASK_PRIORITY + 1, NULL);
 
 		ValveHandles.xQueue = xQueueCreate( 3, sizeof(sw_data_t)) ;
-		ValveHandles.xQueueControl = xQueueCreate(3, 	sizeof( Data_motor_t ));
-		ValveHandles.xQueueReponse = xQueueCreate(3, sizeof(Data_motor_t));
+//		ValveHandles.xQueueControl = xQueueCreate(3, 	sizeof( Data_motor_t ));
+//		ValveHandles.xQueueReponse = xQueueCreate(3, sizeof(Data_motor_t));
+		ValveHandles.xQueueControlDownlink = xQueueCreate(3, sizeof(Data_motor_t));
+		ValveHandles.xQueueReponseUplink = xQueueCreate(3, sizeof(Data_motor_t));
 		ValveHandles.xQueueLedIndicate = xQueueCreate(3, sizeof(Data_led_t));
 		
 		xTaskCreate(vTaskButton1,"Task BTNs", configMINIMAL_STACK_SIZE, (void *)&ValveHandles,uxPriority,NULL);

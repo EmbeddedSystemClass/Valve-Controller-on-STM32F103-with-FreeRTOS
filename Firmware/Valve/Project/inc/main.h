@@ -34,8 +34,10 @@
 /* Exported types ------------------------------------------------------------*/
 typedef struct {
 	xQueueHandle xQueue;
-	xQueueHandle xQueueControl;
-	xQueueHandle xQueueReponse;
+	// xQueueHandle xQueueControl;
+	// xQueueHandle xQueueReponse;
+	xQueueHandle xQueueControlDownlink;
+	xQueueHandle xQueueReponseUplink;
 	xQueueHandle xQueueLedIndicate;
 	//float Flowmeter[4];
 } ValveHandles_t;

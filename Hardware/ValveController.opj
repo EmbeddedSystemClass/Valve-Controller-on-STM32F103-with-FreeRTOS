@@ -136,17 +136,11 @@
   (GlobalState
     (FileView
       (Path "Design Resources")
-      (Path "Design Resources"
-         "e:\tttn\valvecontroller\hardware\valvecontroller.dsn")
-      (Path "Design Resources"
-         "e:\tttn\valvecontroller\hardware\valvecontroller.dsn" "SCHEMATIC1")
+      (Path "Design Resources" ".\valvecontroller.dsn")
+      (Path "Design Resources" ".\valvecontroller.dsn" "SCHEMATIC1")
       (Path "Design Resources" "Library")
-      (Path "Design Resources" "Library"
-         "e:\tttn\valvecontroller\hardware\library1.olb")
       (Path "Outputs")
-      (Select "Design Resources"
-         "e:\tttn\valvecontroller\hardware\valvecontroller.dsn" "SCHEMATIC1"
-         "4.ZWave"))
+      (Select "Design Resources"))
     (HierarchyView)
     (Doc
       (Type "COrCapturePMDoc")
@@ -156,51 +150,41 @@
     (Doc
       (Type "COrSchematicDoc")
       (Frame
-        (Placement "44 0 1 -1 -1 -9 -38 128 1393 128 719")
-        (Scroll "0 191")
-        (Zoom "132")
+        (Placement "44 2 3 -1 -1 -9 -38 64 1684 64 519")
+        (Scroll "572 392")
+        (Zoom "188")
         (Occurrence "/"))
-      (Path "E:\TTTN\VALVECONTROLLER\HARDWARE\VALVECONTROLLER.DSN")
-      (Schematic "SCHEMATIC1")
-      (Page "3.HBridge"))
-    (Doc
-      (Type "COrSchematicDoc")
-      (Frame
-        (Placement "44 2 3 -1 -1 -9 -38 128 1229 128 531")
-        (Scroll "1014 642")
-        (Zoom "264")
-        (Occurrence "/"))
-      (Path "E:\TTTN\VALVECONTROLLER\HARDWARE\VALVECONTROLLER.DSN")
-      (Schematic "SCHEMATIC1")
-      (Page "1.Power"))
-    (Doc
-      (Type "COrSchematicDoc")
-      (Frame
-        (Placement "44 0 1 -1 -1 -9 -38 160 1632 160 559")
-        (Scroll "0 426")
-        (Zoom "130")
-        (Occurrence "/"))
-      (Path "E:\TTTN\VALVECONTROLLER\HARDWARE\VALVECONTROLLER.DSN")
+      (Path "C:\GIT\STM32F103_VALVECONTROLLER\HARDWARE\VALVECONTROLLER.DSN")
       (Schematic "SCHEMATIC1")
       (Page "2.MCU"))
     (Doc
       (Type "COrSchematicDoc")
       (Frame
-        (Placement "44 0 1 -1 -1 -9 -38 32 1504 32 431")
-        (Scroll "0 123")
-        (Zoom "132")
+        (Placement "44 0 1 -1 -1 -9 -38 52 1356 52 383")
+        (Scroll "0 0")
+        (Zoom "100")
         (Occurrence "/"))
-      (Path "E:\TTTN\VALVECONTROLLER\HARDWARE\VALVECONTROLLER.DSN")
+      (Path "C:\GIT\STM32F103_VALVECONTROLLER\HARDWARE\VALVECONTROLLER.DSN")
+      (Schematic "SCHEMATIC1")
+      (Page "1.Power"))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -9 -38 192 1441 192 647")
+        (Scroll "0 0")
+        (Zoom "100")
+        (Occurrence "/"))
+      (Path "C:\GIT\STM32F103_VALVECONTROLLER\HARDWARE\VALVECONTROLLER.DSN")
       (Schematic "SCHEMATIC1")
       (Page "4.ZWave"))
     (Doc
       (Type "COrSchematicDoc")
       (Frame
-        (Placement "44 0 1 -1 -1 -9 -38 32 1504 32 431")
-        (Scroll "-215 0")
-        (Zoom "65")
+        (Placement "44 0 1 -1 -1 -9 -38 224 1473 224 679")
+        (Scroll "0 17")
+        (Zoom "132")
         (Occurrence "/"))
-      (Path "E:\TTTN\VALVECONTROLLER\HARDWARE\VALVECONTROLLER.DSN")
+      (Path "C:\GIT\STM32F103_VALVECONTROLLER\HARDWARE\VALVECONTROLLER.DSN")
       (Schematic "SCHEMATIC1")
       (Page "5.IO")))
   (MPSSessionName "NguyenThanhTam")

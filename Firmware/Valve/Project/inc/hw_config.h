@@ -78,6 +78,18 @@ typedef struct {
   #define DBG_UART_TxPin             GPIO_Pin_2
   #define DBG_UART_IRQn              USART2_IRQn
   #define DBG_UART_IRQHandler        USART2_IRQHandler
+	
+	/* Define Modbus Communication*/
+	#define MB_UART_RDE								GPIO_Pin_8
+	#define MB_UART                  	USART1
+  #define MB_UART_GPIO              GPIOA
+  #define MB_UART_CLK               RCC_APB2Periph_USART1
+  #define MB_UART_GPIO_CLK          RCC_APB2Periph_GPIOA
+  #define MB_UART_RxPin             GPIO_Pin_10
+  #define MB_UART_TxPin             GPIO_Pin_9
+  #define MB_UART_IRQn              USART1_IRQn
+  #define MB_UART_IRQHandler        USART1_IRQHandler
+	
 	/* Define Buttons input */
 	
 #define BTN_1_Pin GPIO_Pin_4

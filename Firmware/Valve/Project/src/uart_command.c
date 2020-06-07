@@ -32,8 +32,8 @@ volatile BYTE ZW_UART_RECEIVE_STATUS=0;
 BYTE serBuf[SERBUF_MAX];
 IBYTE serBufLen, con_state;
 IBYTE bChecksum_RX;
-volatile BOOL AckNakNeeded = FALSE;
-volatile BOOL AckNak = ACK;
+volatile bool AckNakNeeded = FALSE;
+volatile bool AckNak = ACK;
 /****************************************************************************/
 /*                           EXPORTED FUNCTIONS                             */
 /****************************************************************************/
@@ -45,7 +45,7 @@ volatile BOOL AckNak = ACK;
 **    Side effects:
 **
 **--------------------------------------------------------------------------*/
-BOOL Uart_send_command(ZW_UART_COMMAND cmd)
+bool Uart_send_command(ZW_UART_COMMAND cmd)
 {
   BYTE* cmd_point;
   BYTE j,bChecksum;

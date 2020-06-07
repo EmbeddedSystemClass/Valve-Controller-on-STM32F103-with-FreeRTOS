@@ -15,6 +15,13 @@
 //  VALVE_FACTORYRESET,
 //  VALVE_IDE,
 //}VALVE_MODE;
+enum {
+	ZWAVE = 0,
+	MODBUS,
+	WIFI,
+	SHARED_MEM,
+	MOTOR	
+} ;
 typedef enum {
 	MOTOR_AT_LEFT = 0,
 	MOTOR_AT_RIGHT,
@@ -29,6 +36,7 @@ typedef enum
 typedef struct{
 	uint8_t motor_num;
 	uint8_t state;
+	uint8_t cmdSource;
 } Data_motor_t;
 
 typedef struct {

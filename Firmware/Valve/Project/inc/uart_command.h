@@ -19,14 +19,15 @@
 #include "stm32f10x_usart.h"
 #include "stm32f10x.h"
 #include "hw_config.h"
+#include <stdbool.h>
 #ifndef _UART_COMMAND_H_
 #define _UART_COMMAND_H_
 /****************************************************************************/
 /*                     EXPORTED TYPES and DEFINITIONS                       */
 /****************************************************************************/
-#ifndef BOOL
-#define BOOL char
-#endif
+//#ifndef BOOL
+//#define BOOL uint8_t
+//#endif
 
 //#define DBG
 #ifndef BYTE
@@ -279,6 +280,6 @@ typedef union _ZW_UART_COMMAND
 //#define ZW_UART_WAIT_RECEIVE
 //#define ZW_UART_REC_BYTE
 
-BOOL Uart_send_command(ZW_UART_COMMAND cmd);
+bool Uart_send_command(ZW_UART_COMMAND cmd);
 T_CON_TYPE Uart_update(BYTE acknowledge);
 #endif /*End _UART_COMMAND_H_*/
